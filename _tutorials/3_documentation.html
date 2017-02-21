@@ -1,0 +1,215 @@
+---
+layout: presentation
+title: Documentation
+permalink: /documentation/
+---
+class: middle center
+
+# Documentation:<br>Write for yourself first
+
+.middle[.center[![You!]({{ site.baseurl }}/assets/images/you.gif)]]
+
+---
+
+class: middle center
+
+# Your single most important collaborator is you, six months from now and current you doesn't have email
+
+---
+
+## Where we're going
+
+* Documentation
+* Keep raw data raw
+* Data organization as a form of documentation
+* Script everything
+* Don't repeat yourself (DRY)
+* Automation
+* Transparency
+
+???
+
+All of these have some aspect of documentation baked into them.
+
+---
+
+## Where have we seen the importance of documentation already?
+--
+
+* ORCID provides a universal way to connect to someone
+* Data description on FigShare dataset
+* R markdown documents from Meadows et al.
+* Project description on GitHub
+* Project license
+* README.md exercise
+* Commit messages
+
+---
+
+## What makes a README.md useful?
+
+* Examples
+	* [Meadows et al. *Microbiome* study](https://github.com/jfmeadow/Meadow_etal_Surfaces/blob/master/README.md)
+	* [Sze et al. *mBio* study](https://github.com/SchlossLab/Sze_Obesity_mBio_2016/blob/master/README.md)
+	* [Westcott & Schloss *mSphere* study](https://github.com/SchlossLab/Westcott_OptiClust_mSphere_2017/blob/master/README.md)
+* Questions
+  * What do you notice about these?
+  * What else would you like to see?
+	* How would you change the README you wrote for the paper airplane example?
+
+???
+
+* These three examples span a spectrum from minimalistic to more complex
+* Documentation is frequently a thankless task that no one wants to spend time on when they could be analyzing data and writing a manuscript
+
+---
+
+## Basic documentation
+
+* `README.md` in root of project directory provides a navigation to anyone coming to your project
+???
+Important to note that every directory can/should have a README.md file that outlines what is in the directory and where it came from
+--
+
+* GitHub automatically shows the `README.md` file when you open the repository's webpage
+--
+
+* Useful to provide directory structure so newbie knows where everything is (or should be)
+--
+
+* Specify software dependencies, versions, and where they should be installed
+--
+
+* Give instructions on how someone would enter project or what they should do
+
+---
+
+## Keep raw data raw
+
+* By keeping a raw version of your data you can always start over - you can always go back to a blank page.
+
+--
+
+* Have you ever accidentally sorted a spreadsheet by one column when you meant to sort by all of them?
+
+---
+
+## Data organization as a form of documentation
+
+* Ever see someone's computer desktop and see 1000 files?
+  * How efficiently can they access information?
+  * What's the likelihood that they get lost? in six months?
+  * How likely are they to teach you their "system"?
+* Separate directories for code, data, figures, tables, documents makes it very clear where different types of files should be located
+
+???
+
+One way to enforce that raw data stay raw, is to put them into a directory for raw data
+
+---
+
+## Script everything/Don't Repeat Yourself
+
+* Your scripts become the lens that you and others can use to see how you have analyzed your data
+
+--
+* Your instructions become better as you become more explicit
+
+--
+* If you cannot manually manipulate the raw data then you have to be explicit in how you document your processing of data
+
+--
+* Your scripts must be commented to make it easy for you (in six months) and others to understand
+
+---
+
+## Automation
+
+* Automation helps to keep track of the ordering and maintenance of dependencies
+
+--
+* If you added more data, how difficult would it be for you to update your analysis? Would you remember all of the steps?
+
+--
+* In large and complex analyses, it becomes easy to lose track of where you are in the analysis
+
+--
+* Often an analysis will involve multiple steps with several sub-analyses depending on the results of a prior analysis
+
+---
+
+## Transparency
+
+* How well are you going to document your analysis if you know that someone else might look back at what you have done?
+
+--
+* By letting others see how and why you have done things, you increase the likelihood that they will build off of what you have done
+
+--
+* Science only moves forward when others can build off of our workflows
+
+---
+
+## Plain text documentation
+
+* Places emphasis on writing text, rather than formatting
+* Plain text can be tracked with version control systems (coming attraction...)
+* Anyone can read it - you don't need expensive software licenses
+* We can use code to generate text
+
+---
+
+## Self-documenting directory and file names
+
+* NO SPACES in directory or file names
+  * `raw_data`, `build_figure_1.R`
+  * `RawData`, `BuidFigure1.R`
+  * not: `raw data`, `build figure 1.R`
+--
+
+* Be descriptive, atomic, and logical
+  * `data/raw`, `data/mothur`
+  * not: `stuff`, `data_raw`, `data_mothur`
+
+---
+
+## Self-documenting code
+
+* Pick meaningful variable/function names in your scripts
+* Choose a casing strategy and be consistent in using it:
+	* `snake_case_is_popular` (easier to read)
+	* `camelCaseIsPopular` / `CamelCaseIsPopular`
+* Avoid `.`'s, `-`'s and other symbols
+* Variable grammar:
+  * nouns: variables (`sequence`)
+  * verbs: functions (`cluster_sequences`)
+  * logicals: questions (`is_sequence`)
+
+---
+
+class: middle center
+
+# .alert[Write code for people to read: Pick languages to facilitate this goal]
+
+
+---
+
+## Comment your code
+
+* Self-documenting code is insufficient
+--
+
+* The top of a script file should explain what the script does and describe the expected inputs and outputs
+* More complex functions should list the inputs and outputs
+* Use comments to describe what a line of code should be doing and why
+
+---
+
+## Exercise: Comment my code
+
+* Go to the repository for the [Kozich et al. *AEM* study](https://github.com/SchlossLab/Kozich_MiSeqSOP_AEM_2013/blob/master/code/plot_nmds.R)
+* Copy and paste the R script into RStudio and save the file
+* Comment the code to indicate what is going on and where you have potential questions
+* At the top of the file write your assessment of how readable the code is and if there is anything about the code you might change
+* Compare your code to your neighbor
+* Email your commented version of the file to me
