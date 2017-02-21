@@ -26,6 +26,7 @@ body { font-family: 'Yanone Kaffeesatz'; }
 pre {
 	margin: 0;
 	padding: 0;
+	font-size: 1em;
 }
 
 .remark-slide-content {
@@ -82,14 +83,18 @@ pre {
 
 	/* Two-column layout */
 	.left-column {
-		font-size: 20px;
-	  width: 50%;
+		width: 50%;
 	  float: left;
+		li {
+			font-size: 30px;
+		}
 	}
 	.right-column {
-		font-size: 20px;
 	  width: 50%;
 	  float: right;
+		li {
+			font-size: 30px;
+		}
 	}
 
 
