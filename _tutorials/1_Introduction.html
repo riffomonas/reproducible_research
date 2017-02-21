@@ -155,10 +155,25 @@ class: center middle
 
 ## Is research that is reproducible and/or replicable necessarily correct?
 
+???
+
+No. But I'm optimistic that research that is well described and transparent is more likely to be done correctly. If nothing else, it provides an avenue for others to see how sensitive an analysis is to deviations from "correctness"
+
+---
+
+class: center middle
+
+![How to draw an owl meme]({{ site.baseurl }}/assets/images/draw-an-owl-meme.jpg)
+
+???
+
+In many ways, this meme is emblematic of what we will be discussing throughout this workshop.
+* I believe there is a reproducibility "crisis" because our description of methods is pretty lacking.
+* We need to learn how to use existing technology to virtually expand our Methods sections
+
 ---
 
 ## Case study
-
 
 Your lab publishes a paper and gets inundated by emails asking about the nitty gritty of the methods. The trainee that did the study has gone on to a new job.
 
@@ -216,8 +231,8 @@ class: center middle
 ## NIH's Response: Technical Factors
 
 * Publications rarely report basic elements of experimental design
-	* Blinding, Randomization, Replication
-	* Sample-size calculation
+  * Blinding, Randomization, Replication
+  * Sample-size calculation
 	* Effect of sex differences
 	* Underlying data rarely made publicly available
 * Restrictions on lengths of methods sections
@@ -248,10 +263,9 @@ The development of instructional materials for this workshop was funded through 
 ???
 
 ---
+class: center middle
 
-background-image: url({{ site.baseurl }}/assets/images/nih-grant-guideline.jpg)
-background-size: contain
-background-position: 50% 50%
+![NIH reproducibility guidelines]({{ site.baseurl }}/assets/images/nih-grant-guideline.jpg)
 
 ???
 
@@ -317,7 +331,7 @@ Comments:
 
 ## Critique a recent microbiome paper
 
-* Checklist
+* Basic checklist
   * How difficult it be to regenerate a P-value or a figure?
 	* Where are the raw data?
 	* Is the code available?
@@ -375,6 +389,38 @@ Comments:
 
 ---
 
+## Where we're going
+
+* Documentation
+* Keep raw data raw
+* Data organization as a form of documentation
+* Don't repeat yourself (DRY)
+* Automation
+* Transparency
+
+???
+
+* It is important to note that these are broad concepts that you can use as you develop your skills as a researcher who embraces reproducible practices.
+* There are a number of tools that you will learn as you develop these concepts.
+* Note that the tools will likely change over the course of your career.
+* The important thing to remember is that the tooling should make it easier to do reproducible science.
+
+---
+
+## Baby steps
+
+* Don't feel like you need to make everything 100% reproducible in your first go
+
+.footnote[credit: [Christie Bahlai](https://practicaldatamanagement.wordpress.com/2014/10/23/baby-steps-for-the-open-curious/) and [Karl Broman](http://kbroman.org/steps2rr/)]
+
+--
+* You will quickly realize that is a fool's errand - **nothing** will ever be fully reproducible
+
+--
+* With each project, attempt to add one small element to make your work more reproducible
+
+---
+
 ## First steps to reproducibility
 
 * ORCID
@@ -382,6 +428,10 @@ Comments:
 * Post data behind your figures
 
 * Making your code publicly available
+
+???
+
+If you get nothing else out of this workshop, these three steps will significantly enhance your ability to perform reproducible science
 
 ---
 
@@ -523,3 +573,28 @@ any git. Let's try out some things...
 
 
 * E-mail me a link to your repository
+
+---
+
+## Debrief
+
+* What were the challenges to reproducibly making a paper airplane?
+
+--
+* What would improve your ability to improve the reproducibility?
+
+--
+* How does a tool like GitHub help to make your method more reproducible?
+
+--
+* What might you do with your neighbor's repository?
+
+???
+
+* Pictures, video, better description
+* Can hopefully appreciate that GitHub fosters collaboration and transparency
+* The repository is a living document that continue to change and develop long after the paper is published
+* The repository also becomes an avenue to build upon the original method. Imagine...
+  * Making a collection of paper airplane models
+  * Modifying a model to make a more sophisticated paper airplane
+  * Modifying instructions to make construction more efficient
