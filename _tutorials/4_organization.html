@@ -1,0 +1,298 @@
+---
+layout: presentation
+title: Organization
+permalink: /organization/
+---
+class: middle center
+
+# {{ page. title }}
+
+---
+
+## Noble paper on file organization
+
+---
+
+## Compare file organization from two projects
+
+* Examples
+	* [Meadows et al. *Microbiome* study](https://github.com/jfmeadow/Meadow_etal_Surfaces/)
+	* [Westcott & Schloss *mSphere* study](https://github.com/SchlossLab/Westcott_OptiClust_mSphere_2017/)
+* Questions
+	* What do you notice about the structure of the two projects?
+  * How long did it taketo find the code for Figure 1?
+  * Where is the main document?
+	* Where would the data go?
+
+---
+
+## An aside about large files
+
+* GitHub cannot easily handle large datasets
+* Each file is limited to 100 MB and a repository is limited to 1 GB
+* Generally only post the data files critical to an analysis
+* Scripts should document where data goes and how it gets there
+* We'll talk more about git/GitHub later
+
+---
+
+## General structure for a microbiome study
+
+```
+project
+|- README.md        # the top level description of content (this doc)
+|- CONTRIBUTING.md  # instructions for how to contribute to your project
+|- LICENSE.md       # the license for this project
+|- CITATION.md      # instructions on how to cite the project
+|
+|- submission/
+| |- study.Rmd      # executable Rmarkdown for this study, if applicable
+| |- study.md       # Markdown (GitHub) version of the *.Rmd file
+| |- study.tex      # TeX version of *.Rmd file
+| |- study.pdf      # PDF version of *.Rmd file
+| |- header.tex     # LaTeX header file to format pdf version of manuscript
+| |- references.bib # BibTeX formatted references
+| |- XXXX.csl       # csl file to format references for journal XXX
+|
+|- data             # raw and primary data, are not changed once created
+| |- references/    # reference files to be used in analysis
+| |- raw/           # raw data, will not be altered
+| |- mothur/        # mothur processed data
+| +- process/       # cleaned data, will not be altered once created;
+|                   # will be committed to repo
+|
+|- code/            # any code
+|
+|- results          # all output from workflows and analyses
+| |- tables/        # text version of tables to be rendered with kable in R
+| |- figures/       # graphs, likely designated for manuscript figures
+| +- pictures/      # diagrams, images, and other non-graph graphics
+|
+|- exploratory/     # exploratory data analysis for study
+| |- notebook/      # preliminary analyses
+| +- scratch/       # temporary files that can be safely deleted or lost
+|
++- Makefile         # executable Makefile for this study, if applicable
+```
+
+???
+
+* You are free to do what you want, but keep to the basic priniciples outlined in the Noble paper
+* You'll see this again when we discuss the `new_project` repository
+
+---
+
+## Bad project: Introduction
+
+.center[
+<iframe width="570" height="320" src="https://www.youtube.com/embed/Fl4L4M8m4d0?ecver=1" frameborder="0" allowfullscreen></iframe>
+]
+
+* You have inherited a project from a previous student in the lab
+* You need to organize it into a logical structure
+
+---
+
+## Bad project: Exercise
+
+* [Download the data](https://github.com/riffomonas/bad_project/archive/v0.1.zip) to a new directory `~/Documents/bad_project`
+* Using the recommended directory structure, move files to the appropriate folders
+	* Remember that you can use `mv current_file directory/` to move `current_file` into `directory/`
+  * Don't forget the `/` after `directory`
+
+---
+
+## General structure for a microbiome study
+
+```
+project
+|- README.md        # the top level description of content (this doc)
+|- CONTRIBUTING.md  # instructions for how to contribute to your project
+|- LICENSE.md       # the license for this project
+|- CITATION.md      # instructions on how to cite the project
+|
+|- submission/
+| |- study.Rmd      # executable Rmarkdown for this study, if applicable
+| |- study.md       # Markdown (GitHub) version of the *.Rmd file
+| |- study.tex      # TeX version of *.Rmd file
+| |- study.pdf      # PDF version of *.Rmd file
+| |- header.tex     # LaTeX header file to format pdf version of manuscript
+| |- references.bib # BibTeX formatted references
+| |- XXXX.csl       # csl file to format references for journal XXX
+|
+|- data             # raw and primary data, are not changed once created
+| |- references/    # reference files to be used in analysis
+| |- raw/           # raw data, will not be altered
+| |- mothur/        # mothur processed data
+| +- process/       # cleaned data, will not be altered once created;
+|                   # will be committed to repo
+|
+|- code/            # any code
+|
+|- results          # all output from workflows and analyses
+| |- tables/        # text version of tables to be rendered with kable in R
+| |- figures/       # graphs, likely designated for manuscript figures
+| +- pictures/      # diagrams, images, and other non-graph graphics
+|
+|- exploratory/     # exploratory data analysis for study
+| |- notebook/      # preliminary analyses
+| +- scratch/       # temporary files that can be safely deleted or lost
+|
++- Makefile         # executable Makefile for this study, if applicable
+```
+
+---
+
+## Bad project: Evaluation
+
+* Compare your results to your neighbor
+* Once you are done, run `find . | diff - .solution` to compare your results to mine
+* What do you notice? Do you agree with my organization?
+
+---
+
+## Using a project template
+
+* The structure of most microbiome analysis projects is fairly standard
+* To help with the structure, we created a template, [`new_project`](https://github.com/SchlossLab/new_project/releases/latest)
+* Download the zip file for the latest release to your Documents folder
+
+---
+
+## Exercise
+
+.left-column[
+* We are going to attempt to generate the paragraph and NMDS plot from [Figure 4](http://aem.asm.org/content/79/17/5112.full) of the Kozich AEM study
+* Rename the folder `Kozich_ReAnalysis_AEM_2013`
+* We'll set up the project by following along with the instructions in the [`INSTRUCTIONS`](https://github.com/SchlossLab/new_project/blob/master/INSTRUCTIONS.md) file
+]
+
+.right-column[
+![Mouse analysis section]({{ site.baseurl }}/assets/images/kozich-figure-4.png)
+]
+
+---
+
+## Modify README.md
+
+* Open the README.md document in an editor
+* Remove the first line, which starts "Download... "
+* Edit the following lines as you see appropriate:
+```sh
+## TITLE OF YOUR PAPER GOES HERE
+YOUR PAPER'S ABSTRACT GOES HERE
+```
+* Replace the word `study` in `study.Rmd`, `study.md`, `study.tex`, and `study.pdf` to be the name of your project (e.g. `Kozich_ReAnalysis_AEM_2013.`)
+* We'll leave the rest as it is for now
+
+---
+
+## Changing Filenames
+
+* At the terminal do the following...
+```bash
+mv submission/study.Rmd submission/Kozich_ReAnalysis_AEM_2013.Rmd
+mv submission/study.md submission/Kozich_ReAnalysis_AEM_2013.md
+mv submission/study.tex submission/Kozich_ReAnalysis_AEM_2013.rex
+mv submission/study.pdf submission/Kozich_ReAnalysis_AEM_2013.pdf
+mv newproject_LICENSE.md LICENSE.md
+```
+* This is doing two things:
+	1. Renaming the `study.*` files as we said we would in the `README.md` file
+  2. Replacing the license ([CC0](https://creativecommons.org/share-your-work/public-domain/cc0/)) of the `new_project` repository with a license for your analysis ([MIT](https://en.wikipedia.org/wiki/MIT_License))
+
+???
+
+* Go ahead and read and edit the license to include your name and the year
+* Note that the MIT license is a permissive license that allows anyone to use your code. This is generally viewed a A Good Thing.
+* It would be worth talking with your researh group and PI about what license you want to use.
+* Don't think you'll be making money off this repository :)
+---
+
+## Getting ready for `git`
+
+* At the terminal do the following:
+```bash
+git init ./
+git add .
+git commit -m "Initial commit"
+```
+* This is putting your new project under version control using `git`
+
+---
+
+## Connecting with GitHub
+
+* Go to your home page on GitHub
+* Create a new repository as you did before with the paper airplane example
+* This time...
+  * Give the repository the same name as your project (i.e. `Kozich_ReAnalysis_AEM_2013`).
+  * Keep the repository public
+  * Don't initialize with a `README` or `.gitignore` files or a license (you've already got those)
+
+---
+
+class: center middle
+
+![Creating a new repository on GitHub]({{ site.baseurl }}/assets/images/github-new-repository-instructions.png)
+
+---
+
+## Connecting with GitHub
+
+* Copy and paste into the terminal the two lines that were highlighted with the red arrow on the previous slide
+
+```bash
+Kozich_ReAnalysis_AEM_2013 $ git remote add origin git@github.com:pschloss/Kozich_ReAnalysis_AEM_2013.git
+Kozich_ReAnalysis_AEM_2013 $ git push -u origin master
+Counting objects: 26, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (24/24), done.
+Writing objects: 100% (26/26), 43.09 KiB | 0 bytes/s, done.
+Total 26 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), done.
+To github.com:pschloss/Kozich_ReAnalysis_AEM_2013.git
+ * [new branch]      master -> master
+Branch master set up to track remote branch master from origin.
+```
+
+* Back in the browser, refresh the screen
+
+---
+
+class: center middle
+
+![New Kozich_ReAnalysis_AEM_2013 repository as shown on GitHub ]({{ site.baseurl }}/assets/images/github-Kozich_ReAnalysis_AEM_2013-repository.png)
+
+---
+
+class: center middle
+
+![Well done - you deserve a high five]({{ site.baseurl }}/assets/images/high-five.gif)
+
+---
+
+## Cleaning up
+
+* Remove the instructions file and commit
+```bash
+git rm INSTRUCTIONS.md
+git commit -m "Remove instructions document"
+git push
+```
+* Refresh your GitHub page and make sure the `INSTRUCTIONS.md` file goes away
+* If you ever need the information in the `INSTRUCTIONS.md` file, you can retreive it from the [`new_project` repository](https://github.com/SchlossLab/new_project/blob/master/INSTRUCTIONS.md)
+
+---
+
+## Let's go!
+
+* You need...
+  * The data... (hint: grab the data from the "Without genomes/metagenomes" link)
+  * The references...
+  * The text (for the figure lengend and the paragraph titled, "Scaling up")
+* Obtain the files and put them in the correct locations
+
+---
+
+Run code from the root
