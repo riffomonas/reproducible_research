@@ -11,6 +11,26 @@ class: middle center
 
 ---
 
+## Learning goals
+
+* **Primary:** Demonstrate that every threat to reproducibility is grounded in the ability to document one's work
+
+--
+
+* **Secondary:**
+  * Identify the various forms of documentation that appear in a reproducible research project
+	* Acknowledge the value of having and implementing a style guide
+  * Articulate the importance of scripting to document the processing of raw data to a final product
+
+---
+
+## Learning outcomes
+* Review the written documentation of a project and provide recommendations
+* Critique and generate self-documenting directory, function, and variable names
+* Insert comments into existing code to make a script more useful and reproducible
+
+---
+
 class: middle center
 
 # Your single most important collaborator is you, six months from now and current you doesn't have email
@@ -187,10 +207,70 @@ One way to enforce that raw data stay raw, is to put them into a directory for r
 
 ---
 
+## Pop quiz...
+
+* What do you think of these names and how would you fix them if there's a problem
+
+.left-column[
+* `length`
+* `gc_content`
+* `build_nmds_scatterplot()`
+* `foobar`
+* `age.in.days`
+* `x`
+]
+
+.right-column[
+* `My Papers/`
+* `is_rna_sequence()`
+* `PrimerSequence`
+* `1st_apple`
+* `generate-figure-1.R`
+* `Genbank_Accession_numbers`
+]
+
+???
+* / ~ directory names, () ~ function names, .R ~ file names
+
+Things to note:
+* Avoid having a variable name overlap with a function name (e.g. length)
+* In some languages CamelCase indicates a class, other languages permit ?'s in variable names
+---
+
+## Do it with style
+
+* Develop a style guide for your lab
+* Be consistent within your project and across projects
+* Think about directory, file, variable, function names
+* Think about how people should be programming
+* Poach ideas from other style guides
+  - Hadley Wickham: [R](http://adv-r.had.co.nz/Style.html)
+  - Google: [R](https://google.github.io/styleguide/Rguide.xml) and [bash](https://google.github.io/styleguide/shell.xml)
+* Style guides are pedantic and often arbitrary - their goal is to enforce readability and good practices
+---
+
+.middle[.center[![Screen shot of Hadley Wickham's R style guide]({{ site.baseurl }}/assets/images/hadley-style-guide.png)]]
+
+.footnote[credit: [Hadley Wickham](http://adv-r.had.co.nz/Style.html)]
+
+???
+
+This is an example: some style suggestions are arbitrary and others are based on the language being used
+
+---
+
+## Enforce good coding practices
+
+* Do not rely on `.Rprofile` files (at least be clear about what is in it)
+* Do not save R session on exiting
+* Do not use `attach` or `setwd` in R
+* Run everything from the root of your project directory - no `cd`'s
+
+---
+
 class: middle center
 
 # .alert[Write code for people to read: Pick languages to facilitate this goal]
-
 
 ---
 
@@ -207,9 +287,8 @@ class: middle center
 
 ## Exercise: Comment my code
 
-* Go to the repository for the [Kozich et al. *AEM* study](https://github.com/SchlossLab/Kozich_MiSeqSOP_AEM_2013/blob/master/code/plot_nmds.R)
-* Copy and paste the R script into RStudio and save the file
+* Copy and paste [this R script](https://github.com/SchlossLab/Kozich_MiSeqSOP_AEM_2013/blob/master/code/plot_nmds.R) from the Kozich et al. *AEM* study into RStudio and save the file
 * Comment the code to indicate what is going on and where you have potential questions
-* At the top of the file write your assessment of how readable the code is and if there is anything about the code you might change
-* Compare your code to your neighbor
+* At the top of the file add a comment that includes your assessment of how readable the code is and if there is anything about the code you might change
+* Compare your commented code to your neighbor
 * Email your commented version of the file to me
