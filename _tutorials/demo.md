@@ -1,24 +1,15 @@
----
-layout: presentation
-title: Introduction to Reproducible Research
-permalink: /tutorials/default-presentation2/
----
-class: middle center
+01_introduction.html
+02_first_steps.html
+03_documentation.html
+04_organization.html
+	05_version_control.html
+	06_automation.html
+	07_collaboration.html
+	08_scripting.html
+	09_literate_programming.html
+	10_makefiles.html
+	11_open_science.html
 
-# My Awesome Presentation
-
----
-
-# Agenda
-
-1. Introduction
-2. Deep-dive
-3. ...
-
-[NOTE]: Note that you need active internet connection to access remark.js script file
-
----
-
-# Introduction
-
-Hello world!
+2_Electron_trail_notes.md
+3_Laboratory_notebook_notes.md
+4_Collaboration_notes.md
