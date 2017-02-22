@@ -2,7 +2,9 @@
 02_first_steps.html
 03_documentation.html
 04_organization.html
-	05_version_control.html
+
+05_version_control.html
+
 	06_automation.html
 	07_collaboration.html
 	08_scripting.html

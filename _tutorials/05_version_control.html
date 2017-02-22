@@ -17,15 +17,16 @@ class: middle center
 * **Secondary:**
 	* Differentiate between analog and digital version control approaches
 	* Construct meaningful descriptions of differences between versions
-	* Integrate git and GitHub tooling to improve documentation of the evolution of an analysis
-  * Articulate the benefits of a dedicated version control system
-
+	* Demonstrate how version control is similar to an unlimited ‘undo’
+	* Appreciate that version control allows multiple individuals to work on simultaneously on the same document
 ---
 
 ## Learning outcomes
 
 * Apply version control to your project
 * Look through the history of a project to see how a file has changed
+* Integrate git and GitHub tooling to improve documentation of the evolution of an analysis
+* Articulate the benefits of a dedicated version control system
 
 ---
 
@@ -116,17 +117,741 @@ class: center middle
 
 ???
 
-* Both of these circumstances are prime opportunities to use git.
+* The preceding discussions are prime opportunities to use git
+* git is a version control system. Others exist including subversion and mercurial
 * A major difficulty with this, however, is teaching collaborators how to use git or GitHub
 * I don't have any silver bullets to solve the issue with collaborators, but throughout this tutorial and others we'll see some strategies make it easier
 
 ---
 
+## `git` and GitHub
 
-* **Presentation:** git; simple workflows, the log, navigating the history,
-  branches (30 min)
+* GitHub is a web service built upon `git` - GitHub is ***not*** `git`
+
+--
+* Public repositories are free on GitHub
+
+--
+* If you are an academic and contact GitHub, you can have unlimited private repositories
+
+--
+* Can create a group account for your lab (e.g. [SchlossLab](https://github.com/SchlossLab)) as a final resting place for lab project and papers
+
+--
+* `git` is hard, but GitHub goes out of their way to make it easier
+
+???
+
+* BitBucket is another web service built upon git
+---
+
+## You're already a `git` pro!
+
+* During the paper airplane activity you made a *commit*
+* In starting the Kozich reanalysis project you created a repository, added files to the repository, committed them, linked to a remote repository, and pushed your repository to GitHub
+--
+
+.center.alert[`git` can be frustrating and hard, but it really doesn't need to be]
 
 ---
 
-* **Activity:** Using git to track changes in formatting; go back through
-  history; branches (45 min)
+## Let's create a silly project to emphasize some concepts
+
+* Create a new directory in your `Documents` directory that we'll call `silly_repository`
+
+```bash
+cd ~/Documents
+mkdir silly_repository
+cd silly_repository
+```
+
+* Within `sill_repository` create a `README.md` file add some text
+
+```bash
+# README
+Waistcoat vegan selvage sartorial polaroid pok pok. Synth DIY banh mi fixie, green juice
+keytar four loko kogi lo-fi twee. Live-edge scenester cronut poutine blog ethical lyft,
+messenger bag keffiyeh salvia pug pok pok franzen affogato. Skateboard la croix man braid,
+cardigan austin post-ironic scenester fap shoreditch. Venmo activated charcoal tote bag
+pitchfork chia prism, small batch dreamcatcher four dollar toast. Disrupt cold-pressed
+biodiesel pok pok. Synth microdosing locavore offal, XOXO mustache sartorial.
+```
+
+.footnote[Source: [Hipster ipsum](https://hipsum.co)]
+
+---
+
+## Let's create a repository.
+
+* How did we do it before?
+
+--
+
+```bash
+git init .
+```
+--
+
+* At the prompt, type `ls -a`
+
+```bash
+$ ls -a
+.		..		.git		README.md
+```
+
+--
+
+* Hmmm, let's see what's inside of `.git`
+
+```bash
+$ ls .git
+HEAD		config		hooks		objects
+branches	description	info		refs
+```
+
+---
+
+## What's going on?
+
+* `git init .` creates a repository
+* You know the directory is a repository because your directory contains the `.git` directory
+* The contents of `.git` help `git` to keep track of your changes and history
+--
+
+* YOU DO NOT NEED TO LOOK INSIDE THIS FOLDER
+--
+
+* DO NOT DELETE `.git` unless you want to nuke your repository
+
+---
+
+## Concepts behind `git`
+
+* Text based (won't work the way you want with `docx`, `pdf`, or `xlsx` files)
+--
+
+* `git` keeps track of the changes, who made the changes, and when they were made
+--
+
+* Once something is put (i.e. commited) into the repository, it is *very* hard to remove it
+  * This is good because it's hard to really screw up
+  * This is bad because if you accidently commit a large file or sensitive information it can be hard to remove
+
+---
+
+## Let's check the status of our respository
+
+```bash
+$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	README.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+* There's a lot here, but let's focus on what's immediately of interest
+  * This will be our "Initial commit"
+  * We have one "Untracked files"
+  * We don't have anything to commit at this time
+--
+
+* Uhhh, that's a lot of jargon
+---
+
+## Break it down
+
+.center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+
+???
+Ask learners if they know where README.md currently resides in this schematic - it's the document to the left, outside of `.git`
+
+--
+
+* Right now, there is nothing in our `silly_repository` repository
+* `.git` is empty
+* There is one file that `git` sees that is within the directory, but outside `.git` - `README.md`
+
+---
+
+## Break it down
+
+.center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+
+* We did get instructions on how to add `README` to `.git`
+
+```bash
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+```
+
+--
+
+* Let's do it
+
+```bash
+git add README.md
+```
+
+???
+* Ask learners if they know where README.md currently resides in this schematic
+* It's in the staging area
+
+---
+
+## Break it down
+
+.center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+
+```bash
+$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   README.md
+```
+
+Again it gives us instructions on what to do to commit the file or to unstage it
+
+---
+
+## Break it down
+
+.center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+
+* We don't want to unstage it, we want to commit it
+* Commmitting the file will add it to the repository
+
+--
+
+```bash
+$ git commit -m "Add a README that any hipster would be proud of"
+[master (root-commit) 6853ad3] Add a README that any hipster would be proud of
+ 1 file changed, 7 insertions(+)
+ create mode 100644 README.md
+```
+
+???
+* Ask learners if they know where README.md currently resides in this schematic
+* It's in the repository
+
+---
+
+## Break it down
+
+.center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+
+```bash
+$ git status
+On branch master
+nothing to commit, working tree clean
+```
+
+* BOOM - well done!
+* This is exactly<sup>*</sup> what we did with the paper airplane example in the earlier tutorial
+
+.footnote[<sup>*</sup> except that GitHub did it all for us]
+---
+
+class: center middle
+
+![Sheep cheering]({{ site.baseurl }}/assets/images/sheep-cheering.gif)
+
+--
+
+.alert[Show some enthusiasm!<br>When I use `git`, 90% of the time, I am using `git status`, `git add`, or `git commit`]
+
+---
+
+## Oh, right this is a university, we need to be serious
+
+* Use a text editor and edit your `README.md` file to make a little bit of sense and be sure to save the file
+* Then run `git status`
+* Where are you in the following diagram?
+
+.center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+
+???
+The center - it's in the staging area since it was previously committed, but has beene edited
+
+---
+
+```bash
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+* We are in the repository, but our changes have not been staged to commit.
+* As it says, we can either `git add` the file to stage it and commit the file or we can use `checkout` to discard the changes
+	* Why might we want to discard the changes?
+	* If we discard the changes will we get them back?
+	* How far back will the changes be discarded?
+
+---
+
+## Before we commit the changes let's check something out
+
+```bash
+$ git diff README.md
+diff --git a/README.md b/README.md
+index 32edb6b..946352a 100644
+--- a/README.md
++++ b/README.md
+@@ -1,7 +1,9 @@
+-Waistcoat vegan selvage sartorial polaroid pok pok. Synth DIY banh mi fixie, green juice
+-keytar four loko kogi lo-fi twee. Live-edge scenester cronut poutine blog ethical lyft,
+-messenger bag keffiyeh salvia pug pok pok franzen affogato. Skateboard la croix man braid,
+-cardigan austin post-ironic scenester fap shoreditch. Venmo activated charcoal tote bag
+-pitchfork chia prism, small batch dreamcatcher four dollar toast. Disrupt cold-pressed
+-biodiesel pok pok. Synth microdosing locavore offal, XOXO mustache sartorial.
++Waistcoat vegan selvage sartorial polaroid while eating their favorite pok pok. Synth DIY
++banh mi fixie doesn't taste as good as green juice keytar, but it does cost as much as
++four loko kogi. I love live-edge scenester cronut while I blog about a world with
++an ethical lyft. messenger bag keffiyeh salvia pug pok pok franzen affogato. Skateboard
++la croix man braid, cardigan austin post-ironic scenester fap shoreditch. Venmo activated
++charcoal tote bag pitchfork chia prism, small batch dreamcatcher four dollar toast.
++Disrupt cold-pressed biodiesel pok pok. Synth microdosing locavore offal, XOXO mustache
++sartorial.
+```
+
+---
+
+## Hmmm. Can we make this any more useful?
+
+* If we look at the help for `git diff`, by doing `git diff --help` we'll see this:
+
+```bash
+       --word-diff[=<mode>]
+           Show a word diff, using the <mode> to delimit changed words. By default,
+           words are delimited by whitespace; see --word-diff-regex below. The <mode>
+           defaults to plain, and must be one of:
+
+           color
+               Highlight changed words using only colors. Implies --color.
+
+           plain
+               Show words as [-removed-] and {+added+}. Makes no attempts to escape the
+               delimiters if they appear in the input, so the output may be ambiguous.
+
+           porcelain
+               Use a special line-based format intended for script consumption.
+               Added/removed/unchanged runs are printed in the usual unified diff
+               format, starting with a +/-/` ` character at the beginning of the line
+               and extending to the end of the line. Newlines in the input are
+               represented by a tilde ~ on a line of its own.
+```
+
+---
+
+## Let's give that a shot...
+
+```bash
+$ git diff-word README.md
+diff --git a/README.md b/README.md
+index 32edb6b..946352a 100644
+--- a/README.md
++++ b/README.md
+@@ -1,7 +1,9 @@
+Waistcoat vegan selvage sartorial polaroid {+while eating their favorite+} pok pok. Synth DIY
+banh mi [-fixie,-]{+fixie doesn't taste as good as+} green juice [-keytar-]{+keytar, but it does cost as much as+}
+four loko [-kogi lo-fi twee. Live-edge-]{+kogi. I love live-edge+} scenester cronut [-poutine-]{+while I+} blog {+about a world with +}
+{+an+} ethical [-lyft,-]{+lyft.+} messenger bag keffiyeh salvia pug pok pok franzen affogato. Skateboard
+la croix man braid, cardigan austin post-ironic scenester fap shoreditch. Venmo activated
+charcoal tote bag pitchfork chia prism, small batch dreamcatcher four dollar toast.
+Disrupt cold-pressed biodiesel pok pok. Synth microdosing locavore offal, XOXO mustache
+sartorial.
+```
+
+That's more useful, yeah?
+
+---
+
+## Let's add and commit the changes
+
+```bash
+$ git add README.md
+$ git commit -m "Make the README content a bit more serious"
+[master 1321686] Make the README content a bit more serious
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+ rewrite README.md (99%)
+$ git status
+On branch master
+nothing to commit, working tree clean
+```
+
+---
+
+## We can see what we've done using the `git log` command:
+
+```bash
+$ git log
+commit 132168645335b88f0526beb3f1e961529f108634
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Wed Feb 22 15:07:18 2017 -0500
+
+    Make the README content a bit more serious
+
+commit 6853ad3ff9242b6ed1999dd5060c94be51a2a04d
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Wed Feb 22 14:49:38 2017 -0500
+
+    Add a README that any hipster would be proud of
+```
+
+This gives a reverse chronological ordering of your commits. You can explore the `git log --help` output to see all the ways you can customize the output.
+
+---
+
+## [A word about commit messages](https://chris.beams.io/posts/git-commit/)<sup>*</sup>
+
+.left-column[
+1. Separate subject from body with a blank line
+2. Limit the subject line to 50 characters
+3. Capitalize the subject line
+4. Do not end the subject line with a period
+5. Use the imperative mood in the subject line
+6. Wrap the body at 72 characters
+7. Use the body to explain what and why vs. how
+8. Um, [keep it PG](http://librestats.com/2014/07/30/f-bombs-in-github-commits-warning-contains-profanity/)
+]
+
+.right-column[
+![XKCD comic of git commit messages]({{site.baseurl}}/assets/images/git_commit_2x.png)
+]
+
+.footnote[<sup>*</sup>Some of these are beyond where we currently are<br>Source: [XKCD](https://xkcd.com/1296/)]
+
+???
+
+* What we put in the quotes of `git commit -m "something clever"` is the subject.
+* I find it useful to re-read this web page frequently to assess how useful my commit messages are
+
+---
+
+## A word about customizing `git`
+
+* Many ways to configure git to look and behave the way you'd like
+* Some things need to be done from the outset
+
+```bash
+$ git config --global user.name "Pat Schloss"
+$ git config --global user.email "pat@schloss.org"
+$ git config --global color.ui "auto"
+$ git config --global core.editor "atom --wait"
+$ git config --list
+```
+
+* These commands will tell `git` your name, email address, how to color text, what [text editor to use for editing commit messages](http://swcarpentry.github.io/git-novice/02-setup/), and finally, will list out the settings in your `config` file
+
+---
+
+## Another word about customizing `git`
+
+* You can also create aliases for commands you frequently use
+* For exampe, I can't remember if it's `gif diff --word-diff` or `gif diff --diff-word`. Plus typing all that stuff is tedious.
+
+```bash
+$ git config --global alias.diff-word 'diff --word-diff'
+```
+
+<br>
+* `git`'s [online materials](https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases) give other examples of aliases you can use to cut down on your typing
+* Beware that sometimes it's harder to remember the alias than the actual command
+
+---
+
+## Exercise
+
+* Download a copy of the [MIT license](https://choosealicense.com/licenses/mit/)
+* Add it to the repository using the `git status` -> `git add` -> `git commit` workflow
+* Edit the license to add the year and your full name
+* Create a GitHub repository and push your `silly_repository` to GitHub
+* Add your PI's name to the license in the GitHub
+* Back in the terminal, type `git pull`
+* What happened?
+
+---
+
+## Commits: How often?
+
+* I like to avoid using "and" in my commit messages to force my commits to be about one thing
+--
+
+* You can generate bigger commit messages by doing `git commit` without the `-m "Something clever"`. This will open the text editor. Type the subject of the commit on the first line. Leave a blank line and then write a fuller description of what you did. Save and close the window.
+--
+
+* I also like to make a commit before I'm about to do anything risky so I have a fall back position (kind of like saving Word before running Endnote)
+---
+
+## Pushes: How often?
+
+* You can `push` your commits as often as you want
+* Ideally at the end of a work session to have a back up
+* Remember to `pull` if you've changed something on GitHub (i.e. the remote) before you `push` again
+
+---
+
+## Let's return to our Kozich re-analysis
+
+Check the status of our repository
+
+```bash
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   README.md
+	modified:   code/README.md
+	modified:   data/raw/README.md
+	modified:   data/references/README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	code/mothur/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+---
+
+## Stage our changes
+
+* We don't want the `mothur` files in the repository since it's a large, bulky binary file, that we're unlikely to change
+* Stage the `README.md` files to the repository
+* Check the status
+
+--
+
+```bash
+$ git add README.md code/README.md data/raw/README.md data/references/README.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   README.md
+	modified:   code/README.md
+	modified:   data/raw/README.md
+	modified:   data/references/README.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	code/mothur/
+```
+
+---
+
+## Commit our changes
+
+Let's make a more detailed commit message
+
+```bash
+$ git commit
+```
+
+--
+Inside text editor...
+
+```bash
+Insert code into README files
+
+Obtained mothur executable, raw fastq.gz files, and silva and
+RDP reference files
+```
+
+--
+Let's see how this looks...
+
+```bash
+$ git log
+commit c34b2b7fc14a29ce499fbf0cfa1606c5fa2c05a5
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Wed Feb 22 16:19:36 2017 -0500
+
+    Insert code into README files
+
+    Inserted code that shows how we obtained mothur executable, raw
+    fastq.gz files, and silva and RDP reference files
+```
+
+---
+
+## Where are we at?
+
+```bash
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	code/mothur/
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+* We can keep going with our project and pretend that the `code/mothur` line isn't there whenever we run `git status`
+* Or we could ask `git` to do this for us!
+
+---
+
+## Ignoring is bliss...
+
+* Did you notice that there seem to be a bunch of files that `git` is already ignoring?
+  * The `fastq.gz` files in `data/raw`
+  * The reference files in `data/references`
+
+--
+
+* On the GitHub page, did you notice a file named `.gitignore`? What do you think that does?
+
+---
+
+## `.gitignore`
+
+```bash
+.Rproj.user
+.Rhistory
+.RData
+
+data/*/*
+!data/process/*
+!README.md
+
+*.qsub*
+mothur*logfile
+*temp*
+*.docx
+```
+
+* This file tells `git` to ignore any file or directory that matches a line of this file
+* Except! It will not ignore those files/directories that start with a `!`
+
+---
+
+## Will our `.gitignore` ignore these and why?
+
+* `data/process`
+* `data/raw/README.md`
+* `figures/figure_1.png`
+* `mothur.1234567890.logfile`
+* `data/mothur/mice.filter`
+* `submission/my_awesome_paper.docx`
+* `README.md`
+
+---
+
+## How do we ignore `code/mothur`?
+
+* `code`
+* `code/mothur`
+* `mothur`
+* `figures/mothur`
+
+--
+
+<br>
+
+* Right it's `code/mothur`
+* Add this line to `.gitignore` and re-run `git status`
+* What changed?
+
+---
+
+## Checking out the effects of `.gitignore`
+
+```bash
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   .gitignore
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+* Cool. It's now ignoring `code/mothur`
+* We've modified `.gitignore` so we need to stage and commit that file. Can you do that?
+
+---
+
+## Add, commit, status, push
+
+```bash
+$ git add .gitignore
+$ git commit -m "Ignore mothur software"
+[master 117ef64] Ignore mothur software
+ 1 file changed, 1 insertion(+)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 2 commits.
+  (use "git push" to publish your local commits)
+nothing to commit, working tree clean
+$ git push
+Counting objects: 13, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (13/13), 2.68 KiB | 0 bytes/s, done.
+Total 13 (delta 6), reused 0 (delta 0)
+remote: Resolving deltas: 100% (6/6), completed with 5 local objects.
+To github.com:pschloss/Kozich_ReAnalysis_AEM_2013.git
+   87619c6..117ef64  master -> master
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working tree clean
+```
+
+---
+
+## Safe `git`
+
+* You can add all of the files in your folder to the repository
+  * This can be efficient
+  * This result in committing large files, temp files, passwords, random crap that you don't want
+  * Add one file at a time
+* You can use wild cards to add several files at once
+  * See above
+  * Add one file at a time
+* Before typing `git commit`, force yourself to run `git status` and make sure you have staged what you want and only what you want
+
+???
+
+* Refuse to tell them how to do this.
+* If a learner doesn't know what a wild card is, then they should be using them with `git`
+
+---
+
+## Traversing the repository's history
+
+
+---
+
+## Dealing with conflicts
