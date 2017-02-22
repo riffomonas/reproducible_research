@@ -9,8 +9,56 @@ class: middle center
 
 ---
 
+## Learning goals
+
+* **Primary:** Develop and implement an organizational strategy that facillitates reproducibility
+
+--
+
+* **Secondary:**
+	* Evaluate different organizational strategies for their ability to foster reproducibility
+	* Integrate organizational principles to fix a chaotic project into a logical structure
+	* Interface with a project template to improve the reproducibility of your research
+
+---
+
+## Learning outcomes
+* Correct an ongoing project to make it more reproducible
+* Apply material from the documentation and organization tutorials to start a new project
+
+---
+
 ## Noble paper on file organization
 
+* Discusses far more than organization
+* Project organization is a form of documentation and helps make written and scripted documentation easier to maintain
+* Provides an outline for the rest of these tutorials
+  * Organization
+  * Literate programming
+  * Scripting
+  * Automation
+  * Version control
+
+.footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
+---
+
+.center[![Noble Figure 1]({{ site.baseurl }}/assets/images/noble-figure-1.png)]
+
+> The core guiding principle is simple: Someone unfamiliar with your project should be able to look at your computer files and understand in detail what you did and why ... Most commonly, however, that "someone" is you.
+
+.footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
+---
+
+## Refresher on documentation from Noble
+
+* "Record every operation that you perform"
+* "Comment generously"
+* "~~Avoid~~[DO NOT] editing intermediate files by hand"
+* Use a driver script to centralize all processing and analysis
+* "Use relative pathways [relative to the project root]"
+* "Make the script restartable"
+
+.footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
 ---
 
 ## Compare file organization from two projects
@@ -288,11 +336,16 @@ git push
 ## Let's go!
 
 * You need...
-  * The data... (hint: grab the data from the "Without genomes/metagenomes" link)
-  * The references...
+  * A partner (preferably someone with mothur experience)
+  * Familiarity with [the original paper](http://aem.asm.org/content/79/17/5112.full)
+  * The data (hint: grab the data from the "Without genomes/metagenomes" link)
+  * The references
   * The text (for the figure lengend and the paragraph titled, "Scaling up")
+  * mothur
 * Obtain the files and put them in the correct locations
+* Do your best to document what you are doing
 
----
+???
 
-Run code from the root
+* Learners should be able to download these materials based on what is described in the paper
+* Have learners add instructor as a collaborator -> Settings -> Collaborators

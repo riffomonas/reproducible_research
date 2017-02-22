@@ -50,6 +50,12 @@ pre {
 		padding-bottom: 10px;
 	}
 
+	li li {
+		line-height: 1em;
+		font-size: 35px;
+		padding-bottom: 10px;
+	}
+
 	ul {
 		margin-bottom: 0;
 		padding-bottom: 0;
@@ -121,6 +127,7 @@ pre {
 	img {
 	  max-width: 100%;
 	}
+
 	blockquote {
 	  border-left: solid 5px lightgray;
 	  padding-left: 1em;
