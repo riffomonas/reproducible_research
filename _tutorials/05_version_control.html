@@ -8,14 +8,6 @@ class: middle center
 # {{ page. title }}
 
 ---
-
-class: center middle
-
-![Mater git-R done meme]({{site.baseurl}}/assets/images/mater-git-r-done.jpg)
-
-.left.footnote[[image source](https://saverocity.com/miles4more/wp-content/uploads/sites/19/2014/06/Mater-Git-R-Done.jpg)]
-
----
 ## Learning goals
 
 * **Primary:** Justify the use of keeping track of the evolution of an analysis
@@ -30,16 +22,103 @@ class: center middle
 
 ---
 
-***Learning outcomes:***
+## Learning outcomes
 
 * Apply version control to your project
 * Look through the history of a project to see how a file has changed
 
 ---
 
-* **Case study 1:** The prospect of taping screen shots, print outs, command
-  line arguments into a paper-based notebook (Limitations of paper-based
-  notebooks for microbiome projects) (10 min)
+## Survey: Do you keep track of different versions of things?
+
+* Do you back up your data or your code? Where? How?
+* When have you needed to go to a backup?
+
+???
+* If they accidentally delete something
+* If they somehow introduce a bug
+* Dropbox / Box
+
+---
+
+## Survey: What is your current system for working with multiple versions?
+
+* How do you keep track of different versions of your project?
+* Where are these versions kept?
+* How do you compare different versions?
+* Do you know the differences between the versions?
+* How difficult would it be to go back to a previous version?
+
+???
+* Expect things like track changes or compare versions in Word (not helpful for Excel)
+
+---
+
+class: center middle
+
+![]({{site.baseurl}}/assets/images/phd-story-told-in-filenames.gif)
+
+.left.footnote[[source: PhDComics](http://www.phdcomics.com/comics.php?f=1323)]
+???
+
+---
+
+## Case study: Scenario
+
+As an graduate student you were taught proper methods for keeping a laboratory notebook. You were perhaps told to give each experiment a title, rationale, hypothesis, description of methods, data, results, and a conclusion. Now you have been given a project that involves analyzing 10 million 16S rRNA gene sequences. How will you change your lab notebook practices?
+
+---
+
+## Case study: Questions
+
+* How have you handled this situation in the past?
+* What are the strengths and weaknesses of different approaches?
+* What if you needed to change a parameter setting or add new data?
+* What are the strengths and weaknesses of paper vs. electronic notebooks for bench and computational science?
+
+---
+
+class: center middle
+
+![Image of my computational notebook]()
+
+.left.footnote[Source: Pat Schloss's notebook ca 2008]
+
+???
+* An early computational notebook that I still have
+* My heart was there, but something wasn't quite right
+
+---
+
+## Case study: Drafting a manuscript
+
+.left-column[
+You are working on a manuscript and send it out to your PI. They're taking longer than hoped to get you feedback. In the meantime, you incorporate some comments from your labmates. Now you have a mess.
+]
+
+.right-column[
+![We all have experiences with multiple versions of manuscripts]({{site.baseurl}}/assets/images/phd-final-doc.gif)
+]
+
+
+.footnote[[source: PhDComics](http://phdcomics.com/comics.php?f=1531)]
+???
+
+What do you typically do in this situation?
+
+---
+
+class: center middle
+
+![Mater git-R done meme]({{site.baseurl}}/assets/images/mater-git-r-done.jpg)
+
+.left.footnote[[Source](https://saverocity.com/miles4more/wp-content/uploads/sites/19/2014/06/Mater-Git-R-Done.jpg)]
+
+???
+
+* Both of these circumstances are prime opportunities to use git.
+* A major difficulty with this, however, is teaching collaborators how to use git or GitHub
+* I don't have any silver bullets to solve the issue with collaborators, but throughout this tutorial and others we'll see some strategies make it easier
 
 ---
 
