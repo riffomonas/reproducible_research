@@ -1,0 +1,423 @@
+---
+layout: presentation
+title: Automating your analysis
+permalink: /automation/
+---
+class: middle center
+
+# {{ page. title }}
+
+---
+## Learning goals
+
+* **Primary:** Appreciate the value of automating analyses
+
+--
+
+* **Secondary:**
+	*
+	*
+	*
+
+---
+
+## Learning outcomes
+
+* Develop `bash` scripts to automate analyses
+
+---
+
+## Driver script: Refresher from Noble
+
+* "Record every operation that you perform"
+* "Comment generously"
+* "~~Avoid~~[DO NOT] editing intermediate files by hand"
+* Use a driver script to centralize all processing and analysis
+* "Use relative pathways [relative to the project root]"
+* "Make the script restartable"
+
+.footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
+
+???
+
+* Much of this is driven by automation
+* There are many ways to automate these types of analyses, but in this session, we'll focus on using tools within the terminal (i.e. `bash`) to do what we want
+
+---
+
+## "Record every operation that you perform"
+
+* Any analysis you are likely to perform once, you'll probably perform twice
+--
+
+* Your mental model should be that someone is going to download your repository and try to rerun your analyes
+--
+
+  * Alternatively: if someone nukes the contents of the data folders, how would they regenerate figure 1?
+--
+
+  * Alternatively: if you go home for the night, can you keep working without having to be at the computer?
+--
+
+* If this is not possible you must take explicit notes that are available for others
+
+---
+
+## "Comment generously"
+
+* In `bash` and many scripting languages you can comment your code with a `#`
+* Recall the previous discussion about making your code readable and self documenting
+* At a minimum, each script or section of a script should have a header that indicates the inputs and outputs
+
+---
+
+## "~~Avoid~~[DO NOT] editing intermediate files by hand"
+
+* If you start from raw files or files that are downloaded, your script provides the provenance for each derivative data file
+--
+
+* Going back to the paper airplane example, imagine how much more uniform, reproducbile, and fast their construction would be if it could be programmed
+---
+
+## "Use relative pathways"
+
+1. `/User/pschloss/Documents/ Kozich_ReAnalysis_mBio_2013/data/raw/README.md` is the **absolute** path to the `README.md` file in the `data/raw` directory on **my computer**
+2. `Kozich_ReAnalysis_mBio_2013/data/raw/README.md` is the **relative** path to the `README.md` file in the `data/raw` directory of **my project**
+3. `REAMDE.md` is a file (let's assume it's within 'data/raw')
+
+--
+
+.center.alert[Why *relative paths*?]
+
+???
+
+* What happens if *you* were to look for a file in the path for example 1? It would crash because you are unlikely to have `/User/pschloss`
+* Option 2 is the best option because as long as someone has the Kozich_Re
+* Option 3 works, but it assumes that you have used `cd` to get to the correct directory. This is a big assumption, especially if someone else is using your code
+
+---
+
+## "Make the script restartable"
+
+* We'll save this for later when we learn about `make`
+* The idea is that if we only change the script to plot the ordination data, we shouldn't have to re-download a bunch of files and start over
+
+---
+
+## Reality
+
+* Most bioinformatics tools (e.g. `mothur`, `QIIME`, `velvet`, etc.) are run from the command line - they are not meant to be interactive
+* You probably do not want to run these tools on your laptop; need to run on a computer cluster
+* Few clusters will let you run programs interactively. You will submit "jobs", which are special scripts
+
+---
+
+## `bash` scripts
+
+* These can be very straight forward or very complex. Let's keep them straight forward
+--
+
+* A script file is little more than a text file that contains commands you would otherwise run from the command prompt
+--
+
+* Let's return to `Kozich_ReAnalysis_mBio_2013` and add the download scripts to a new driver script. Be sure to add comments!
+
+---
+```bash
+# Download the raw data and put them into the data/raw directory
+
+wget --no-check-certificate https://www.mothur.org/MiSeqDevelopmentData/StabilityNoMetaG.tar
+tar xvf StabilityNoMetaG.tar -C data/raw/
+rm StabilityNoMetaG.tar
+
+
+# Download the SILVA reference file (v.123). We will pull out the bacteria-specific sequences and
+# clean up the directories to remove the extra files
+
+wget http://mothur.org/w/images/1/15/Silva.seed_v123.tgz
+tar xvzf Silva.seed_v123.tgz silva.seed_v123.align silva.seed_v123.tax
+mothur "#get.lineage(fasta=silva.seed_v123.align, taxonomy=silva.seed_v123.tax, taxon=Bacteria);degap.seqs(fasta=silva.seed_v123.pick.align, processors=8)"
+mv silva.seed_v123.pick.align data/references/silva.seed.align
+rm Silva.seed_v123.tgz silva.seed_v123.*
+rm mothur.*.logfile
+
+# Download the RDP taxonomy references (v14), put the necessary files in data/references, and
+# clean up the directories to remove the extra files
+
+wget -N http://www.mothur.org/w/images/8/88/Trainset14_032015.pds.tgz
+tar xvzf Trainset14_032015.pds.tgz trainset14_032015.pds/trainset14_032015.pds.*
+mv trainset14_032015.pds/* data/references/
+rmdir trainset14_032015.pds
+rm Trainset14_032015.pds.tgz
+```
+
+* Save this as `analysis_driver.bash` in the project root
+* Notice that the `mv` move the data using relative paths (e.g. `data/references/`)
+
+???
+* To make this a proper `bash` script we need to add the "shebang" line at the top of the script
+
+---
+
+```bash
+#!/usr/bin/env bash
+
+# Download the raw data and put them into the data/raw directory
+
+wget --no-check-certificate https://www.mothur.org/MiSeqDevelopmentData/StabilityNoMetaG.tar
+tar xvf StabilityNoMetaG.tar -C data/raw/
+rm StabilityNoMetaG.tar
+
+
+# Download the SILVA reference file (v.123). We will pull out the bacteria-specific sequences and
+# clean up the directories to remove the extra files
+
+wget http://mothur.org/w/images/1/15/Silva.seed_v123.tgz
+tar xvzf Silva.seed_v123.tgz silva.seed_v123.align silva.seed_v123.tax
+mothur "#get.lineage(fasta=silva.seed_v123.align, taxonomy=silva.seed_v123.tax, taxon=Bacteria);degap.seqs(fasta=silva.seed_v123.pick.align, processors=8)"
+mv silva.seed_v123.pick.align data/references/silva.seed.align
+rm Silva.seed_v123.tgz silva.seed_v123.*
+rm mothur.*.logfile
+
+# Download the RDP taxonomy references (v14), put the necessary files in data/references, and
+# clean up the directories to remove the extra files
+
+wget -N http://www.mothur.org/w/images/8/88/Trainset14_032015.pds.tgz
+tar xvzf Trainset14_032015.pds.tgz trainset14_032015.pds/trainset14_032015.pds.*
+mv trainset14_032015.pds/* data/references/
+rmdir trainset14_032015.pds
+rm Trainset14_032015.pds.tgz
+```
+
+.footnote[[Preferred bash shebang](http://stackoverflow.com/questions/10376206/what-is-the-preferred-bash-shebang)]
+--
+
+<br>
+We can run this from the project root (maybe not now?)...
+
+```bash
+bash analysis_driver.bash
+```
+
+---
+
+## Now what?
+
+--
+
+.center.alert[ Commit! ]
+<br>
+
+```bash
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	analysis_driver.bash
+
+nothing added to commit but untracked files present (use "git add" to track)
+$ git add analysis_driver.bash
+$ git commit -m "Add code to obtain reference and raw data"
+[master dc813a0] Add code to obtain reference and raw data
+ 1 file changed, 35 insertions(+)
+ create mode 100644 analysis_driver.bash
+```
+
+---
+
+## Let's crank through `mothur`
+
+Look at the files in `code/`
+```bash
+$ ls code/
+README.md         get_good_seqs.batch     mothur
+get_error.batch   get_shared_otus.batch   test
+```
+
+<br>
+* The three `*.batch` files are `mothur` scripts.
+* If you aren't familiar with `mothur` or what's going on in the following scripts, please see the [MiSeq SOP](https://mothur.org/wiki/MiSeq_SOP) wiki page
+---
+
+## `get_good_seqs.batch`
+
+```bash
+make.file(inputdir=data/raw, type=gz, prefix=stability)
+make.contigs(file=current, inputdir=data/raw/, outputdir=data/mothur/, processors=8, rename=F)
+screen.seqs(fasta=current, group=current, maxambig=0, maxlength=275, maxhomop=8)
+unique.seqs(fasta=current)
+count.seqs(name=current, group=current, processors=4)
+align.seqs(fasta=current, reference=data/references/silva.v4.align, processors=8)
+screen.seqs(fasta=current, count=current, start=1968, end=11550)
+filter.seqs(fasta=current, vertical=T, trump=.)
+unique.seqs(fasta=current, count=current)
+pre.cluster(fasta=current, count=current, diffs=2, processors=4)
+chimera.uchime(fasta=current, count=current, dereplicate=T, processors=4)
+remove.seqs(fasta=current, accnos=current)
+classify.seqs(fasta=current, count=current, reference=data/references/trainset14_032015.pds.fasta, taxonomy=data/references/trainset14_032015.pds.tax, cutoff=80, processors=8)
+remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota)
+```
+
+* Notice the use of relative paths
+* The only thing we may want to change here is the `prefix=stability` option on the first line
+* Looking at all of the filenames is everything in good shape?
+
+???
+
+We don't have a `data/references/silva.v4.align` file yet
+
+---
+
+## Let's add some code
+
+* We need `data/references/sliva.v4.align`
+
+```bash
+# Generate a customized version of the SILVA reference database that targets the V4 region
+mothur "#pcr.seqs(fasta=data/references/silva.seed.align, start=11894, end=25319, keepdots=F, processors=8)"
+mv data/references/silva.seed.pcr.align data/references/silva.v4.align
+```
+
+* For now, copy/paste these lines into your terminal and let them run
+* When you do this for "real" you'll probably want to get to the end of building the file and re-run the entire document to make sure it all works
+
+---
+
+## Run the script through `mothur`
+
+* Now we're ready to run `get_good_seqs.batch` so we can add that to `analysis_driver.batch`
+
+```bash
+# Run mothur through the various quality control steps
+code/mothur/mothur code/get_good_seqs.batch
+```
+
+* Again, go ahead and copy and paste this line into your terminal and let it run
+
+---
+
+## Next script: `get_error.batch`
+
+```bash
+set.current(inputdir=data/mothur, outputdir=data/mothur, processors=8)
+get.groups(count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.pick.count_table, fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta, taxonomy=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.v4.wang.pick.taxonomy, groups=MOCK-MOCK2)
+seq.error(fasta=current, count=current, reference=data/references/HMP_MOCK.v4.fasta, aligned=F, processors=8)
+```
+
+* Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
+
+--
+
+<br>
+Let's add this to `analysis_driver.bash`
+
+```bash
+# Run mock community data through mothur to calculate the sequencing error rates
+code/mothur/mothur code/get_error.batch
+```
+
+* Again, go ahead and copy and paste this line into your terminal and let it run
+
+---
+
+## Breather...
+
+* At this point, we've run the data through most of the [MiSeq SOP](https://mothur.org/wiki/MiSeq_SOP) wiki page
+* We have the error rate data
+* We still need to...
+  * rarefy the data to get OTU number
+  * calculate distances between communities and generate NMDS data
+
+---
+
+## Let's go ahead and commit our work so far....
+
+```bash
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   analysis_driver.bash
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git add analysis_driver.bash
+$ git commit -m "Load pre-baked mothur batch scripts to driver script"
+```
+
+---
+
+## Build NMDS data file
+
+* Create a new file `get_nmds_data.batch`. Where should it go?
+
+```bash
+set.current(inputdir=data/mothur, outputdir=data/mothur, processors=8)
+dist.shared(shared=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.shared, calc=thetayc, subsample=3000, iters=100, processors=8)
+nmds(phylip=current, maxdim=2)
+```
+
+--
+
+<br>
+Let's add this to `analysis_driver.bash`
+
+```bash
+# Generate nmds axes file for plotting from shared file
+code/mothur/mothur code/get_nmds_data.batch
+```
+
+* Again, go ahead and copy and paste this line into your terminal and let it run
+
+---
+
+## Commit
+
+```bash
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 2 commits.
+  (use "git push" to publish your local commits)
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   analysis_driver.bash
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	code/get_nmds_data.batch
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git add analysis_driver.bash code/get_nmds_data.batch
+$ git commit -m "Add code to generate NMDS axes file"
+[master 7ec81e3] Add code to generate NMDS axes file
+ 2 files changed, 6 insertions(+)
+ create mode 100644 code/get_nmds_data.batch
+```
+
+* I'll leave it to you to rarefy the shared file to generate the number of observed OTUs from each sample
+
+---
+
+## Where are we now?
+
+* We have the raw data to attempt to regenerate the figure
+* Our repository is up to date (go ahead and `push`)
+* You *should* do `bash analysis_driver.bash` to make sure the pieces all fit together
+
+--
+
+<br>
+* .alert[Why would that be painful?]
+
+--
+  * .alert[Big data -> Slow data]
+	* .alert[We've already run these commands!]
+	* .alert[Remember this when we get to `make`]
