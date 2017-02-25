@@ -539,7 +539,7 @@ class: middle center
 From within R
 
 ```R
-> source('code/build_nmds_plot.R')
+> source('code/plot_nmds.R')
 ```
 --
 
@@ -547,7 +547,7 @@ From within R
 From command line
 
 ```R
-$ R -e "source('code/build_nmds_plot.R')"
+$ R -e "source('code/plot_nmds.R')"
 ```
 --
 
@@ -568,7 +568,6 @@ class: middle center
 
 * Again, this wasn't meant to be a how to program in R tutorial
 * I wanted to highlight the tooling and approaches you might take in R to make your analysis more reproducible
-* I also wanted to highlight the advantages of
 ---
 
 class: middle
@@ -576,7 +575,7 @@ class: middle
 ```R
 ################################################################################
 #
-# build_nmds_plot.R
+# plot_nmds.R
 #
 # Here we take in the *.nmds.axes file from the mouse stability analysis and
 # plot it in R as we did in Figure 4 of Kozich et al.
@@ -587,42 +586,44 @@ class: middle
 ################################################################################
 
 plot_nmds <- function (axes_file){
-    axes <- read.table(file=axes_file, header=T, row.names=1)
-    day <- as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(axes)))
+  axes <- read.table(file=axes_file, header=T, row.names=1)
+  day <- as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(axes)))
 
-    early <- day <= 10
-    late <- day >= 140 & day <= 150
+  early <- day <= 10
+  late <- day >= 140 & day <= 150
 
-    plot_axes <- axes[early | late, ]
-    plot_day <- day[early | late]
-    plot_early <- early[early | late]
-    plot_late <- late[early | late]
+  plot_axes <- axes[early | late, ]
+  plot_day <- day[early | late]
+  plot_early <- early[early | late]
+  plot_late <- late[early | late]
 
-    pch <- vector()
-    pch[plot_early] <- 21
-    pch[plot_late] <- 19
+  pch <- vector()
+  pch[plot_early] <- 21
+  pch[plot_late] <- 19
 
-    output_file_name <- "results/figures/nmds_figure.png"
+* output_file_name <- "results/figures/nmds_figure.png"
 
-    png(file=output_file_name)
-	    plot(plot_axes$axis2~plot_axes$axis1, pch=pch, xlab="PCoA Axis 1",
-						ylab="PCoA Axis 2")
-	    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
-						legend=c("Early", "Late"), pch=c(21,19))
-    dev.off()
+  png(file=output_file_name)
+    plot(plot_axes$axis2~plot_axes$axis1, pch=pch, xlab="PCoA Axis 1",
+					ylab="PCoA Axis 2")
+    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
+					legend=c("Early", "Late"), pch=c(21,19))
+  dev.off()
 }
 ```
 ???
 
-* Note that the use of comments here is pretty spartan
-* Note that there isn't much defensive programming here
+* Note:
+  - the use of comments here is pretty spartan - but you were to add comments in the documentation tutorial
+  - I changed the output file name
+  - I changed the variable names to snake case with underscores
+  - there isn't much defensive programming going on here
 
 ---
 
 ## Exercise
 
-* Copy and paste code on previous slide into a new file: `code/build_nmds_plot.R`
 * Add a line to the `analysis_driver.bash` script to run the R file from the command line
 * Run the code and commit the new file and changes
-* Add comments to `code/build_nmds_plot.R` and add one or two things to make the code more defensive (e.g. confirm number of columns is 2; what if the names don't have a "D"?)
+* Add comments to `code/plot_nmds.R` and add one or two things to make the code more defensive (e.g. confirm number of columns is 2; what if the names don't have a "D"?)
 * Run the code and commit the new file and changes
