@@ -587,8 +587,8 @@ class: middle
 
 plot_nmds <- function (axes_file){
   axes <- read.table(file=axes_file, header=T, row.names=1)
-  day <- as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(axes)))
-
+#  day <- as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(axes)))
+* day <- as.numeric(gsub(".*D(\\d*)_.*$", "\\1", rownames(axes)))
   early <- day <= 10
   late <- day >= 140 & day <= 150
 

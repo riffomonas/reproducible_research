@@ -6,12 +6,14 @@
 06_automation.html
 07_programatic_analysis.html
 
-	08_collaboration.html
+	08_literate_programming.html
+
+
+	09_collaboration.html
 		* Traversing the repository's history
 		* Branches
 		* Dealing with conflicts
 
-	09_literate_programming.html
 	10_makefiles.html
 	11_open_science.html
 
@@ -20,7 +22,10 @@
 4_Collaboration_notes.md
 
 
-https://github.com/data-cleaning/validate
-https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html
-
 https://rddj.info/
+
+
+* update new_project with mothur batch files
+* make index for tutorial
+* move minimal R over
+* Redo kozich images with the w_metag data

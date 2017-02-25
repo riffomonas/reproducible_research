@@ -74,6 +74,7 @@ class: middle center
 ]
 
 ---
+
 ## Literate programming
 
 * Merging coding with text generation and formatting
@@ -82,4 +83,826 @@ class: middle center
   * Jupyter Notebooks
   * RMarkdown notebooks and documents
 * Many types of output: markdown, PDF, docx, html
+
 ---
+
+## Applications of literate programming
+
+* Papers: [`rmarkdown`](http://rmarkdown.rstudio.com), [`knitr`](https://yihui.name/knitr/)
+* Books: [`bookdown`](https://bookdown.org)
+* Slide decks: [`slidify`](http://slidify.org), [`slidy`](http://rmarkdown.rstudio.com/slidy_presentation_format.html), [`ioslides`](http://rmarkdown.rstudio.com/ioslides_presentation_format.html)
+* Interactive websites: [`htmlwidgets`](http://www.htmlwidgets.org), [`shiny`](http://rmarkdown.rstudio.com/authoring_shiny.html)
+
+---
+
+class: middle center
+
+![Paragraph from Kozich et al.]({{ site.baseurl }}/assets/images/kozich_scaling_up_marked.png)
+
+---
+
+class: middle
+
+```R
+ ***Scaling up.*** The advantage of the dual index approach is that a
+large number of samples can be sequenced using a number of primers equal
+to only twice the square root of the number of samples. To fully
+evaluate this approach, we re-sequenced the V4 region of 360 samples
+that were previously described by sequencing the distal end of the V35
+region on the 454 GS-FLX Titanium platform ([18](#_ENREF_18)). In that
+study we observed a clear separation between murine fecal samples
+obtained from 8 C57BL/6 mice at 0 to 9 (“early”) and 141 to 150 (“late”)
+days after weaning and there was significantly less variation between
+the late samples compared to the early samples. In addition to the mouse
+fecal samples, we allocated 2 pairs of indices to re-sequence our mock
+community. We generated 4.3 million pairs of sequence reads from the 16S
+rRNA gene with an average coverage of `r round(mean(nseqs), 0)` pairs
+of reads per sample (95% of the samples had more than
+`r round(quantile(nseqs, 0.05), 0)` pairs of sequences) using a new
+collection of 8-nt indices (Supplemental Materials). Although individual
+samples were expected to have varying amplification efficiencies, analysis
+of the number of reads per index did not suggest a systematic positive or
+negative amplification biases that could be attributed to the indices. The
+combined error rate for the two mock communities was 0.07% before
+pre-clustering and `r format(pc_error_rate, nsmall=2)`% after
+(n=`r pc_error_nseqs` sequences). When we used UCHIME to remove chimeras
+and rarefied to 5,000 sequences there were an average of
+`r format(n_otus, nsmall=1)` OTUs (i.e.
+`r format(n_otus-perfect, nsmall=1)` spurious OTUs). Similar to our
+previous results, ordination of the mouse fecal samples again showed the
+separation between the early and late periods and increased stabilization
+with age (Figure 4; Mantel Test Coefficient=
+`r format(round(m.test$statistic, digits=2), nsmall=2)`,
+p\<`r format(round(m.test$signif, digits=3), nsmall=3)`**). These results
+clearly indicate that our approach can be scaled to multiplex large numbers
+of samples.
+```
+
+???
+
+The original paper wasn't written with literate programming, but this gives you a sense of how the red boxes in the earlier slide could be rewritten as R code.
+---
+
+## RMarkdown
+
+* Recall we previously used markdown in the paper airplane example and to write our README files
+* We have the ability to insert R code to generate tables, figures, and text
+* `rmarkdown` package uses `knitr`package and other goodies to convert Rmarkdown files to a variety of formats
+
+---
+
+## Output for papers
+
+* Markdown - basic text
+--
+
+* HTML
+  - really nice for lab reports
+  - limitless formatting (via HTML/CSS)
+--
+
+* docx
+  - good for manuscripts, easy for collaborators to work with
+  - limited formatting (via `template.docx`)
+--
+
+* PDF
+  - good for manuscripts, harder for collaborators to work with
+  - limitless formatting (via LaTeX; `new_project` helpes)
+
+---
+
+## Note
+
+* You can do all of this through RStudio
+* We aren't going to do that because we are trying to emphasize the importance of having a workflow that is automated and can run without your intervention
+
+---
+
+## Returning to Kozich
+
+* In the tutorial on organization you copied the "Scaling up" paragraph and the figure legend into your project's README.md file
+* Move this text into a new file `submission/practice.Rmd`
+
+---
+
+class: middle
+
+```bash
+	**Scaling up.** The advantage of the dual-index approach is that a large
+	number of samples can be sequenced using a number of primers equal to only
+	twice the square root of the number of samples. To fully evaluate this
+	approach, we resequenced the V4 region of 360 samples that were previously
+	described by sequencing the distal end of the V35 region on the 454 GS-FLX
+	Titanium platform (18). In that study, we observed a clear separation
+	between murine fecal samples obtained from 8 C57BL/6 mice at 0 to 9 (early)
+	and 141 to 150 (late) days after weaning, and there was significantly less
+	variation between the late samples than the early samples. In addition to
+	the mouse fecal samples, we allocated 2 pairs of indices to resequence our
+	mock community. We generated 4.3 million pairs of sequence reads from the
+	16S rRNA gene with an average coverage of 9,913 pairs of reads per sample
+	(95% of the samples had more than 2,454 pairs of sequences) using a new
+	collection of 8-nt indices (see the supplemental material). Although
+	individual samples were expected to have various amplification efficiencies,
+	analysis of the number of reads per index did not suggest a systematic
+	positive or negative amplification bias that could be attributed to the
+	indices. The combined error rate for the two mock communities was 0.07%
+	before preclustering and 0.01% after (n = 14,094 sequences). When we used
+	UCHIME to remove chimeras and rarefied to 5,000 sequences, there was a
+	average of 30.4 OTUs (i.e., 10.4 spurious OTUs). Similar to our previous
+	results, ordination of the mouse fecal samples again showed the separation
+	between the early and late periods and increased stabilization with age
+	(Fig. 4) (Mantel test coefficient, 0.81; P < 0.001). These results clearly
+	indicate that our approach can be scaled to multiplex large numbers of
+	samples.
+
+	**FIG 4** Principal coordinate ordination of YC values (28) relating the
+	community structures of the fecal microbiota from 12 mice collected on days
+	0 through 9 (Early) and days 141 through 150 (Late) after weaning.
+```
+
+.footnote[`submission/practice.Rmd`]
+
+---
+
+## Getting set
+
+From within R
+```R
+install.packages(c('rmarkdown', 'knitr'))
+# or
+# update.packages(c('rmarkdown', 'knitr'))
+```
+
+---
+
+The `.Rprofile` file with `new_project`
+```R
+############################################################
+## Options for knitr and Rmarkdown rendering
+############################################################
+
+*library("knitr")
+*library("rmarkdown")
+
+## output directory for figures
+if (require("knitr")) {
+    opts_chunk$set(fig.path="results/figures/")
+    opts_knit$set(base.dir=normalizePath(getwd()))
+    opts_knit$set(root.dir=normalizePath(getwd()))
+}
+
+############################################################
+## the following is credit to Jenny Bryan, for details see here:
+## https://gist.github.com/jennybc/362f52446fe1ebc4c49f
+RPROJ <- list(PROJHOME = normalizePath(getwd()))
+attach(RPROJ)
+
+cat('Project home directory is available as PROJHOME or via get("PROJHOME","RPROJ")\n')
+
+rm(RPROJ)
+############################################################
+
+local({
+  r <- getOption("repos")
+  r["CRAN"] <- "http://cran.cnr.berkeley.edu/"
+  options(repos = r)
+})
+```
+
+This will automatically load the libraries whenever you run R
+
+---
+
+## Converting `md` to `Rmd`
+
+* At a minimum need to add a [YAML](http://www.yaml.org) header
+* Do not start lines with tabs, use spaces
+* Set apart from rest of document with opening `---` and closing `---` on their own lines
+
+```bash
+*   ---
+*   output: html_document
+*   ---
+	**Scaling up.** The advantage of the dual-index approach is that a large
+	number of samples can be sequenced using a number of primers equal to only
+	twice the square root of the number of samples. To fully evaluate this
+	<text continues...>
+```
+
+---
+
+Generate the HTML output like so...
+
+```bash
+$ R -e "render('submission/practice.Rmd')"
+
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+Project home directory is available as PROJHOME or via get("PROJHOME","RPROJ")
+> render('submission/practice.Rmd')
+
+
+processing file: practice.Rmd
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: practice.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS practice.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash --output practice.html --smart --email-obfuscation none --self-contained --standalone --section-divs --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --variable 'theme:bootstrap' --include-in-header /var/folders/8p/j4r5_4yn7jg5z3s6p_ky8lc40000gq/T//RtmpsTef9B/rmarkdown-str14c9de98510.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+
+Output created: practice.html
+```
+
+---
+
+class: middle center
+
+![Screenshot of what submision/practice.html looks like]({{site.baseurl}}/assets/images/practice_html_basic.png)
+
+.left.footnote[`submission/practice.html`]
+
+---
+
+Let's add a title, date, and author
+
+```bash
+    ---
+*   title: Reproducing Kozich et al
+*   author: Joe Schmo
+*   date: "February 30, 2017"
+    output: html_document
+    ---
+	**Scaling up.** The advantage of the dual-index approach is that a large
+	number of samples can be sequenced using a number of primers equal to only
+	twice the square root of the number of samples. To fully evaluate this
+	<text continues...>
+```
+
+--
+
+<br>
+
+.center[![Screenshot of what submision/practice.html looks like with title, author, and date]({{site.baseurl}}/assets/images/practice_html_title_author.png)]
+
+---
+
+Can we automate these calculations?
+
+```bash
+<snip>
+mock community. We generated 4.3 million pairs of sequence reads from the
+16S rRNA gene with an average coverage of 9,913 pairs of reads per sample
+(95% of the samples had more than 2,454 pairs of sequences) using a new
+<snip>
+```
+--
+
+<br>
+To do this, we need to create a ***code chunk***
+
+<pre><code>
+```{r}
+
+# your code goes here
+
+```
+</code></pre>
+
+
+--
+
+<br>
+... and make use of ***inline R code***
+
+```R
+...coverage of `r ave_number_of_pairs` pairs of reads...
+```
+
+---
+
+Code chunk...
+
+<pre><code>
+ date: "February 30, 2017"
+ output: html_document
+ ---
+
+ ```{r}
+ shared_file_name <- "data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.shared"
+ shared_file <- read.table(file=shared_file_name, header=T, stringsAsFactors=F)
+ sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
+
+ million_sequence_counts <- sum(sequence_counts)/1e6
+ average_seqeunce_counts <- mean(sequence_counts)
+ percentile_sequence_counts <- quantile(sequence_counts, prob=0.05)
+ ```
+</code></pre>
+
+--
+
+<br>
+
+Inline code...
+
+```bash
+<snip>
+mock community. We generated `r million_sequence_counts` million pairs of
+sequence reads from the 16S rRNA gene with an average coverage of
+`r average_seqeunce_counts` pairs of reads per sample (95% of the samples
+had more than `r percentile_sequence_counts` pairs of sequences) using a new
+<snip>
+```
+
+---
+
+class: middle center
+
+![Screenshot of what submision/practice.html looks like code chunk and rendered inline ode]({{site.baseurl}}/assets/images/practice_html_code_chunk.png)
+
+---
+
+# .alert[ How well did we at reproducing the previous results? ]
+
+???
+
+* The numbers are pretty close - good enough?
+* There were two datasets available
+* Software changes
+* Some randomness at various steps
+* Perhaps the total number of sequences was really the number of *raw* sequences
+
+--
+
+# .alert[ Why would they be different? ]
+
+---
+
+## Cool, eh!?
+
+* There are still a bunch of things we'd like to do with this before we submit it to a journal or even share with a collaborator. Let's think about what we've just done first
+* Code chunk
+  - For a manuscript submission, we probably don't want to see the code
+  - For our PI or select collaborators, we may want to show the code so they can proof our methods
+* Inline code
+  - The number of significant digits is a bit much
+
+---
+
+## Code chunk options
+
+```
+*```{r scaling_up, echo=FALSE}
+shared_file_name <- "data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.shared"
+shared_file <- read.table(file=shared_file_name, header=T, stringsAsFactors=F)
+sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
+
+million_sequence_counts <- sum(sequence_counts)/1e6
+average_seqeunce_counts <- mean(sequence_counts)
+percentile_sequence_counts <- quantile(sequence_counts, prob=0.05)
+```
+
+This code chunk has done two things:
+* Names the code chunk (`scaling_up`), this helps with organizing our code chunks and figuring out where Bad Things Happen if `render` chrashes
+* `echo=FALSE` tells `knitr` to not output the code
+
+---
+
+class: middle center
+
+![Screenshot of what submision/practice.html looks like with echo=FALSE]({{site.baseurl}}/assets/images/practice_html_echo_false.png)
+
+---
+
+## Other code chunk options that are useful
+
+* `include`: Tells whether code and results should be in the output (still runs the code)
+* `echo`: Tells whether code, but not results should be in the output (still runs the code)
+* `message`: Tells whether messages that are generated by code should be in the output
+* `warning`: Tells whether warnings that are generated by code should be in the output
+* [Many other options available](http://rmarkdown.rstudio.com/lesson-15.html) including how to format figures, caching, dependencies, etc.
+
+---
+
+## Exercises
+
+* Create a new code chunk and in it add the line `summary(sequence_counts)`. What happens when you use `include` or `echo` and set the option to `TRUE` or `FALSE`
+* Create a new code chunk and insert a line with `hist(sequence_counts)`. Again, play with the `include` and `echo` options. Also adjust the `fig.caption`, `fig.height`, `fig.width`, `fig.align`, and `dev` parameters. Where does it put the figure?
+
+---
+
+## Formatting inline text
+
+```bash
+<snip>
+mock community. We generated `r format(round(million_sequence_counts, 1), nsmall=1L)`
+million pairs of sequence reads from the 16S rRNA gene with an average coverage of
+`r format(round(average_seqeunce_counts, 1), nsmall=1L)` pairs of reads per sample
+(95% of the samples had more than
+`r format(round(percentile_sequence_counts, 1), nsmall=1L)` pairs of sequences) using a new
+<snip>
+```
+???
+
+This isn't exactly DRY is it?
+
+--
+
+<br>
+.center[![Screenshot of what submision/practice.html looks like with number formatting]({{site.baseurl}}/assets/images/practice_html_inline_formatting.png)]
+
+---
+
+## Put this after the YAML and before your first code chunk, what is it doing?
+```
+```{r knitr_settings, eval=TRUE, echo=FALSE, cache=FALSE}
+opts_chunk$set("tidy" = TRUE)
+opts_chunk$set("echo" = FALSE)
+opts_chunk$set("eval" = TRUE)
+opts_chunk$set("warning" = FALSE)
+opts_chunk$set("cache" = FALSE)
+
+inline_hook <- function(x){
+
+	if(is.list(x)){
+		x <- unlist(x)
+	}
+
+	if(is.numeric(x)){
+		if(abs(x - round(x)) < .Machine$double.eps^0.5){
+			paste(format(x,big.mark=',', digits=0, scientific=FALSE))
+		} else {
+			paste(format(x,big.mark=',', digits=1, nsmall=1, scientific=FALSE))
+		}
+	} else {
+	  	paste(x)
+	}
+}
+knitr::knit_hooks$set(inline=inline_hook)
+`&#8203;``
+```
+???
+
+* This is setting the defaults for our paper. It makes our code look good (tidy), by default it turns off our code output (echo), it evaluates all of the code chunks (eval), turns off output of warnings (warning), and turns off the chaching (cache)
+* You can always flip these switches in the headers of the code blocks
+
+* This also creates a function `inline_hook` that will format any inline code. If the output from R is numerical and an integer, it will print it out with a decimal and with commas to separate 1000's places. If it is a decimal number, it will do the same thing, but it will output a value to 1 decimal place. If it is a character string, then it just spits it back out - this way, you can have a number formatted using `format(round(x, ##), digits=##)` in the main body of the text
+
+--
+This would be a good place to put `library(xxxxx)` calls
+---
+
+## Re-Formatting inline text
+
+```bash
+<snip>
+mock community. We generated `r million_sequence_counts` million pairs of sequence
+reads from the 16S rRNA gene with an average coverage of `r average_seqeunce_counts`
+pairs of reads per sample (95% of the samples had more than `r percentile_sequence_counts`
+pairs of sequences) using a new
+<snip>
+```
+???
+
+This isn't exactly DRY is it?
+
+--
+
+<br>
+.center[![Screenshot of what submision/practice.html looks like with number formatting]({{site.baseurl}}/assets/images/practice_html_inline_dry_formatting.png)]
+
+---
+
+## Other things we want to deal with...
+
+* Figures
+* Tables
+* References
+* Other output formats
+
+---
+
+## Figures
+
+* For a manuscript, it is preferred to generate the figures outside of the Rmd file
+* At some point, you'll have to upload your figures separtely from the manuscript
+* Markdown gives you the ability to insert figures with<br>`![description](path/to/figure)`
+
+---
+
+## Figures
+
+```bash
+indicate that our approach can be scaled to multiplex large numbers of
+samples.
+
+![](../results/figures/nmds_figure.png)
+
+&#8203;**FIG 4** Principal coordinate ordination of YC values (28) relating the
+community structures of the fecal microbiota from 12 mice collected on days
+0 through 9 (Early) and days 141 through 150 (Late) after weaning.
+```
+
+???
+
+The ../results is because of the screwy way that knitr works :(
+
+--
+
+.center[![Screenshot of what submision/practice.html looks like with a figure inserted]({{site.baseurl}}/assets/images/practice_html_with_figure.png)]
+
+---
+
+## Tables
+
+* Some of the examples that were shown earlier were tables and they helped to motivate the need for literate programming
+* There are several packages for generating tables in R
+  * [`xtable`](https://cran.r-project.org/web/packages/xtable/): best for compmlex tables; produces LaTeX that can be converted to PDF or HTML; can induce headaches
+  * [`knitr`](): `kable` function produces nice simple tables; will work well with word, pdf, html
+
+---
+
+## Silly example...
+
+```
+```{r, result="asis"}
+days <- as.numeric(gsub(".*D(\\d*)_.*", "\\1", shared_file$Group))
+
+n_samples_per_day <- numeric()
+mean_seqs_per_day_per_sample <- numeric()
+total_seqs_per_day <- numeric()
+
+unique_days <- sort(unique(days))
+
+for(d in unique_days){
+	n_samples_per_day[as.character(d)] <- nrow(shared_file[days == d, -c(1,2,3)])
+	total_seqs_per_day[as.character(d)] <- sum(shared_file[days == d, -c(1,2,3)])
+	mean_seqs_per_day_per_sample[as.character(d)] <-
+							mean(apply(shared_file[days == d, -c(1,2,3)], 1, sum), na.rm=T)
+}
+
+data <- data.frame(unique_days, mean_seqs_per_day_per_sample,
+										total_seqs_per_day, n_samples_per_day)
+
+*kable(data, digits=c(0, 1, 0, 0), row.names=FALSE,
+*						col.names=c("Day", "Seqs. per<br>sample (mean)",
+*						"Seqs. per<br>day (total)", "Number of<br>samples"), align='c')
+`&#8203;``
+```
+
+---
+
+.center[![Screenshot of what submision/practice.html looks like with a kable-generated figure]({{site.baseurl}}/assets/images/practice_html_with_table.png)]
+
+<br>
+More sophisticated tables can be generated using `xtable`. Consult the [xtable gallery](https://cran.r-project.org/web/packages/xtable/vignettes/xtableGallery.pdf) for examples and code
+
+---
+
+## References
+
+* RMarkdown allows you to use various citation managers to render references in your documents
+* Various formatting files are available as `csl` files that will play nicely with rmakrdown, Word, and LaTeX. You can find these files at the [CSL GitHub repository](https://github.com/citation-style-language/styles). As an example, we commonly use style guides for the [ASM Journals](https://github.com/citation-style-language/styles/search?q=asm&type=Code&utf8=✓)
+* A copy of `mbio.csl` is in `submission/`
+
+---
+
+## Need to make a couple of changes
+
+1\. YAML
+
+```bash
+-&#8203;--
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "February 30, 2017"
+output: html_document
+bibliography: references.bib
+csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
+-&#8203;--
+```
+
+---
+
+2\. Create `submission/references.bib`
+
+```bash
+@article{Schloss2012,
+  doi = {10.4161/gmic.21008},
+  url = {https://doi.org/10.4161%2Fgmic.21008},
+  year  = {2012},
+  month = {jul},
+  publisher = {Informa {UK} Limited},
+  volume = {3},
+  number = {4},
+  pages = {383--393},
+  author = {Patrick D. Schloss and Alyxandria M. Schubert and Joseph P. Zackular and Kathryn D. Iverson and Vincent B. Young and Joseph F. Petrosino},
+  title = {Stabilization of the murine gut microbiome following weaning},
+  journal = {Gut Microbes}
+}
+@article{Yue2005,
+  title={A similarity measure based on species proportions},
+  author={Yue, Jack C and Clayton, Murray K},
+  journal={Communications in Statistics-Theory and Methods},
+  volume={34},
+  number={11},
+  pages={2123--2131},
+  year={2005},
+  publisher={Taylor \& Francis}
+}
+```
+
+* These are `bibtex`-formatted (*.bib) references. Can obtain from online tools such as [doi2bib](http://www.doi2bib.org/#/doi) or [google scholar](https://scholar.google.com)
+* Will use the `Schloss2012` as the tag that we cite
+
+---
+
+3\. Insert reference into Rmd file
+
+```bash
+<snip>
+Titanium platform [@Schloss2012]. In that study, we observed a clear separation
+<snip>
+&#8203;**FIG 4** Principal coordinate ordination of YC values [@Yue2005] relating the
+<snip>
+```
+--
+
+<br>
+
+4\. Render
+
+![Example of citations]( {{site.baseurl}}/assets/images/practice_citation.png)
+
+--
+
+![Example of citations]( {{site.baseurl}}/assets/images/practice_references.png)
+
+
+
+---
+
+## Output formats
+
+* [html](http://rmarkdown.rstudio.com/html_document_format.html)
+* [markdown](http://rmarkdown.rstudio.com/markdown_document_format.html)
+* [docx](http://rmarkdown.rstudio.com/word_document_format.html)
+* [pdf](http://rmarkdown.rstudio.com/pdf_document_format.html)
+* [Many others](http://rmarkdown.rstudio.com/lesson-9.html)
+
+<br>
+.center.alert[Each of these formats have many options that are constantly being added. Check the links to learn more]
+
+---
+
+## html
+
+```
+---
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "February 30, 2017"
+*output: html_document
+bibliography: references.bib
+csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
+---
+```
+
+<br>
+.center.alert[Possible to provide a CSS file, incorporate bootstrap, opengl, javascript, and other web-based tooling]
+
+---
+
+## Markdown
+
+```
+---
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "February 30, 2017"
+*output: markdown_document
+bibliography: references.bib
+csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
+---
+```
+
+<br>
+.center.alert[There are multiple flavors of markdown that you can select from within the different options]
+
+
+---
+
+## docx / Word
+
+```
+---
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "February 30, 2017"
+*output: word_document
+bibliography: references.bib
+csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
+---
+```
+
+<br>
+.center.alert[A useful-ish feature is the ability to apply a template to customize formatting. This can be rather limiting (e.g. no line numbers, problems with tables, bulleted lists, no forced line breaks). Alas, most people you work with will want a word file]
+
+---
+
+## pdf
+
+```
+---
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "February 30, 2017"
+*output: pdf_document
+bibliography: references.bib
+csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
+---
+```
+
+<br>
+.center.alert[Must have a full installation of TeX on your system to render as PDF. This format offers the best looking output; however, there is a bit of a learning curve]
+
+---
+
+## Combination
+
+```
+---
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "February 30, 2017"
+*output:
+*  pdf_document: default
+*  word_document: default
+*  markdown_document: default
+bibliography: references.bib
+csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
+---
+```
+
+<br>
+.center.alert[I will often render a PDF and Word version for me and collaborators, respectively]
+
+---
+
+## `new_project` Rmd template
+
+* Open at the `Kozich_ReAnalysis_AEM_2013.Rmd` file that is in `submission/` and render it as you did for `practice.Rmd`
+* Can you see how similar what we've been doing with `output: html_document` is to what is going on here?
+* Much of the special formatting (e.g. line numbers, line spacing, fonts, etc) are specified in header.tex, which is loaded in the YAML
+
+---
+
+## Turning your document into a pdf
+
+* Copy your version of the "Scaling up" code and paragraph (without the YAML) into the "Results" section of `Kozich_ReAnalysis_AEM_2013.Rmd`
+* Replace the figure caption in `Kozich_ReAnalysis_AEM_2013.Rmd` with yours and your figure
+* Re-render
+
+---
+
+## Closing note
+
+You can put code in your YAML and even feed in parameters like a function
+
+```
+---
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "`r Sys.time()`"
+output: html_document
+bibliography: references.bib
+csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
+---
+```
+
+---
+
+## Exercises
+
+* .alert[Commit!]
+* Edit your "Scaling up" code and paragraph to automate the printing of another number or two
+* Generate a figure using the data in the shared file
+* If you have code in `code/utilities.R` or anoter similar code file, where would you run `source('code/utilities.R')`?
+* Everyone seems to have the same ordination plot, but they're all rotated a bit. How could you correct this and what would you need to update to make it reproducible?
