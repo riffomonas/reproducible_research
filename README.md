@@ -4,6 +4,7 @@ Learning outcomes: What a student should be able to do if they meet the learning
 Verbs...
 https://www.clinton.edu/curriculumcommittee/listofmeasurableverbs.cxml
 
+https://rddj.info/
 
 
 
@@ -17,6 +18,7 @@ https://microbiomejournal.biomedcentral.com/articles/10.1186/2049-2618-2-8
 Noble WS. A quick guide to organizing computational biology projects. PLoS Comput Biol. 2009 Jul;5(7):e1000424. doi: 10.1371/journal.pcbi.1000424.
 http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424
 
+[ Include the mBio wrap up from the symposium ]
 
 Please download and install the following prior to the workshop. I'll try to be there a bit early if people need help installing stuff.
 
