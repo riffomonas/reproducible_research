@@ -1,3 +1,10 @@
+To do...
+* Redo kozich images with the w_metag data
+* Add link to Rstudio "how it works" image
+* Format links to minimalR
+* Learning goals and objectives
+
+
 Learning goals: What a student should learn
 Learning outcomes: What a student should be able to do if they meet the learning goals
 

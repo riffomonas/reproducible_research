@@ -14,9 +14,3 @@ layout: default
 * [How to collaborate with yourself and others](collaboration) (still in prep...)
 * [Automation and satisfying dependencies with makefiles](makefiles) (still in prep...)
 * [Doing open science](open_science) (still in prep...)
-
-
-To do...
-* update new_project with mothur batch files
-* move minimal R over
-* Redo kozich images with the w_metag data
