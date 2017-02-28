@@ -353,7 +353,7 @@ git push
 
 ## Helpers
 
-`wget` - pulls down large data files to the current directory
+`wget` - pulls down large data files to the current directory (or `curl -LO`)
 `tar xvf` - unpacks a `.tar` file
 `tar xvzf` - unpacks a `.tar.gz` or `.tgz` file
 `rm` - removes files
@@ -365,3 +365,107 @@ git push
 * ***Wait*** to commit and push your changes
 * Add me/your PI as a collaborator
   * "Settings" -> "Collaborators" -> Enter handle -> "Add collaborator"
+
+---
+
+`data/raw/README.md`
+
+```bash
+# README
+
+Obtained the raw `fastq.gz` files from https://www.mothur.org/MiSeqDevelopmentData.html
+&#8203;* Downloaded https://www.mothur.org/MiSeqDevelopmentData/StabilityNoMetaG.tar
+&#8203;* Ran the following from the project's root directory
+
+```bash
+wget --no-check-certificate https://www.mothur.org/MiSeqDevelopmentData/StabilityNoMetaG.tar
+tar xvf StabilityNoMetaG.tar -C data/raw/
+rm StabilityNoMetaG.tar
+`&#8203;``
+```
+
+---
+
+`data/references/README.md`
+
+```bash
+# README
+
+Obtained the silva reference alignment from the mothur website:
+```bash
+wget http://mothur.org/w/images/1/15/Silva.seed_v123.tgz
+tar xvzf Silva.seed_v123.tgz silva.seed_v123.align silva.seed_v123.tax
+mothur "#get.lineage(fasta=silva.seed_v123.align, taxonomy=silva.seed_v123.tax, taxon=Bacteria);degap.seqs(fasta=silva.seed_v123.pick.align, processors=8)"
+mv silva.seed_v123.pick.align data/references/silva.seed.align
+rm Silva.seed_v123.tgz silva.seed_v123.*
+rm mothur.*.logfile
+`&#8203;``
+
+Obtained the RDP reference taxonomy from the mothur website:
+```bash
+wget -N http://www.mothur.org/w/images/8/88/Trainset14_032015.pds.tgz
+tar xvzf Trainset14_032015.pds.tgz trainset14_032015.pds/trainset14_032015.pds.*
+mv trainset14_032015.pds/* data/references/
+rmdir trainset14_032015.pds
+rm Trainset14_032015.pds.tgz
+`&#8203;``
+```
+
+---
+
+`data/code/README.md`
+
+```bash
+# README
+
+Obtained the MacOS X version of mothur (v1.39.3) from the mothur GitHub repository
+```bash
+wget --no-check-certificate https://github.com/mothur/mothur/releases/download/v.1.39.3/Mothur.mac_64.OSX-10.12.zip
+unzip Mothur.mac_64.OSX-10.12.zip
+mv mothur code/
+rm Mothur.mac_64.OSX-10.12.zip
+rm -rf __MACOSX
+`&#8203;``
+
+mothur should output the version by doing...
+```bash
+code/mothur/mothur -v
+`&#8203;``
+
+```
+
+---
+
+`README.md`
+
+```bash
+## Re-analysis of Kozich dataset
+
+&#8203;**Scaling up.** The advantage of the dual-index approach is that a large number of samples
+can be sequenced using a number of primers equal to only twice the square root of the
+number of samples. To fully evaluate this approach, we resequenced the V4 region of 360
+samples that were previously described by sequencing the distal end of the V35 region on
+the 454 GS-FLX Titanium platform (18). In that study, we observed a clear separation
+between murine fecal samples obtained from 8 C57BL/6 mice at 0 to 9 (early) and 141 to 150
+(late) days after weaning, and there was significantly less variation between the late
+samples than the early samples. In addition to the mouse fecal samples, we allocated 2
+pairs of indices to resequence our mock community. We generated 4.3 million pairs of
+sequence reads from the 16S rRNA gene with an average coverage of 9,913 pairs of reads per
+sample (95% of the samples had more than 2,454 pairs of sequences) using a new collection
+of 8-nt indices (see the supplemental material). Although individual samples were expected
+to have various amplification efficiencies, analysis of the number of reads per index did
+not suggest a systematic positive or negative amplification bias that could be attributed
+to the indices. The combined error rate for the two mock communities was 0.07% before
+preclustering and 0.01% after (n = 14,094 sequences). When we used UCHIME to remove
+chimeras and rarefied to 5,000 sequences, there was an average of 30.4 OTUs (i.e., 10.4
+spurious OTUs). Similar to our previous results, ordination of the mouse fecal samples
+again showed the separation between the early and late periods and increased stabilization
+with age (Fig. 4) (Mantel test coefficient, 0.81; P < 0.001). These results clearly
+indicate that our approach can be scaled to multiplex large numbers of samples.
+
+### Overview
+
+	project
+	|- README          # the top level description of content (this doc)
+<snip>
+```
