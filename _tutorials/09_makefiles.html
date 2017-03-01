@@ -735,6 +735,31 @@ make -n is helpful to give you a dry run before running make to double check tha
 
 ---
 
+## General "design" thoughts
+
+* Scripts are better than command line calls in the Makefile. The Makefile isn't a dependency!
+
+```bash
+$(YOBTXT) :
+	wget -nc --no-check-certificate -P $(RAW) https://www.ssa.gov/oact/babynames/names.zip
+	unzip -u -d $(RAW) $(RAW)/names.zip
+```
+
+<br>
+
+???
+If I change the url, will anything change when I run `make family_report.html`?
+
+--
+
+* Make scripts specific to one function. This minimize the scope of the dependency tree. If you change one script, you will affect far fewer downstreame files
+
+???
+
+If all of my figure generating code is in one script and I change the code for one figure, I'll have to regenerate all of the figures
+
+---
+
 ## Other resources
 
 * [Software carpentry](http://swcarpentry.github.io/make-novice/)
@@ -742,3 +767,88 @@ make -n is helpful to give you a dry run before running make to double check tha
 * [StackOverflow](http://www.stackoverflow.com)
 
 ---
+
+## Let's turn back to Kozich
+* In the project directory there is already a `Makefile`
+  * Can you identify the variables?
+  * Can you see the rules for the bash commands you put into `analysis_driver.bash`?
+  * Does anything need to be edited for this project?
+  * What is missing?
+--
+
+* Go ahead and see if you can adapt this Makefile for the Kozich project based on what you learned from the name example
+* Rememeber that `make -n <TARGET>` allows you to do a dry run
+
+---
+
+## What happens if...
+
+<br>
+
+```bash
+make -n data/references/silva.seed.align
+```
+--
+
+<br>
+
+```bash
+make -n results/figures/nmds_figure.png
+```
+--
+
+<br>
+
+
+```bash
+make -n write.paper
+```
+--
+
+<br>
+
+```bash
+rm results/figures/nmds_figure.png
+make -n write.paper
+```
+--
+
+<br>
+
+```bash
+rm data/references/silva.seed.align
+make -n write.paper
+```
+
+---
+
+## Final touches
+
+* Write a PHONY target: `clean`
+* Commit!
+* Run `make clean; make`
+* For all the marbles...
+
+```bash
+cd ..
+rm -rf Kozich_ReAnalysis_AEM_2013
+git clone ...
+cd Kozich_ReAnalysis_AEM_2013
+make write.paper
+```
+
+---
+
+## One last thing...
+
+* Another version of the same samples from a separate sequencing run is available at the same website
+* What would you change in the Makefile to re-run the analysis?
+* How could you test the effect of the change to the overall analysis?
+
+---
+
+## A solution
+
+* Edit and run the rule to obtain the raw data
+* Run `make write.paper`
+* Run `git diff-word Kozich_ReAnalysis_AEM_2013.md`
