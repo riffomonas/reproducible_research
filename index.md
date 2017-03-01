@@ -11,6 +11,6 @@ layout: default
 * [Automating reproducible analyses](automation)
 * [Using scripts to go from raw to polished](programmatic_analyses)
 * [Generating reproducible documents with literate programming](literate_programming)
+* [Automation and satisfying dependencies with makefiles](make)
 * [How to collaborate with yourself and others](collaboration) (still in prep...)
-* [Automation and satisfying dependencies with makefiles](makefiles) (still in prep...)
 * [Doing open science](open_science) (still in prep...)
