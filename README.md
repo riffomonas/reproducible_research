@@ -1,6 +1,5 @@
 To do...
 * Redo kozich images with the w_metag data
-* Add link to Rstudio "how it works" image
 * Format links to minimalR
 * Learning goals and objectives
 
