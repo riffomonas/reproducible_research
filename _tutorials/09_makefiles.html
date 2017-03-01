@@ -28,3 +28,717 @@ class: middle center
 *
 
 ---
+
+## Driver script: Refresher from Noble
+
+* "Record every operation that you perform"
+* "Comment generously"
+* "~~Avoid~~[DO NOT] editing intermediate files by hand"
+* Use a driver script to centralize all processing and analysis
+* "Use relative pathways [relative to the project root]"
+* "Make the script restartable"
+
+.footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
+
+???
+
+* We said we'd come back to the last point - make the script restartable
+
+---
+
+## Case study
+
+You have finished `analysis_driver.bash` and are happy that you have automated your analysis. Consider the following...
+
+* The mothur developers put out a new release of mothur
+* There's a new version of the RDP classification database
+* You decide to use the greengenes reference taxonomy
+* You modify the color scheme for the ordination
+* You've been persuaded to generate an animated version of the figure
+
+---
+
+## The mothur developers put out a new release of mothur
+
+--
+
+* Download new version of mothur (explicit)
+* Regenerate `silva.seed.align` (explicit)
+* Rerun `get_good_seqs.batch` (explicit)
+* Rerun `get_error.batch` (explicit)
+* Rerun `get_shared_otus.batch` (explicit)
+* Rerun `get_nmds_data.batch` (implicit)
+* Rerun R code to generate figure (implicit)
+* Regenerate `Kozich_ReAnalysis_AEM_2013.pdf` (implicit)
+
+---
+
+## There's a new version of the RDP classification database
+
+--
+
+* Download new version of database (explicit)
+* Rerun `get_good_seqs.batch` (explicit)
+* Rerun `get_error.batch` (implicit)
+* Rerun `get_shared_otus.batch` (implicit)
+* Rerun `get_nmds_data.batch` (implicit)
+* Rerun R code to generate figure (implicit)
+* Regenerate `Kozich_ReAnalysis_AEM_2013.pdf` (implicit)
+
+---
+
+## You decide to use the greengenes reference taxonomy
+
+--
+
+* Download new version of database (explicit)
+* Rerun `get_good_seqs.batch` (explicit)
+* Rerun `get_error.batch` (implicit)
+* Rerun `get_shared_otus.batch` (implicit)
+* Rerun `get_nmds_data.batch` (implicit)
+* Rerun R code to generate figure (implicit)
+* Regenerate `Kozich_ReAnalysis_AEM_2013.pdf` (implicit)
+
+---
+
+## You modify the color scheme for the ordination
+
+--
+
+* Rerun R code to generate figure (explicit)
+* Regenerate `Kozich_ReAnalysis_AEM_2013.pdf` (implicit)
+
+---
+
+## You've been persuaded to generate an animated version of the figure
+
+--
+
+* Write and run new R script (explicit)
+* Regenerate `Kozich_ReAnalysis_AEM_2013.pdf` (maybe)
+
+---
+
+## Dependency hell
+
+* All of these dependencies are difficult to keep track of
+* The situation only worsens as the analysis becomes more complicated
+* You could use if statements using `bash` that checks time stamps
+* Make
+
+---
+
+## Make
+
+* Developed by Stuart Feldman in 1977 as a Bell Labs summer intern
+* The goal was to have a tool for compiling software
+* People generally hate make – hence the knock offs
+* Recognize that using it for data analysis wasn't the original intent
+* Hard to do much better!
+
+---
+
+## Primary use case
+
+Don’t want to recompile an entire program for every change, so only compile what changed and what depends on that change
+
+--
+
+<br>
+## Our use case
+
+Don't want to re-run or re-download files that require a lot of time to generate, so only rebuild files that depend on that change
+
+---
+
+## Motivation
+
+* I will repeat various steps in an analysis multiple times
+* The end product is a data-heavy paper written in Rmd
+* Each step of the analysis may be slow
+* There are a lot of steps
+* Analysis run on an HPC, so it needs to be scripted
+* Want to make it possible for others (including me!) to replicate what I’ve done
+
+---
+
+## Example: Predicting age based on name
+
+
+.center[![]({{site.baseurl}}/assets/images/538_article_screen_shot.png)]
+
+.footnote[[FiveThirtyEight](http://fivethirtyeight.com/features/how-to-tell-someones-age-when-all-you-know-is-her-name/)]
+
+---
+
+class: center middle
+
+![]({{site.baseurl}}/assets/images/538_brittany_distribution.png)
+
+.left.footnote[[FiveThirtyEight](http://fivethirtyeight.com/features/how-to-tell-someones-age-when-all-you-know-is-her-name/)]
+
+---
+
+class: center middle
+
+![]({{site.baseurl}}/assets/images/538_males_distribution.png)
+
+.left.footnote[[FiveThirtyEight](http://fivethirtyeight.com/features/how-to-tell-someones-age-when-all-you-know-is-her-name/)]
+
+---
+
+## Reactions
+
+* What about my kids’ names?
+* This would be cool as a Shiny app
+* This was done in 2013, what about 2017?
+* What if we had similar data from Canada?
+* Can I replicate their analysis?
+
+--
+
+<br>
+.center.alert[ This is a great opportunity for thinking about reproducible research ]
+
+---
+
+class: center middle
+
+![]({{site.baseurl}}/assets/images/538_repository.png)
+
+.left.footnote[[FiveThirtyEight](https://github.com/fivethirtyeight/data/most-common-name)]
+
+???
+
+* R! Open science! :)
+* Poor organization :(
+* Script doesn’t produce the plots from this article :)
+
+---
+
+## So I did it for them...
+
+```bash
+$ git clone git@github.com:pschloss/make_tutorial.git
+$ cd make_tutorial
+$ bash baby_name_analysis.bash
+```
+
+<br>
+* Note that this is being driven by a single bash file
+* It is a mixture of bash commands (e.g. wget, unzip) and R calls
+
+---
+
+class: center middle
+
+![]({{site.baseurl}}/assets/images/538_schloss_report.png)
+
+---
+
+````bash
+#!/usr/bin/env bash
+
+# Prepare annual baby name data report.
+# Assumes:
+#		*	the user is connected to the internet
+#		* has R installed in their PATH
+#		* has rmarkdown package installed
+
+# Depends on: website data at https://www.ssa.gov/oact/babynames/names.zip
+# Produces: slew of files named yob????.txt and a pdf file
+wget --no-check-certificate -P data/raw/ https://www.ssa.gov/oact/babynames/names.zip
+unzip -d data/raw/ data/raw/names.zip
+
+# Concatenate the annual baby name data
+# Depends on: data/raw/yob????.txt files
+#							code/concatenate_files.R
+# Producees:	data/processed/all_names.csv
+R -e "source('code/concatenate_files.R')"
+
+# Fills in missing data from annual survivorship data
+# Depends on: data/raw/alive_2016_per_100k.csv
+#							code/interpolate_mortality.R
+#	Produces:		data/processed/alive_2016_annual.csv
+R -e "source('code/interpolate_mortality.R')"
+
+# Generate counts of total and living people with each name
+# Depends on:	data/processed/alive_2016_annual.csv
+#							data/processed/all_names.csv
+#							code/get_total_and_living_name_counts.R
+#	Produces:		data/processed/total_and_living_name_counts.csv
+R -e "source('code/get_total_and_living_name_counts.R')"
+
+# Renders an Rmarkdown file that creates various plots  and
+# provides an entertaining color commentary
+# Depends on:	data/processed/total_and_living_name_counts.csv
+#							code/plot_functions.R
+# Produces:		family_report.html
+R -e "library(rmarkdown); render('family_report.Rmd')"
+```
+
+???
+
+Pretty good documentation here, eh?
+
+---
+
+## Dependencies
+
+.center[![]({{site.baseurl}}/assets/images/538_analysis_dag.png)]
+
+---
+
+## What I want...
+
+```bash
+$ git clone git@github.com:pschloss/make_tutorial.git
+$ make_tutorial
+$ make family_report.html
+```
+
+<br>
+
+.right[And it just works!]
+
+???
+
+Need to convert our bash file to a Makefile
+
+---
+
+## Makefile structure
+
+* A makefile is a series of rules that contain *commands* for processing the *dependencies* to create the *targets*
+
+```bash
+data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
+	R -e "source('code/concatenate_files.R')"
+```
+--
+* Target: stuff to the left of the `:` (`data/processed/all_names.csv`)
+* Dependencies: stuff to the right of the `:` (`code/concatenate_files.R`)
+* Commands:<br>
+`	R -e "source('code/concatenate_files.R')"`
+
+---
+
+## Important point
+
+```bash
+data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
+	R -e "source('code/concatenate_files.R')"
+```
+
+* The second line is inset by a *TAB*, not spaces
+
+--
+
+<br>
+* Can generate `data/processed/all_names.csv` with...
+
+```bash
+make data/processed/all_names.csv
+```
+
+---
+
+## Let's convert to a Makefile
+
+```bash
+# Renders an Rmarkdown file that creates various plots  and
+# provides an entertaining color commentary
+# Depends on:	data/processed/total_and_living_name_counts.csv
+#							code/plot_functions.R
+# Produces:		family_report.html
+R -e "library(rmarkdown); render('family_report.Rmd')"
+```
+
+<br>
+How would you write this as a rule?
+Note that you can extend lines with a `\`
+
+--
+
+```bash
+# Renders an Rmarkdown file that creates various plots  and
+# provides an entertaining color commentary
+# Depends on:	data/processed/total_and_living_name_counts.csv
+#							code/plot_functions.R
+# Produces:		family_report.html
+family_report.html : family_report.Rmd\
+					code/plot_functions.R\
+					data/processed/total_and_living_name_counts.csv
+	R -e "library(rmarkdown); render('family_report.Rmd')"
+```
+
+Copy and paste this into `Makefile`
+
+---
+
+## Try it out
+
+
+```bash
+$ make family_report.html
+make: `family_report.html' is up to date.
+```
+
+---
+
+## Next...
+
+```bash
+# Generate counts of total and living people with each name
+# Depends on:	data/processed/alive_2016_annual.csv
+#							data/processed/all_names.csv
+#							code/get_total_and_living_name_counts.R
+#	Produces:		data/processed/total_and_living_name_counts.csv
+R -e "source('code/get_total_and_living_name_counts.R')"
+```
+
+<br>
+How would you write this as a rule?
+
+--
+
+```bash
+# Generate counts of total and living people with each name
+# Depends on:	data/processed/alive_2016_annual.csv
+#							data/processed/all_names.csv
+#							code/get_total_and_living_name_counts.R
+#	Produces:		data/processed/total_and_living_name_counts.csv
+
+data/processed/total_and_living_name_counts.csv : code/get_total_and_living_name_counts.R\
+													data/processed/alive_2016_annual.csv\
+													data/processed/all_names.csv
+	R -e "source('code/get_total_and_living_name_counts.R')"
+```
+
+--
+
+<br>
+Paste it into the head of `Makefile` and build the target
+
+---
+
+## Getting the hang of this?
+
+```bash
+# Fills in missing data from annual survivorship data
+# Depends on: data/raw/alive_2016_per_100k.csv
+#							code/interpolate_mortality.R
+#	Produces:		data/processed/alive_2016_annual.csv
+R -e "source('code/interpolate_mortality.R')"
+```
+
+<br>
+How would you write this as a rule?
+
+--
+
+```bash
+# Fills in missing data from annual survivorship data
+# Depends on: data/raw/alive_2016_per_100k.csv
+#							code/interpolate_mortality.R
+#	Produces:		data/processed/alive_2016_annual.csv
+data/processed/alive_2016_annual.csv : data/raw/alive_2016_per_100k.csv\
+										code/interpolate_mortality.R
+	R -e "source('code/interpolate_mortality.R')"
+```
+
+<br>
+Paste it into the head of `Makefile` and build the target
+
+---
+
+## The next step is a little harder
+
+* We need to generate a large number of dependencies
+* `make` has built in functions that allow you to construct dependency names
+
+```bash
+YEARS=$(shell seq 1900 2015)
+YOB=$(addprefix data/raw/yob,$(YEARS))
+YOBTXT=$(addsuffix .txt,$(YOB))
+```
+
+* `shell seq` generates a numbers between 1900 & 2015
+* `addprefix` adds prefix (`data/raw/yob`) to each value of `YEARS`
+* `$(YEARS)` is how we get the values of the `YEARS` array
+* `addsuffix` adds suffix (`.txt`) to each value of `YOBTXT`
+
+---
+
+## Back to the Makefile
+
+* Add those three lines to the top of the Makefile
+* After those lines, convert this to a rule...
+
+```bash
+# Concatenate the annual baby name data
+# Depends on: data/raw/yob????.txt files
+#							code/concatenate_files.R
+# Producees:	data/processed/all_names.csv
+R -e "source('code/concatenate_files.R')"
+```
+
+--
+
+<br>
+... like so ...
+
+<br>
+
+```bash
+data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
+	R -e "source('code/concatenate_files.R')"
+```
+
+---
+
+## And convert this
+
+```bash
+# Depends on: website data at https://www.ssa.gov/oact/babynames/names.zip
+# Produces: slew of files named yob????.txt and a pdf file
+wget --no-check-certificate -P data/raw/ https://www.ssa.gov/oact/babynames/names.zip
+unzip -d data/raw/ data/raw/names.zip
+```
+
+--
+
+<br>
+
+to this...
+
+```bash
+# Depends on: website data at https://www.ssa.gov/oact/babynames/names.zip
+# Produces: slew of files named yob????.txt and a pdf file
+$(YOBTXT) :
+	wget --no-check-certificate -P data/raw/ https://www.ssa.gov/oact/babynames/names.zip
+	unzip -d data/raw/ data/raw/names.zip
+```
+
+---
+
+## Sweet.
+
+<br>Try this...
+
+```bash
+$ make family_report.html
+make: `family_report.html' is up to date.
+```
+
+--
+<br>What do you think will happen if we try this?
+```bash
+$ rm data/processed/alive_2016_annual.csv
+$ make family_report.html
+```
+
+---
+
+## Common errors
+
+```bash
+$ make family_report.html
+Makefile:23: *** missing separator.  Stop.
+```
+
+You used spaces instead of a tab to inset your commands
+
+--
+
+<br>
+
+```bash
+$ make family_report.html
+make: *** No rule to make target `family_reportRmd', needed by `family_report.html'.  Stop.
+```
+
+You mistyped the name of the dependency
+
+--
+
+<br>
+
+```bash
+$ make family_reporthtml
+make: *** No rule to make target `family_reporthtml'.  Stop.
+```
+
+You mistyped the name of the target
+
+---
+
+```bash
+YEARS=$(shell seq 1900 2015)
+YOB=$(addprefix data/raw/yob,$(YEARS))
+YOBTXT=$(addsuffix .txt,$(YOB))
+
+# Depends on: website data at https://www.ssa.gov/oact/babynames/names.zip
+# Produces: slew of files named yob????.txt and a pdf file
+$(YOBTXT) :
+	wget --no-check-certificate -P data/raw/ https://www.ssa.gov/oact/babynames/names.zip
+	unzip -d data/raw/ data/raw/names.zip
+
+
+# Concatenate the annual baby name data
+# Depends on: data/raw/yob????.txt files
+#							code/concatenate_files.R
+# Producees:	data/processed/all_names.csv
+data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
+	R -e "source('code/concatenate_files.R')"
+
+
+# Fills in missing data from annual survivorship data
+# Depends on: data/raw/alive_2016_per_100k.csv
+#							code/interpolate_mortality.R
+#	Produces:		data/processed/alive_2016_annual.csv
+data/processed/alive_2016_annual.csv : data/raw/alive_2016_per_100k.csv\
+													code/interpolate_mortality.R
+	R -e "source('code/interpolate_mortality.R')"
+
+
+# Generate counts of total and living people with each name
+# Depends on:	data/processed/alive_2016_annual.csv
+#							data/processed/all_names.csv
+#							code/get_total_and_living_name_counts.R
+#	Produces:		data/processed/total_and_living_name_counts.csv
+data/processed/total_and_living_name_counts.csv : code/get_total_and_living_name_counts.R\
+													data/processed/alive_2016_annual.csv\
+													data/processed/all_names.csv
+	R -e "source('code/get_total_and_living_name_counts.R')"
+
+# Renders an Rmarkdown file that creates various plots  and
+# provides an entertaining color commentary
+# Depends on:	data/processed/total_and_living_name_counts.csv
+#							code/plot_functions.R
+# Produces:		family_report.html
+family_report.html : family_report.Rmd\
+					code/plot_functions.R\
+					data/processed/total_and_living_name_counts.csv
+	R -e "library(rmarkdown); render('family_report.Rmd')"
+```
+
+---
+
+## PHONY Rules
+
+```bash
+.PHONY: clean
+clean :
+	rm -f $(RAW)/*txt
+	rm -f $(RAW)/*pdf
+	rm -f $(RAW)/*zip
+	rm -f data/processed/*.csv
+	rm -f family_report.html
+```
+
+* There's no target named "clean" - this is a phony rule
+* What happens if you run `make clean`?
+
+---
+
+## We can attempt to make the code DRY with variables
+
+```bash
+RAW = data/raw
+PROCESSED = data/processed
+```
+
+<br>
+We can call these by using `$(RAW)` or `$(PROCESSED)`
+
+```bash
+YOB=$(addprefix data/raw/yob,$(YEARS))
+```
+
+becomes...
+
+```bash
+YOB=$(addprefix $(RAW)/yob,$(YEARS))
+```
+
+<br>
+Where else can you replace `data/raw` and `data/processed`?
+
+---
+
+## Automatic Variables
+
+* `$@`: the target
+* `$^`: all dependencies for current rule
+* `$<`: first dependency
+* `$*`: pattern match
+
+<br>
+Can you now rewrite this?
+
+```bash
+data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
+	R -e "source('code/concatenate_files.R')"
+```
+
+--
+<br>
+
+```bash
+data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
+	R -e "source('$<')"
+```
+
+<br>
+
+---
+
+## Pattern matching
+
+```bash
+print-% :
+	@echo "$*= $($*)"
+```
+
+<br>
+The `%` matches a pattern. This is a weird example
+<br>
+
+--
+
+<br>
+```bash
+$ make print-YOBTXT
+YOBTXT= data/raw/yob1900.txt data/raw/yob1901.txt data/raw/yob1902.txt
+data/raw/yob1903.txt data/raw/yob1904.txt data/raw/yob1905.txt data/raw/yob1906.txt
+data/raw/yob1907.txt data/raw/yob1908.txt data/raw/yob1909.txt data/raw/yob1910.txt
+data/raw/yob1911.txt data/raw/yob1912.txt...
+```
+
+<br>
+Having this rule in my Makefile is helpful when I'm doing complex things like build `YOBTXT`
+
+---
+
+## Other commands
+
+* `make -n target`: What commands will be run to build the target?
+* `make -d target`: What dependencies need to be fulfilled to build the target?
+* `make –j N target`: Use N processors to build target
+* `make`: Build first rule in Makefile
+* `make –f my_makefile`: Use my_makefile in place of Makefile
+
+???
+
+make -n is helpful to give you a dry run before running make to double check that you aren't going to be re running your entire project!
+
+---
+
+## Other resources
+
+* [Software carpentry](http://swcarpentry.github.io/make-novice/)
+* [GNU make](https://www.gnu.org/software/make/manual/)
+* [StackOverflow](http://www.stackoverflow.com)
+
+---
