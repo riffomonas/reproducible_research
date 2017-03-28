@@ -560,7 +560,7 @@ inline_hook <- function(x){
 			paste(format(x,big.mark=',', digits=1, nsmall=1, scientific=FALSE))
 		}
 	} else {
-	  	paste(x)
+    	paste(x)
 	}
 }
 knitr::knit_hooks$set(inline=inline_hook)
