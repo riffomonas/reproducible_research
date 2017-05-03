@@ -12,13 +12,12 @@ class: middle center
 ## Learning goals
 
 * **Primary:** Develop and implement an organizational strategy that facillitates reproducibility
-
 --
 
 * **Secondary:**
-	* Evaluate different organizational strategies for their ability to foster reproducibility
-	* Integrate organizational principles to fix a chaotic project into a logical structure
-	* Interface with a project template to improve the reproducibility of your research
+  * Evaluate different organizational strategies for their ability to foster reproducibility
+  * Integrate organizational principles to fix a chaotic project into a logical structure
+  * Interface with a project template to improve the reproducibility of your research
 
 ---
 
@@ -143,10 +142,22 @@ project
 
 ## Bad project: Exercise
 
-* [Download the data](https://github.com/riffomonas/bad_project/archive/v0.1.zip) to a new directory `~/Documents/bad_project`
+* Download the [data](https://github.com/riffomonas/bad_project/archive/v0.1.zip) to a new directory `~/bad_project`
+
+```{bash}
+	wget https://github.com/riffomonas/bad_project/archive/v0.1.zip
+	unzip v0.1.zip
+	rm v0.1.zip
+	mv bad_project-0.1 bad_project
+	cd bad_project
+```
+
 * Using the recommended directory structure, move files to the appropriate folders
-  * Remember that you can use `mv current_file directory/` to move `current_file` into `directory/`
+	* Use `mkdir new_directory` to create a new directory
+  * Use `mv current_file directory/` to move `current_file` into `directory/`
   * Don't forget the `/` after `directory`
+
+.footnote[Now would be a good time to [log into]() your AWS instance or your local HPC]
 
 ---
 
@@ -223,14 +234,13 @@ project
 
 ## Modify README.md
 
-* Open the README.md document in an editor
+* Open the README.md document in `nano`
 * Remove the first line, which starts "Download... "
 * Edit the following lines as you see appropriate:
 ```sh
 ## TITLE OF YOUR PAPER GOES HERE
 YOUR PAPER'S ABSTRACT GOES HERE
 ```
-* Replace the word `study` in `study.Rmd`, `study.md`, `study.tex`, and `study.pdf` to be the name of your project (e.g. `Kozich_ReAnalysis_AEM_2013.`)
 * We'll leave the rest as it is for now
 
 ---
@@ -239,21 +249,15 @@ YOUR PAPER'S ABSTRACT GOES HERE
 
 * At the terminal do the following...
 ```bash
-mv submission/study.Rmd submission/Kozich_ReAnalysis_AEM_2013.Rmd
-mv submission/study.md submission/Kozich_ReAnalysis_AEM_2013.md
-mv submission/study.tex submission/Kozich_ReAnalysis_AEM_2013.rex
-mv submission/study.pdf submission/Kozich_ReAnalysis_AEM_2013.pdf
 mv newproject_LICENSE.md LICENSE.md
 ```
-* This is doing two things:
-	1. Renaming the `study.*` files as we said we would in the `README.md` file
-  2. Replacing the license ([CC0](https://creativecommons.org/share-your-work/public-domain/cc0/)) of the `new_project` repository with a license for your analysis ([MIT](https://en.wikipedia.org/wiki/MIT_License))
+* This replaces the license ([CC0](https://creativecommons.org/share-your-work/public-domain/cc0/)) of the `new_project` repository with a license for your analysis ([MIT](https://en.wikipedia.org/wiki/MIT_License))
 
 ???
 
 * Go ahead and read and edit the license to include your name and the year
 * Note that the MIT license is a permissive license that allows anyone to use your code. This is generally viewed a A Good Thing.
-* It would be worth talking with your researh group and PI about what license you want to use.
+* It would be worth talking with your research group and PI about what license you want to use.
 * Don't think you'll be making money off this repository :)
 ---
 
@@ -353,10 +357,10 @@ git push
 
 ## Helpers
 
-`wget` - pulls down large data files to the current directory (or `curl -LO`)
-`tar xvf` - unpacks a `.tar` file
-`tar xvzf` - unpacks a `.tar.gz` or `.tgz` file
-`rm` - removes files
+* `wget` - pulls down large data files to the current directory (or `curl -LO`)
+* `tar xvf` - unpacks a `.tar` file
+* `tar xvzf` - unpacks a `.tar.gz` or `.tgz` file
+* `rm` - removes files
 
 ---
 
@@ -365,6 +369,29 @@ git push
 * ***Wait*** to commit and push your changes
 * Add me/your PI as a collaborator
   * "Settings" -> "Collaborators" -> Enter handle -> "Add collaborator"
+
+---
+
+`data/code/README.md`
+
+```bash
+# README
+
+Obtained the Linux version of mothur (v1.39.5) from the mothur GitHub repository
+```bash
+wget --no-check-certificate https://github.com/mothur/mothur/releases/download/v1.39.5/Mothur.linux_64.zip
+unzip Mothur.linux_64.zip
+mv mothur code/
+rm Mothur.linux_64.zip
+rm -rf __MACOSX
+`&#8203;``
+
+mothur should output the version by doing...
+```bash
+code/mothur/mothur -v
+`&#8203;``
+
+```
 
 ---
 
@@ -409,29 +436,6 @@ mv trainset14_032015.pds/* data/references/
 rmdir trainset14_032015.pds
 rm Trainset14_032015.pds.tgz
 `&#8203;``
-```
-
----
-
-`data/code/README.md`
-
-```bash
-# README
-
-Obtained the MacOS X version of mothur (v1.39.3) from the mothur GitHub repository
-```bash
-wget --no-check-certificate https://github.com/mothur/mothur/releases/download/v.1.39.3/Mothur.mac_64.OSX-10.12.zip
-unzip Mothur.mac_64.OSX-10.12.zip
-mv mothur code/
-rm Mothur.mac_64.OSX-10.12.zip
-rm -rf __MACOSX
-`&#8203;``
-
-mothur should output the version by doing...
-```bash
-code/mothur/mothur -v
-`&#8203;``
-
 ```
 
 ---
