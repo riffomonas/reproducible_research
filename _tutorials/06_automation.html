@@ -11,13 +11,12 @@ class: middle center
 ## Learning goals
 
 * **Primary:** Appreciate the value of automating analyses
-
 --
 
 * **Secondary:**
-	*
-	*
-	*
+  *
+  *
+  *
 
 ---
 
@@ -81,7 +80,7 @@ class: middle center
 
 ## "Use relative pathways"
 
-1. `/User/pschloss/Documents/ Kozich_ReAnalysis_mBio_2013/data/raw/README.md` is the **absolute** path to the `README.md` file in the `data/raw` directory on **my computer**
+1. `/home/ubuntu/ Kozich_ReAnalysis_mBio_2013/data/raw/README.md` is the **absolute** path to the `README.md` file in the `data/raw` directory on **my computer**
 2. `Kozich_ReAnalysis_mBio_2013/data/raw/README.md` is the **relative** path to the `README.md` file in the `data/raw` directory of **my project**
 3. `REAMDE.md` is a file (let's assume it's within 'data/raw')
 
@@ -302,7 +301,7 @@ code/mothur/mothur code/get_good_seqs.batch
 
 ```bash
 set.current(inputdir=data/mothur, outputdir=data/mothur, processors=8)
-get.groups(count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.pick.count_table, fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta, taxonomy=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.v4.wang.pick.taxonomy, groups=MOCK-MOCK2)
+get.groups(count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.pick.count_table, fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta, taxonomy=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.v4.wang.pick.taxonomy, groups=Mock-Mock2)
 seq.error(fasta=current, count=current, reference=data/references/HMP_MOCK.v4.fasta, aligned=F, processors=8)
 ```
 
