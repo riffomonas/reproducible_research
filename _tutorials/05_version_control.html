@@ -11,7 +11,6 @@ class: middle center
 ## Learning goals
 
 * **Primary:** Justify the use of keeping track of the evolution of an analysis
-
 --
 
 * **Secondary:**
@@ -157,10 +156,10 @@ class: center middle
 
 ## Let's create a silly project to emphasize some concepts
 
-* Create a new directory in your `Documents` directory that we'll call `silly_repository`
+* Create a new directory in your `~/` directory that we'll call `silly_repository`
 
 ```bash
-cd ~/Documents
+cd ~/
 mkdir silly_repository
 cd silly_repository
 ```
@@ -553,7 +552,7 @@ This gives a reverse chronological ordering of your commits. You can explore the
 $ git config --global user.name "Pat Schloss"
 $ git config --global user.email "pat@schloss.org"
 $ git config --global color.ui "auto"
-$ git config --global core.editor "atom --wait"
+$ git config --global core.editor "nano -w"
 $ git config --list
 ```
 
@@ -582,7 +581,7 @@ $ git config --global alias.diff-word 'diff --word-diff'
 * Add it to the repository using the `git status` -> `git add` -> `git commit` workflow
 * Edit the license to add the year and your full name
 * Create a GitHub repository and push your `silly_repository` to GitHub
-* Add your PI's name to the license using the GitHub version of the repository
+* On the GitHub version, add your PI's name to the license
 * Back in the terminal, type `git pull`
 * What happened?
 
@@ -723,7 +722,6 @@ nothing added to commit but untracked files present (use "git add" to track)
 * Did you notice that there seem to be a bunch of files that `git` is already ignoring?
   * The `fastq.gz` files in `data/raw`
   * The reference files in `data/references`
-
 --
 
 * On the GitHub page, did you notice a file named `.gitignore`? What do you think that does?
@@ -736,6 +734,8 @@ nothing added to commit but untracked files present (use "git add" to track)
 .Rproj.user
 .Rhistory
 .RData
+
+.DS_Store
 
 data/*/*
 !data/process/*
