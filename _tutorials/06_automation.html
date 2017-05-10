@@ -321,6 +321,34 @@ code/mothur/mothur code/get_error.batch
 
 ---
 
+## Next script: `get_shared_otus.batch`
+
+```bash
+set.dir(input=data/mothur, output=data/mothur, seed=19760620)
+set.current(processors=8)
+remove.groups(count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.pick.count_table, fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta, taxonomy=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pds.wang.pick.taxonomy, groups=Mock-Mock2)
+dist.seqs(fasta=current, cutoff=0.03)
+cluster(column=current, count=current)
+make.shared(list=current, count=current, label=0.03)
+classify.otu(list=current, count=current, taxonomy=current, label=0.03)
+```
+
+* Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
+
+--
+
+<br>
+Let's add this to `analysis_driver.bash`
+
+```bash
+# Run mock community data through mothur to calculate the sequencing error rates
+code/mothur/mothur code/get_shared_otus.batch
+```
+
+* Again, go ahead and copy and paste this line into your terminal and let it run
+
+---
+
 ## Breather...
 
 * At this point, we've run the data through most of the [MiSeq SOP](https://mothur.org/wiki/MiSeq_SOP) wiki page
