@@ -7,6 +7,7 @@ Launch Instance
 Community AMI
 riffomonas
 Choose a m3.large Instance
+Need a 50 GB hard drive
 Push "Review and Launch" button (blue button at bottom)
 Push "Launch button"
 Chose your existing key pair that you generated previously in the tutorial
