@@ -22,17 +22,17 @@ This paper by Noble lays out the rough ground work for the practical aspects of 
 
 
 ## Tutorials
-* [Introduction to reproducibility](introduction)
-* [First steps towards reproducibility](first_steps)
-* [The importance of documentation](documentation)
-* [Organizational skills for reproducibility](organization)
-* [Using version control](version_control)
-* [Automating reproducible analyses](automation)
-* [Using scripts to go from raw to polished](programmatic_analyses)
-* [Generating reproducible documents with literate programming](literate_programming)
-* [Automation and satisfying dependencies with makefiles](make)
-* [How to collaborate with yourself and others](collaboration) (still in prep...)
-* [Doing open science](open_science) (still in prep...)
+* [Introduction to reproducibility](01_introduction.html)
+* [First steps towards reproducibility](02_first_steps.html)
+* [The importance of documentation](03_documentation.html)
+* [Organizational skills for reproducibility](04_organization.html)
+* [Using version control](05_version_control.html)
+* [Automating reproducible analyses](06_automation.html)
+* [Using scripts to go from raw to polished](07_programmatic_analyses.html)
+* [Generating reproducible documents with literate programming](08_literate_programming.html)
+* [Automation and satisfying dependencies with makefiles](09_makefiles.html)
+* [How to collaborate with yourself and others](10_collaboration.html) (still in prep...)
+* [Doing open science](11_open_science.html) (still in prep...)
 
 
 ## Dependencies
