@@ -7,6 +7,7 @@ Launch Instance
 Community AMI
 riffomonas
 Choose a m3.large Instance
+Need a 50 GB hard drive
 Push "Review and Launch" button (blue button at bottom)
 Push "Launch button"
 Chose your existing key pair that you generated previously in the tutorial
@@ -20,7 +21,7 @@ ssh -i ~/.ssh/reproducible.pem ubuntu@34.201.143.172
 
 #to create my AMI...
 sudo apt install make
-sudo apt-get install pandoc texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+sudo apt-get install pandoc pandoc-citeproc texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
 
 sudo apt-get install libcurl4-openssl-dev
 sudo apt-get install libssl-dev
