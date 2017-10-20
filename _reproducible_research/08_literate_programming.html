@@ -10,22 +10,11 @@ class: middle center
 ---
 
 ## Learning goals
-* **Primary:** View a manuscript as an extension of programmatic analyis
-
-
---
-
-* **Secondary:**
-
-	*
-	*
-	*
-
----
-
-## Learning outcomes
-
-*
+* Express how a manuscript is an extension of programmatic analyis
+* Define literate programming
+* Demonstrate how to use code chunks and inline code to insert information into text
+* Implement advanced Rmarkdown features to add citations, figures, and tables
+* Manipulate YAML material to impact output format
 
 ---
 
@@ -250,8 +239,8 @@ The `.Rprofile` file with `new_project`
 ## Options for knitr and Rmarkdown rendering
 ############################################################
 
-*library("knitr")
-*library("rmarkdown")
+library("knitr")
+library("rmarkdown")
 
 ## output directory for figures
 if (require("knitr")) {
@@ -288,14 +277,16 @@ This will automatically load the libraries whenever you run R
 * Do not start lines with tabs, use spaces
 * Set apart from rest of document with opening `---` and closing `---` on their own lines
 
+<br>
+
 ```bash
-*   ---
-*   output: html_document
-*   ---
-	**Scaling up.** The advantage of the dual-index approach is that a large
-	number of samples can be sequenced using a number of primers equal to only
-	twice the square root of the number of samples. To fully evaluate this
-	<text continues...>
+---
+output: html_document
+---
+**Scaling up.** The advantage of the dual-index approach is that a large
+number of samples can be sequenced using a number of primers equal to only
+twice the square root of the number of samples. To fully evaluate this
+<text continues...>
 ```
 
 ---
@@ -351,22 +342,25 @@ class: middle center
 
 Let's add a title, date, and author
 
+</br>
 ```bash
-    ---
-*   title: Reproducing Kozich et al
-*   author: Joe Schmo
-*   date: "February 30, 2017"
-    output: html_document
-    ---
-	**Scaling up.** The advantage of the dual-index approach is that a large
-	number of samples can be sequenced using a number of primers equal to only
-	twice the square root of the number of samples. To fully evaluate this
-	<text continues...>
+---
+title: Reproducing Kozich et al
+author: Joe Schmo
+date: "February 30, 2017"
+output: html_document
+---
+**Scaling up.** The advantage of the dual-index approach is that a large
+number of samples can be sequenced using a number of primers equal to only
+twice the square root of the number of samples. To fully evaluate this
+<text continues...>
 ```
 
---
+---
 
-<br>
+Let's add a title, date, and author
+
+</br>
 
 .center[![Screenshot of what submision/practice.html looks like with title, author, and date]({{site.baseurl}}/assets/images/practice_html_title_author.png)]
 
@@ -374,25 +368,23 @@ Let's add a title, date, and author
 
 Can we automate these calculations?
 
+
 ```bash
-<snip>
 mock community. We generated 4.3 million pairs of sequence reads from the
 16S rRNA gene with an average coverage of 9,913 pairs of reads per sample
 (95% of the samples had more than 2,454 pairs of sequences) using a new
-<snip>
 ```
 --
 
 <br>
-To do this, we need to create a ***code chunk***
+To do this, we'll need to create a ***code chunk***
 
-<pre><code>
+```
 ```{r}
 
 # your code goes here
 
-```
-</code></pre>
+``````
 
 
 --
@@ -408,25 +400,24 @@ To do this, we need to create a ***code chunk***
 
 Code chunk...
 
-<pre><code>
- date: "February 30, 2017"
- output: html_document
- ---
+```
+---
+date: "February 30, 2017"
+output: html_document
+---
 
- ```{r}
- shared_file_name <- "data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.shared"
- shared_file <- read.table(file=shared_file_name, header=T, stringsAsFactors=F)
- sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
+```{r}
+shared_file_name <- "data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.shared"
+shared_file <- read.table(file=shared_file_name, header=T, stringsAsFactors=F)
+sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
 
- million_sequence_counts <- sum(sequence_counts)/1e6
- average_seqeunce_counts <- mean(sequence_counts)
- percentile_sequence_counts <- quantile(sequence_counts, prob=0.05)
- ```
-</code></pre>
+million_sequence_counts <- sum(sequence_counts)/1e6
+average_seqeunce_counts <- mean(sequence_counts)
+percentile_sequence_counts <- quantile(sequence_counts, prob=0.05)
+``````
 
 --
 
-<br>
 
 Inline code...
 
@@ -447,7 +438,7 @@ class: middle center
 
 ---
 
-# .alert[ How well did we at reproducing the previous results? ]
+# .alert[ How well did we reproduce the previous results? ]
 
 ???
 
@@ -459,6 +450,7 @@ class: middle center
 
 --
 
+<br>
 # .alert[ Why would they be different? ]
 
 ---
@@ -477,7 +469,7 @@ class: middle center
 ## Code chunk options
 
 ```
-*```{r scaling_up, echo=FALSE}
+```{r scaling_up, echo=FALSE}
 shared_file_name <- "data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.shared"
 shared_file <- read.table(file=shared_file_name, header=T, stringsAsFactors=F)
 sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
@@ -485,11 +477,15 @@ sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
 million_sequence_counts <- sum(sequence_counts)/1e6
 average_seqeunce_counts <- mean(sequence_counts)
 percentile_sequence_counts <- quantile(sequence_counts, prob=0.05)
-```
+``````
+
+--
 
 This code chunk has done two things:
 * Names the code chunk (`scaling_up`), this helps with organizing our code chunks and figuring out where Bad Things Happen if `render` chrashes
 * `echo=FALSE` tells `knitr` to not output the code
+
+
 
 ---
 
@@ -564,8 +560,8 @@ inline_hook <- function(x){
 	}
 }
 knitr::knit_hooks$set(inline=inline_hook)
-`&#8203;``
-```
+``````
+
 ???
 
 * This is setting the defaults for our paper. It makes our code look good (tidy), by default it turns off our code output (echo), it evaluates all of the code chunks (eval), turns off output of warnings (warning), and turns off the chaching (cache)
@@ -623,7 +619,7 @@ samples.
 
 ![](../results/figures/nmds_figure.png)
 
-&#8203;**FIG 4** Principal coordinate ordination of YC values (28) relating the
+**FIG 4** Principal coordinate ordination of YC values (28) relating the
 community structures of the fecal microbiota from 12 mice collected on days
 0 through 9 (Early) and days 141 through 150 (Late) after weaning.
 ```
@@ -669,11 +665,10 @@ for(d in unique_days){
 data <- data.frame(unique_days, mean_seqs_per_day_per_sample,
 										total_seqs_per_day, n_samples_per_day)
 
-*kable(data, digits=c(0, 1, 0, 0), row.names=FALSE,
-*						col.names=c("Day", "Seqs. per<br>sample (mean)",
-*						"Seqs. per<br>day (total)", "Number of<br>samples"), align='c')
-`&#8203;``
-```
+kable(data, digits=c(0, 1, 0, 0), row.names=FALSE,
+						col.names=c("Day", "Seqs. per<br>sample (mean)",
+						"Seqs. per<br>day (total)", "Number of<br>samples"), align='c')
+``````
 
 ---
 
@@ -697,14 +692,14 @@ More sophisticated tables can be generated using `xtable`. Consult the [xtable g
 1\. YAML
 
 ```bash
--&#8203;--
+---
 title: Reproducing Kozich et al
 author: Joe Schmo
 date: "February 30, 2017"
 output: html_document
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
--&#8203;--
+---
 ```
 
 ---
@@ -748,7 +743,7 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 <snip>
 Titanium platform [@Schloss2012]. In that study, we observed a clear separation
 <snip>
-&#8203;**FIG 4** Principal coordinate ordination of YC values [@Yue2005] relating the
+**FIG 4** Principal coordinate ordination of YC values [@Yue2005] relating the
 <snip>
 ```
 --
@@ -787,7 +782,7 @@ Titanium platform [@Schloss2012]. In that study, we observed a clear separation
 title: Reproducing Kozich et al
 author: Joe Schmo
 date: "February 30, 2017"
-*output: html_document
+output: html_document
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 ---
@@ -805,7 +800,7 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 title: Reproducing Kozich et al
 author: Joe Schmo
 date: "February 30, 2017"
-*output: markdown_document
+output: markdown_document
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 ---
@@ -824,7 +819,7 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 title: Reproducing Kozich et al
 author: Joe Schmo
 date: "February 30, 2017"
-*output: word_document
+output: word_document
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 ---
@@ -842,7 +837,7 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 title: Reproducing Kozich et al
 author: Joe Schmo
 date: "February 30, 2017"
-*output: pdf_document
+output: pdf_document
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 ---
@@ -860,10 +855,10 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 title: Reproducing Kozich et al
 author: Joe Schmo
 date: "February 30, 2017"
-*output:
-*  pdf_document: default
-*  word_document: default
-*  markdown_document: default
+output:
+  pdf_document: default
+  word_document: default
+  markdown_document: default
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 ---

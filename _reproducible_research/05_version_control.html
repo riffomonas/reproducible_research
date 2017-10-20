@@ -10,22 +10,12 @@ class: middle center
 ---
 ## Learning goals
 
-* **Primary:** Justify the use of keeping track of the evolution of an analysis
---
-
-* **Secondary:**
-	* Differentiate between analog and digital version control approaches
-	* Construct meaningful descriptions of differences between versions
-	* Demonstrate how version control is similar to an unlimited ‘undo’
-	* Appreciate that version control allows multiple individuals to work on simultaneously on the same document
----
-
-## Learning outcomes
-
+* Define and justfify the use of version control
+* Differentiate between various version control approaches
 * Apply version control to your project
+* Construct meaningful descriptions of the differences between versions
 * Look through the history of a project to see how a file has changed
 * Integrate git and GitHub tooling to improve documentation of the evolution of an analysis
-* Articulate the benefits of a dedicated version control system
 
 ---
 
@@ -137,7 +127,7 @@ class: center middle
 * Can create a group account for your lab (e.g. [SchlossLab](https://github.com/SchlossLab)) as a final resting place for lab project and papers
 
 --
-* `git` is hard, but GitHub goes out of their way to make it easier
+* `git` is hard, but you can do it and GitHub goes out of their way to make it easier
 
 ???
 
@@ -266,21 +256,24 @@ nothing added to commit but untracked files present (use "git add" to track)
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ???
 Ask learners if they know where README.md currently resides in this schematic - it's the document to the left, outside of `.git`
 
 --
 
-* Right now, there is nothing in our `silly_repository` repository
+* Right now, the `silly_repository` repository is empty
 * `.git` is empty
 * There is one file that `git` sees that is within the directory, but outside `.git` - `README.md`
+
 
 ---
 
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 * We did get instructions on how to add `README` to `.git`
 
@@ -306,6 +299,7 @@ git add README.md
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ```bash
 $ git status
@@ -326,6 +320,7 @@ Again it gives us instructions on what to do to commit the file or to unstage it
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 * We don't want to unstage it, we want to commit it
 * Commmitting the file will add it to the repository
@@ -378,6 +373,7 @@ class: center middle
 * Where are you in the following diagram?
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
+.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ???
 The center - it's in the staging area since it was previously committed, but has beene edited
@@ -562,14 +558,14 @@ $ git config --list
 
 ## Another word about customizing `git`
 
-* You can also create aliases for commands you frequently use
+* You can also create aliases for frequently used commands
 * For exampe, I can't remember if it's `gif diff --word-diff` or `gif diff --diff-word`. Plus typing all that stuff is tedious.
 
 ```bash
 $ git config --global alias.diff-word 'diff --word-diff'
 ```
 
-<br>
+--
 * `git`'s [online materials](https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases) give other examples of aliases you can use to cut down on your typing
 * Beware that sometimes it's harder to remember the alias than the actual command
 

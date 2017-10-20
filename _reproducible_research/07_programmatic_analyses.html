@@ -9,25 +9,16 @@ class: middle center
 
 ---
 ## Learning goals
-* **Primary:** Develop a set of best practices for scripting the analysis of data in a programmatic manner
---
-
-* **Secondary:**
-
-	*
-	*
-	*
-
----
-
-## Learning outcomes
-
-*
+* Articulate the strengths and weaknesses of point-and-click vs. command line tools
+* Develop a set of best practices for scripting the analysis of data in a programmatic manner
+* Define and identify violations of the DRY principle
+* Apply tools that will make analyses reproducible when using random data
+* Use tools to protect yourself and others from weird data
 
 ---
 
 ## Case study
-* You generate a visualization of the NMDS ordination data we generated in the last tutorial using a point-and-click package (e.g. Excel, Prism). You mimic the boring shapen and coloring scheme that was in the original Kozich et al. paper. You show your PI, which gets them excited too
+* You generate a visualization of the NMDS ordination data we generated in the last tutorial using a point-and-click package (e.g. Excel, Prism). You mimic the boring shape and coloring scheme that was in the original Kozich et al. paper. You show your PI, which gets them excited too
 --
 
 * Your PI starts asking questions...
@@ -188,7 +179,7 @@ class: middle center
 
 * My lab, many people at my institution, and I use R
 * I really like the broader R community
-* Won't try to teach you R here, there are numerous other resources for that
+* Won't try to teach you R here, there are numerous other resources for that (see my [minimalR tutorial](http://www.riffomonas.org/minimalR/))
 * Everything I say about R is true for Python
 * The goal is to demonstrate how to programmatically analyze data - the tooling doesn't matter
 
@@ -349,7 +340,7 @@ Hmmm. That's not good.
 
 --
 
-<br>
+<p style="font-size:20px"><br><p>
 
 ```R
 calc_shannon <- function(otu_count_vector){
@@ -417,7 +408,8 @@ set.dir(input=data/mothur, output=data/mothur, seed=19760620)
 [1] 0.96847218 0.11941491 0.42317798 0.09717774 0.94767339
 ```
 
-The general gist of your analysis should be insensitive to the random seed. Pick a number (e.g. birtday, anniversary, 1) and stick to it
+* The general gist of your analysis should be insensitive to the random seed
+* Pick a number (e.g. birthday, anniversary, 1) and stick to it across your analyses
 
 ---
 
@@ -484,8 +476,9 @@ install_version("ggplot2", version = "0.9.1", repos = "http://cran.us.r-project.
 * `attach` - NEVER
 * `.Rprofile` - If you have one, it must accompany project and don't put much/anything in `~/.Rprofile`
 * Do not save on quitting:
+
 ```R
-R --no-save --no-restore-data`
+R --no-save --no-restore-data
 ```
 
 ???
@@ -566,6 +559,7 @@ class: middle center
 
 ???
 
+* Too much talking, let's do something!
 * Again, this wasn't meant to be a how to program in R tutorial
 * I wanted to highlight the tooling and approaches you might take in R to make your analysis more reproducible
 ---

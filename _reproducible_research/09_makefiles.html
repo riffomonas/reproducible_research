@@ -10,22 +10,10 @@ class: middle center
 ---
 
 ## Learning goals
-* **Primary:** Automate an analysis with Makefiles
-
-
---
-
-* **Secondary:**
-
-	*
-	*
-	*
-
----
-
-## Learning outcomes
-
-*
+* Automate analyses with Makefiles for analyzing two datasets
+* Differentiate between reles, targets, and dependencies when building a Makefile
+* Generate and use variables (real and automatic) within a Makefile
+* Take on a `make clean; make` mindset to building a reproducible workflow
 
 ---
 
@@ -190,7 +178,7 @@ class: center middle
 ## Reactions
 
 * What about my kids’ names?
-* This would be cool as a Shiny app
+* This would be cool as a [Shiny app](https://shiny.rstudio.com)
 * This was done in 2013, what about 2017?
 * What if we had similar data from Canada?
 * Can I replicate their analysis?
@@ -219,13 +207,13 @@ class: center middle
 ## So I did it for them...
 
 ```bash
-$ git clone https://github.com/pschloss/make_tutorial.git
+$ git clone https://github.com/riffomonas/make_tutorial.git
 $ cd make_tutorial
 $ bash baby_name_analysis.bash
 ```
 
 <br>
-* My [GitHub repository](https://github.com/pschloss/make_tutorial)
+* The [GitHub repository](https://github.com/riffomonas/make_tutorial)
 * Note that this is being driven by a single bash file
 * It is a mixture of bash commands (e.g. curl, unzip) and R calls
 
@@ -295,7 +283,7 @@ Pretty good documentation here, eh?
 
 ```bash
 $ git clone https://github.com/pschloss/make_tutorial.git
-$ make_tutorial
+$ cd make_tutorial
 $ make family_report.html
 ```
 
@@ -843,9 +831,10 @@ make write.paper
 
 ## One last thing...
 
-* Another version of the same samples from a separate sequencing run is available at the same website
+* The same samples were sequenced twice and were posted at the same website that you obtained your data from
 * What would you change in the Makefile to re-run the analysis?
 * How could you test the effect of the change to the overall analysis?
+* Give it a shot and see how far you get
 
 ---
 
