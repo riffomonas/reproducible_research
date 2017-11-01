@@ -20,6 +20,16 @@ class: middle center
 
 ---
 
+## Before we go any further...
+
+* You need to read...
+  * [Collins & Tabak 2014. *Nature*]( http://www.nature.com/news/policy-nih-plans-to-enhance-reproducibility-1.14586)
+  * [Casadevall et al. 2016 *mBio*](http://mbio.asm.org/content/7/4/e01256-16.abstract)
+  * [Ravel & Wommack 2014. *Microbiome*]( https://microbiomejournal.biomedcentral.com/articles/10.1186/2049-2618-2-8)
+* They're short and important takes on where we are in science, in general, and microbiology, in particular.
+
+---
+
 background-image: url({{ site.baseurl }}/assets/images/jir.jpg)
 background-size: contain
 background-position: 50% 50%
@@ -46,16 +56,29 @@ What are the consequences of the public not trusting science?
 
 ---
 
+background-image: url({{ site.baseurl }}/assets/images/repro_contingency_table.png)
+background-size: 85%
+background-position: 50% 50%
+
+.footnote[Kirstie Whitaker ([doi: 10.6084/m9.figshare.5440621](https://figshare.com/articles/Publishing_a_reproducible_paper/5440621))]
+
+???
+
+* Again, this is a slightly different definition.
+* It doesn't help that we also talk about "reproducible research" to cover everything in this table!
+
+---
+
 ## Pop quiz: Reproducibility or Replicability?
 
 * A new person joins the lab and tries to repeat a previous lab member's experiments
 ???
-reproducibility
+probably replicability
 --
 
 * You download data from another lab, following their methods, you try to regenerate their results
 ???
-replicability
+reproducibility
 --
 
 * You start your first faculty position and rerun the mouse model that you ran as a postdoc
@@ -65,7 +88,7 @@ replicability
 
 * Someone performs your study using a cohort of subjects in Korea
 ???
-replicability
+replicability/generalizability
 --
 
 * A colleague asks for your raw data and any scripts you may have to repeat your earlier analysis
@@ -74,7 +97,7 @@ reproducibility
 
 ---
 
-## What are the threats to *replicability*?
+## What are some threats to *replicability*?
 
 --
 
@@ -93,11 +116,11 @@ reproducibility
 * Sloppiness
 * Selection and experimental bias
 * Fraud/Scientific misconduct
-* Missing details in protocols
 ]
+
 ---
 
-## What are the threats to *reproducibility*?
+## What are some threats to *reproducibility*?
 
 --
 
@@ -110,12 +133,16 @@ reproducibility
 ]
 
 .right-column[
+* Use of random number generators
+* Missing details in protocols
 * Availability of software
 * "Custom XXXXX scripts"
-* URL rot
-* Email rot
-* This stuff is *really* hard!
+* URL/e-mail rot
 ]
+
+--
+## .alert.center[This stuff is *really* hard!]
+
 ---
 
 background-image: url({{ site.baseurl }}/assets/images/asm-reproducibility.jpg)
@@ -128,7 +155,7 @@ background-position: 50% 50%
 
 class: middle
 .blur-background[
-	.center[![ASM Colloqium Blurb]({{ site.baseurl }}/assets/images/asm-reproducibility-blurb.png)]
+.center[![ASM Colloqium Blurb]({{ site.baseurl }}/assets/images/asm-reproducibility-blurb.png)]
 ]
 
 ???
@@ -165,6 +192,7 @@ Your lab publishes a paper and gets inundated by emails asking about the nitty g
 
 ???
 
+Discuss this with your PI or other people in your lab...
 * Have you ever requested information from an author? What happens?
 * Have you ever been pinged for information? What happens?
 * What can you do to be proactive to avoid these cases?
@@ -219,8 +247,8 @@ class: center middle
 * Publications rarely report basic elements of experimental design
   * Blinding, Randomization, Replication
   * Sample-size calculation
-	* Effect of sex differences
-	* Underlying data rarely made publicly available
+  * Effect of sex differences
+  * Underlying data rarely made publicly available
 * Restrictions on lengths of methods sections
 * Assume reader is at an idealized level of expertise
 
@@ -229,6 +257,7 @@ class: center middle
 
 
 ???
+
 Important to note that Collins & Tabak did not think this was a matter of fraud:
 
 "Let's be clear: with rare exceptions, we have no evidence to suggest that irreproducibility is caused by scientific misconduct. In 2011, the Office of Research Integrity of the US Department of Health and Human Services pursued only 12 such cases"
@@ -359,7 +388,7 @@ Comments:
 	* instills more confidence by others
 	* is easier for others to build from
 
-.footnote[Leek & Peng. www.pnas.org/cgi/doi/10.1073/pnas.1421412111]
+.footnote[[Leek & Peng. 2015 *PNAS*](http://www.pnas.org/cgi/doi/10.1073/pnas.1421412111)]
 
 ---
 
@@ -383,6 +412,7 @@ Comments:
 * Script everything
 * Don't repeat yourself (DRY)
 * Automation
+* Collaboration
 * Transparency
 
 ???
