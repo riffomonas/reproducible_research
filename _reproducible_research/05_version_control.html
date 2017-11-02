@@ -66,6 +66,10 @@ As an graduate student you were taught proper methods for keeping a laboratory n
 * What if you needed to change a parameter setting or add new data?
 * What are the strengths and weaknesses of paper vs. electronic notebooks for bench and computational science?
 
+???
+
+Take 5 minutes to jot down your answers to these questions
+
 ---
 
 class: center middle
@@ -172,25 +176,26 @@ biodiesel pok pok. Synth microdosing locavore offal, XOXO mustache sartorial.
 
 ## Let's create a repository.
 
-* How did we do it before?
+How did we do it before?
 
 --
 
 ```bash
 git init .
 ```
+<br>
 --
 
-* At the prompt, type `ls -a`
+At the prompt, type `ls -a`
 
 ```bash
 $ ls -a
 .		..		.git		README.md
 ```
-
+<br>
 --
 
-* Hmmm, let's see what's inside of `.git`
+Hmmm, let's see what's inside of `.git`
 
 ```bash
 $ ls .git
@@ -256,7 +261,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
-.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
+.footnote[[Image credit: Software Carpentry](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ???
 Ask learners if they know where README.md currently resides in this schematic - it's the document to the left, outside of `.git`
@@ -273,18 +278,19 @@ Ask learners if they know where README.md currently resides in this schematic - 
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
-.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
+.footnote[[Image credit: Software Carpentry](http://swcarpentry.github.io/git-novice/04-changes/)]
 
-* We did get instructions on how to add `README` to `.git`
+<br>
+
+We did get instructions on how to add `README` to `.git`
 
 ```bash
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
 ```
-
 --
 
-* Let's do it
+Let's do it
 
 ```bash
 git add README.md
@@ -299,7 +305,7 @@ git add README.md
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
-.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
+.footnote[[Image credit: Software Carpentry](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ```bash
 $ git status
@@ -320,7 +326,7 @@ Again it gives us instructions on what to do to commit the file or to unstage it
 ## Break it down
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
-.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
+.footnote[[Image credit: Software Carpentry](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 * We don't want to unstage it, we want to commit it
 * Commmitting the file will add it to the repository
@@ -362,7 +368,8 @@ class: center middle
 
 --
 
-.alert[Show some enthusiasm!<br>When I use `git`, 90% of the time, I am using `git status`, `git add`, or `git commit`]
+.alert[Show some enthusiasm!<br>When I use `git`, 90% of the time I am using:<br>
+`git status`, `git add`, or `git commit`]
 
 ---
 
@@ -373,7 +380,7 @@ class: center middle
 * Where are you in the following diagram?
 
 .center[![git repository structure]({{ site.baseurl }}/assets/images/swc-git-staging-area.svg)]
-.footnote[[*Image credit: Software Carpentry*](http://swcarpentry.github.io/git-novice/04-changes/)]
+.footnote[[Image credit: Software Carpentry](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ???
 The center - it's in the staging area since it was previously committed, but has beene edited
@@ -429,7 +436,13 @@ index 32edb6b..946352a 100644
 
 ## Hmmm. Can we make this any more useful?
 
-* If we look at the help for `git diff`, by doing `git diff --help` we'll see this:
+If we look at the help for `git diff`, by doing
+
+```
+git diff --help
+```
+--
+we'll see this:
 
 ```bash
        --word-diff[=<mode>]
@@ -554,6 +567,10 @@ $ git config --list
 
 * These commands will tell `git` your name, email address, how to color text, what [text editor to use for editing commit messages](http://swcarpentry.github.io/git-novice/02-setup/), and finally, will list out the settings in your `config` file
 
+???
+
+Go ahead and run these git config commands with your name and email address
+
 ---
 
 ## Another word about customizing `git`
@@ -665,9 +682,9 @@ Let's make a more detailed commit message
 ```bash
 $ git commit
 ```
-
 --
-Inside text editor...
+
+Inside the text editor...
 
 ```bash
 Insert code into README files
@@ -675,8 +692,8 @@ Insert code into README files
 Obtained mothur executable, raw fastq.gz files, and silva and
 RDP reference files
 ```
-
 --
+<br>
 Let's see how this looks...
 
 ```bash
@@ -758,6 +775,16 @@ mothur*logfile
 * `submission/my_awesome_paper.docx`
 * `README.md`
 
+???
+
+* `data/process` - no - !data/process/*
+* `data/raw/README.md` - yes - data/*/*
+* `figures/figure_1.png` - no
+* `mothur.1234567890.logfile` - yes - mothur*logfile
+* `data/mothur/mice.filter` - yes - data/*/*
+* `submission/my_awesome_paper.docx` - yes - *.docx
+* `README.md` - no
+
 ---
 
 ## How do we ignore `code/mothur`?
@@ -767,13 +794,16 @@ mothur*logfile
 * `mothur`
 * `figures/mothur`
 
---
-
 <br>
 
-* Right it's `code/mothur`
-* Add this line to `.gitignore` and re-run `git status`
-* What changed?
+* Add what you think is the correct line to `.gitignore` and re-run `git status`
+* What changed? Did you get it right?
+
+???
+* It's `code/mothur`
+* code would ignore all of our code
+* mothur would work, but would ignore any other directory you have called mothur
+* figures/mothur will ignore the mothur directory inside your figures directory, not your code directory
 
 ---
 

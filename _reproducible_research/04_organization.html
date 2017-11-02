@@ -19,6 +19,12 @@ class: middle center
 
 ---
 
+## Before we go any further...
+
+You need to read: [Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)
+
+---
+
 ## Noble paper on file organization
 
 * Discusses far more than organization
@@ -326,7 +332,7 @@ git commit -m "Remove instructions document"
 git push
 ```
 * Refresh your GitHub page and make sure the `INSTRUCTIONS.md` file goes away
-* If you ever need the information in the `INSTRUCTIONS.md` file, you can retreive it from the [`new_project` repository](https://github.com/SchlossLab/new_project/blob/master/INSTRUCTIONS.md)
+* If you ever need the information in the `INSTRUCTIONS.md` file, you can retreive it from the `new_project` [repository](https://github.com/SchlossLab/new_project/blob/master/INSTRUCTIONS.md)
 
 ---
 
@@ -466,3 +472,25 @@ indicate that our approach can be scaled to multiplex large numbers of samples.
 	|- README          # the top level description of content (this doc)
 <snip>
 ```
+
+---
+
+## Write example command line text that does the following...
+
+* Creates a new directory called `my_awesome_directory`
+* Move from your home directory to the `my_awesome_directory` directory
+* Create a new git repository
+* Get data from a internet-based resource
+* Move a file from one directory to another
+* Rename a file
+* Decompresses a file ending in zip? tar.gz? tar?
+
+???
+
+* mkdir my_awesome_directory
+* cd ~/my_awesome_directory
+* git init .
+* wget --no-check-certificate https://github.com/mothur/mothur/releases/download/v1.39.5/Mothur.linux_64.zip
+* mv current_file new_directory/
+* mv newproject_LICENSE.md LICENSE.md
+* unzip v0.1.zip; tar xvzf Trainset14_032015.pds.tgz; tar xvf StabilityNoMetaG.tar -C data/raw/
