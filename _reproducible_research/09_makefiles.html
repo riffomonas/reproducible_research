@@ -10,9 +10,9 @@ class: middle center
 ---
 
 ## Learning goals
-* Automate analyses with Makefiles for analyzing two datasets
-* Differentiate between reles, targets, and dependencies when building a Makefile
-* Generate and use variables (real and automatic) within a Makefile
+* Automate analyses with Makefiles
+* Differentiate between rules, targets, and dependencies when building a Makefile
+* Generate and use variables within a Makefile
 * Take on a `make clean; make` mindset to building a reproducible workflow
 
 ---
@@ -24,7 +24,7 @@ class: middle center
 * "~~Avoid~~[DO NOT] editing intermediate files by hand"
 * Use a driver script to centralize all processing and analysis
 * "Use relative pathways [relative to the project root]"
-* "Make the script restartable"
+* .alert["Make the script restartable"]
 
 .footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
 
@@ -36,7 +36,7 @@ class: middle center
 
 ## Case study
 
-You have finished `analysis_driver.bash` and are happy that you have automated your analysis. Consider the following...
+You have finished `analysis_driver.bash` and are happy that you have automated your analysis. Consider the following scenarios...
 
 * The mothur developers put out a new release of mothur
 * There's a new version of the RDP classification database
@@ -50,14 +50,13 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 --
 
-* Download new version of mothur (explicit)
-* Regenerate `silva.seed.align` (explicit)
-* Rerun `get_good_seqs.batch` (explicit)
-* Rerun `get_error.batch` (explicit)
-* Rerun `get_shared_otus.batch` (explicit)
-* Rerun `get_nmds_data.batch` (implicit)
-* Rerun R code to generate figure (implicit)
-* Regenerate `manuscript.pdf` (implicit)
+* Regenerate `silva.seed.align` (explicit dependency)
+* Rerun `get_good_seqs.batch` (explicit dependency)
+* Rerun `get_error.batch` (explicit dependency)
+* Rerun `get_shared_otus.batch` (explicit dependency)
+* Rerun `get_nmds_data.batch` (explicit dependency)
+* Rerun R code to generate figure (implicit dependency)
+* Regenerate `manuscript.pdf` (implicit dependency)
 
 ---
 
@@ -65,13 +64,13 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 --
 
-* Download new version of database (explicit)
-* Rerun `get_good_seqs.batch` (explicit)
-* Rerun `get_error.batch` (implicit)
-* Rerun `get_shared_otus.batch` (implicit)
-* Rerun `get_nmds_data.batch` (implicit)
-* Rerun R code to generate figure (implicit)
-* Regenerate `manuscript.pdf` (implicit)
+* Download new version of database (explicit dependency)
+* Rerun `get_good_seqs.batch` (explicit dependency)
+* Rerun `get_error.batch` (implicit dependency)
+* Rerun `get_shared_otus.batch` (implicit dependency)
+* Rerun `get_nmds_data.batch` (implicit dependency)
+* Rerun R code to generate figure (implicit dependency)
+* Regenerate `manuscript.pdf` (implicit dependency)
 
 ---
 
@@ -79,13 +78,13 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 --
 
-* Download new version of database (explicit)
-* Rerun `get_good_seqs.batch` (explicit)
-* Rerun `get_error.batch` (implicit)
-* Rerun `get_shared_otus.batch` (implicit)
-* Rerun `get_nmds_data.batch` (implicit)
-* Rerun R code to generate figure (implicit)
-* Regenerate `manuscript.pdf` (implicit)
+* Download new version of database (explicit dependency)
+* Rerun `get_good_seqs.batch` (explicit dependency)
+* Rerun `get_error.batch` (implicit dependency)
+* Rerun `get_shared_otus.batch` (implicit dependency)
+* Rerun `get_nmds_data.batch` (implicit dependency)
+* Rerun R code to generate figure (implicit dependency)
+* Regenerate `manuscript.pdf` (implicit dependency)
 
 ---
 
@@ -93,8 +92,8 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 --
 
-* Rerun R code to generate figure (explicit)
-* Regenerate `manuscript.pdf` (implicit)
+* Rerun R code to generate figure (explicit dependency)
+* Regenerate `manuscript.pdf` (implicit dependency)
 
 ---
 
@@ -102,7 +101,7 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 --
 
-* Write and run new R script (explicit)
+* Write and run new R script (explicit dependency)
 * Regenerate `manuscript.pdf` (maybe)
 
 ---
@@ -112,7 +111,11 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 * All of these dependencies are difficult to keep track of
 * The situation only worsens as the analysis becomes more complicated
 * You could use if statements using `bash` that checks time stamps
-* Make
+
+--
+
+<br>
+.center.alert[Make to the rescue!]
 
 ---
 
@@ -128,7 +131,7 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 ## Primary use case
 
-Don’t want to recompile an entire program for every change, so only compile what changed and what depends on that change
+Don’t want to recompile an entire program with a complex codebase for every change, so only compile what changed and what depends on that change
 
 --
 
@@ -142,7 +145,7 @@ Don't want to re-run or re-download files that require a lot of time to generate
 ## Motivation
 
 * I will repeat various steps in an analysis multiple times
-* The end product is a data-heavy paper written in Rmd
+* The end product is a data-heavy paper written in Rmarkdown
 * Each step of the analysis may be slow
 * There are a lot of steps
 * Analysis run on an HPC, so it needs to be scripted
@@ -213,7 +216,7 @@ $ bash baby_name_analysis.bash
 ```
 
 <br>
-* The [GitHub repository](https://github.com/riffomonas/make_tutorial)
+* My [GitHub repository](https://github.com/riffomonas/make_tutorial)
 * Note that this is being driven by a single bash file
 * It is a mixture of bash commands (e.g. curl, unzip) and R calls
 
@@ -299,7 +302,7 @@ Need to convert our bash file to a Makefile
 
 ## Makefile structure
 
-* A makefile is a series of rules that contain *commands* for processing the *dependencies* to create the *targets*
+A makefile is a series of rules that contain *commands* for processing the *dependencies* to create the *targets*
 
 ```bash
 data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
@@ -313,19 +316,23 @@ data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
 
 ---
 
-## Important point
+## Important point!
 
+<br>
+The second line is inset by a *TAB*, not spaces
 ```bash
 data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
 	R -e "source('code/concatenate_files.R')"
 ```
 
-* The second line is inset by a *TAB*, not spaces
 
---
+---
+
+## What does this rule allow us to do?
 
 <br>
-* Can generate `data/processed/all_names.csv` with...
+
+I can generate `data/processed/all_names.csv` with...
 
 ```bash
 make data/processed/all_names.csv
@@ -339,8 +346,8 @@ make data/processed/all_names.csv
 # Renders an Rmarkdown file that creates various plots  and
 # provides an entertaining color commentary
 # Depends on:	data/processed/total_and_living_name_counts.csv
-#							code/plot_functions.R
-# Produces:		family_report.html
+#				code/plot_functions.R
+# Produces:  	family_report.html
 R -e "library(rmarkdown); render('family_report.Rmd')"
 ```
 
@@ -350,12 +357,14 @@ Note that you can extend lines with a `\`
 
 --
 
+<br>
+
 ```bash
 # Renders an Rmarkdown file that creates various plots  and
 # provides an entertaining color commentary
 # Depends on:	data/processed/total_and_living_name_counts.csv
-#							code/plot_functions.R
-# Produces:		family_report.html
+#				code/plot_functions.R
+# Produces:  	family_report.html
 family_report.html : family_report.Rmd\
 					code/plot_functions.R\
 					data/processed/total_and_living_name_counts.csv
@@ -381,9 +390,9 @@ make: `family_report.html' is up to date.
 ```bash
 # Generate counts of total and living people with each name
 # Depends on:	data/processed/alive_2016_annual.csv
-#							data/processed/all_names.csv
-#							code/get_total_and_living_name_counts.R
-#	Produces:		data/processed/total_and_living_name_counts.csv
+#				data/processed/all_names.csv
+#				code/get_total_and_living_name_counts.R
+# Produces:	  data/processed/total_and_living_name_counts.csv
 R -e "source('code/get_total_and_living_name_counts.R')"
 ```
 
@@ -395,9 +404,9 @@ How would you write this as a rule?
 ```bash
 # Generate counts of total and living people with each name
 # Depends on:	data/processed/alive_2016_annual.csv
-#							data/processed/all_names.csv
-#							code/get_total_and_living_name_counts.R
-#	Produces:		data/processed/total_and_living_name_counts.csv
+#				data/processed/all_names.csv
+#				code/get_total_and_living_name_counts.R
+# Produces:	  data/processed/total_and_living_name_counts.csv
 
 data/processed/total_and_living_name_counts.csv : code/get_total_and_living_name_counts.R\
 													data/processed/alive_2016_annual.csv\
@@ -417,8 +426,8 @@ Paste it into the head of `Makefile` and build the target
 ```bash
 # Fills in missing data from annual survivorship data
 # Depends on: data/raw/alive_2016_per_100k.csv
-#							code/interpolate_mortality.R
-#	Produces:		data/processed/alive_2016_annual.csv
+#			 code/interpolate_mortality.R
+# Produces:   data/processed/alive_2016_annual.csv
 R -e "source('code/interpolate_mortality.R')"
 ```
 
@@ -430,8 +439,8 @@ How would you write this as a rule?
 ```bash
 # Fills in missing data from annual survivorship data
 # Depends on: data/raw/alive_2016_per_100k.csv
-#							code/interpolate_mortality.R
-#	Produces:		data/processed/alive_2016_annual.csv
+#			 code/interpolate_mortality.R
+# Produces:   data/processed/alive_2016_annual.csv
 data/processed/alive_2016_annual.csv : data/raw/alive_2016_per_100k.csv\
 										code/interpolate_mortality.R
 	R -e "source('code/interpolate_mortality.R')"
@@ -445,6 +454,8 @@ Paste it into the head of `Makefile` and build the target
 ## The next step is a little harder
 
 * We need to generate a large number of dependencies
+--
+
 * `make` has built in functions that allow you to construct dependency names
 
 ```bash
@@ -452,6 +463,7 @@ YEARS=$(shell seq 1900 2015)
 YOB=$(addprefix data/raw/yob,$(YEARS))
 YOBTXT=$(addsuffix .txt,$(YOB))
 ```
+--
 
 * `shell seq` generates a numbers between 1900 & 2015
 * `addprefix` adds prefix (`data/raw/yob`) to each value of `YEARS`
@@ -468,8 +480,8 @@ YOBTXT=$(addsuffix .txt,$(YOB))
 ```bash
 # Concatenate the annual baby name data
 # Depends on: data/raw/yob????.txt files
-#							code/concatenate_files.R
-# Producees:	data/processed/all_names.csv
+#			 code/concatenate_files.R
+# Producees:  data/processed/all_names.csv
 R -e "source('code/concatenate_files.R')"
 ```
 
@@ -562,11 +574,13 @@ make: *** No rule to make target `family_reporthtml'.  Stop.
 You mistyped the name of the target
 
 ---
+class:middle
 
 ```bash
 YEARS=$(shell seq 1900 2015)
 YOB=$(addprefix data/raw/yob,$(YEARS))
 YOBTXT=$(addsuffix .txt,$(YOB))
+
 
 # Depends on: website data at https://www.ssa.gov/oact/babynames/names.zip
 # Produces: slew of files named yob????.txt and a pdf file
@@ -577,21 +591,25 @@ $(YOBTXT) :
 
 # Concatenate the annual baby name data
 # Depends on: data/raw/yob????.txt files
-#							code/concatenate_files.R
-# Producees:	data/processed/all_names.csv
+#			 code/concatenate_files.R
+# Producees:  data/processed/all_names.csv
 data/processed/all_names.csv : code/concatenate_files.R $(YOBTXT)
 	R -e "source('code/concatenate_files.R')"
 
 
 # Fills in missing data from annual survivorship data
 # Depends on: data/raw/alive_2016_per_100k.csv
-#							code/interpolate_mortality.R
-#	Produces:		data/processed/alive_2016_annual.csv
+#			 code/interpolate_mortality.R
+# Produces:   data/processed/alive_2016_annual.csv
 data/processed/alive_2016_annual.csv : data/raw/alive_2016_per_100k.csv\
-													code/interpolate_mortality.R
+									   code/interpolate_mortality.R
 	R -e "source('code/interpolate_mortality.R')"
+```
+---
 
+class:middle
 
+```bash
 # Generate counts of total and living people with each name
 # Depends on:	data/processed/alive_2016_annual.csv
 #							data/processed/all_names.csv
@@ -601,6 +619,7 @@ data/processed/total_and_living_name_counts.csv : code/get_total_and_living_name
 													data/processed/alive_2016_annual.csv\
 													data/processed/all_names.csv
 	R -e "source('code/get_total_and_living_name_counts.R')"
+
 
 # Renders an Rmarkdown file that creates various plots  and
 # provides an entertaining color commentary
@@ -838,8 +857,8 @@ make write.paper
 
 ---
 
-## A solution
+## After you Edit and run the rule to obtain the raw data
 
-* Edit and run the rule to obtain the raw data
 * Run `make write.paper`
 * Run `git diff-word manuscript.md`
+* What changes?

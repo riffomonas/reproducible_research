@@ -43,13 +43,13 @@ class: middle center
 * Your mental model should be that someone is going to download your repository and try to rerun your analyes
 --
 
-  * Alternatively: if someone nukes the contents of the data folders, how would they regenerate figure 1?
+  * Alternatively: if someone nukes the contents of the data directories, how would they regenerate figure 1?
 --
 
   * Alternatively: if you go home for the night, can you keep working without having to be at the computer?
 --
 
-* If this is not possible you must take explicit notes that are available for others
+* If this is not possible (e.g. you're using a GUI) you must take explicit notes that are available for others
 
 ---
 
@@ -69,11 +69,20 @@ class: middle center
 * Going back to the paper airplane example, imagine how much more uniform, reproducbile, and fast their construction would be if it could be programmed
 ---
 
+## Just saying...
+<br>
+.center[
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pfAlCSSfzJg" frameborder="0" allowfullscreen></iframe>
+]
+
+---
+
+
 ## "Use relative pathways"
 
 1. `/home/ubuntu/ Kozich_ReAnalysis_mBio_2013/data/raw/README.md` is the **absolute** path to the `README.md` file in the `data/raw` directory on **my computer**
 2. `Kozich_ReAnalysis_mBio_2013/data/raw/README.md` is the **relative** path to the `README.md` file in the `data/raw` directory of **my project**
-3. `REAMDE.md` is a file (let's assume it's within 'data/raw')
+3. `REAMDE.md` is a file (let's assume it's within `data/raw`)
 
 --
 
@@ -96,8 +105,8 @@ class: middle center
 
 ## Reality
 
-* Most bioinformatics tools (e.g. `mothur`, `QIIME`, `velvet`, etc.) are run from the command line - they are not meant to be interactive
-* You probably do not want to run these tools on your laptop; need to run on a computer cluster
+* Most bioinformatics tools (e.g. `mothur`, `QIIME`, `velvet`, etc.) are run from the command line - they are not meant to be interactive (e.g. `MSExcel`, `ARB`)
+* You probably do not want to run big analyses on your laptop; need to run on a computer cluster
 * Few clusters will let you run programs interactively. You will submit "jobs", which are special scripts
 
 ---
@@ -107,10 +116,15 @@ class: middle center
 * These can be very straight forward or very complex. Let's keep them straight forward
 --
 
-* A script file is little more than a text file that contains commands you would otherwise run from the command prompt
+* A script file is a text file that contains commands you would otherwise run from the command prompt
 --
 
-* Let's return to `Kozich_ReAnalysis_mBio_2013` and add the download scripts to a new driver script. Be sure to add comments!
+* Let's return to `Kozich_ReAnalysis_mBio_2013` and add the download scripts to a new driver script
+--
+
+<br>
+
+.alert.center[Be sure to add comments!]
 
 ---
 ```bash
@@ -121,7 +135,7 @@ tar xvf StabilityNoMetaG.tar -C data/raw/
 rm StabilityNoMetaG.tar
 
 
-# Download the SILVA reference file (v.123). We will pull out the bacteria-specific sequences and
+# Download the SILVA reference file (v123). We will pull out the bacteria-specific sequences and
 # clean up the directories to remove the extra files
 
 wget http://mothur.org/w/images/1/15/Silva.seed_v123.tgz
@@ -296,7 +310,7 @@ get.groups(count=stability.trim.contigs.good.unique.good.filter.unique.precluste
 seq.error(fasta=current, count=current, reference=data/references/HMP_MOCK.v4.fasta, aligned=F, processors=8)
 ```
 
-* Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
+Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
 
 --
 
@@ -308,7 +322,7 @@ Let's add this to `analysis_driver.bash`
 code/mothur/mothur code/get_error.batch
 ```
 
-* Again, go ahead and copy and paste this line into your terminal and let it run
+Again, go ahead and copy and paste this line into your terminal and let it run
 
 ---
 
@@ -324,7 +338,7 @@ make.shared(list=current, count=current, label=0.03)
 classify.otu(list=current, count=current, taxonomy=current, label=0.03)
 ```
 
-* Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
+Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
 
 --
 
@@ -336,7 +350,7 @@ Let's add this to `analysis_driver.bash`
 code/mothur/mothur code/get_shared_otus.batch
 ```
 
-* Again, go ahead and copy and paste this line into your terminal and let it run
+Again, go ahead and copy and paste this line into your terminal and let it run
 
 ---
 
@@ -372,7 +386,7 @@ $ git commit -m "Load pre-baked mothur batch scripts to driver script"
 
 ## Build NMDS data file
 
-* Create a new file `get_nmds_data.batch`. Where should it go?
+Create a new file `get_nmds_data.batch`. Where should it go?
 
 ```bash
 set.current(inputdir=data/mothur, outputdir=data/mothur, processors=8)
@@ -390,7 +404,7 @@ Let's add this to `analysis_driver.bash`
 code/mothur/mothur code/get_nmds_data.batch
 ```
 
-* Again, go ahead and copy and paste this line into your terminal and let it run
+Again, go ahead and copy and paste this line into your terminal and let it run
 
 ---
 
@@ -420,22 +434,22 @@ $ git commit -m "Add code to generate NMDS axes file"
  create mode 100644 code/get_nmds_data.batch
 ```
 
-* I'll leave it to you to rarefy the shared file to generate the number of observed OTUs from each sample
+---
+
+## Exercise
+
+* Make the necessary changes to rarefy the shared file to generate the number of observed OTUs from each sample
+* Rerun the driver script (i.e. `bash analysis_driver.bash`) and make sure everything works as intended
+
+--
+
+<br>
+.alert.center[Be sure to commit your changes and push to GitHub if everything works]
+
 
 ---
 
 ## Where are we now?
 
 * We have the raw data to attempt to regenerate the figure
-* Our repository is up to date (go ahead and `push`)
-* You *should* do `bash analysis_driver.bash` to make sure the pieces all fit together
-
---
-
-<br>
-* .alert[Why would that be painful?]
-
---
-  * .alert[Big data -> Slow data]
-	* .alert[We've already run these commands!]
-	* .alert[Remember this when we get to `make`]
+* We are finding it is tedious to rerun our entire pipeline when making changes in later steps

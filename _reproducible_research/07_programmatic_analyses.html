@@ -18,7 +18,7 @@ class: middle center
 ---
 
 ## Case study
-* You generate a visualization of the NMDS ordination data we generated in the last tutorial using a point-and-click package (e.g. Excel, Prism). You mimic the boring shape and coloring scheme that was in the original Kozich et al. paper. You show your PI, which gets them excited too
+* You generate a visualization of the NMDS ordination data we generated in the last tutorial using a point-and-click package (e.g. Excel, Prism). You mimic the boring shape and coloring scheme that was in the original Kozich et al. paper. You show your PI, which gets them excited
 --
 
 * Your PI starts asking questions...
@@ -104,7 +104,7 @@ class: center middle
 
 class: middle center
 
-## .alert[That's fancy and all...<br><br>... but that's eye candy, don't lose track of the ablity to make analyses more reproducibe because we can ***programmatically*** generate these plots]
+## .alert[That's fancy and all...<br><br>... but it's eye candy, don't lose track of the ablity to make analyses more reproducibe because we can ***programmatically*** generate these plots]
 
 ---
 
@@ -180,7 +180,7 @@ class: middle center
 * My lab, many people at my institution, and I use R
 * I really like the broader R community
 * Won't try to teach you R here, there are numerous other resources for that (see my [minimalR tutorial](http://www.riffomonas.org/minimalR/))
-* Everything I say about R is true for Python
+* Pretty much everything I say about R is true for Python
 * The goal is to demonstrate how to programmatically analyze data - the tooling doesn't matter
 
 ---
@@ -199,7 +199,7 @@ class: middle center
 ## Worry about the outcome, not the path
 
 * The most important thing is to get the correct answer
-* Don't worry so much about whether you wrote the most efficient programming
+* Don't worry so much about whether you wrote the most efficient program
 * If your analysis is taking a long time to run, then worry about your efficiency
 * There are many [tricks and tools](https://datascienceplus.com/strategies-to-speedup-r-code/) for speeding up R (again, beware language wars)
 
@@ -208,7 +208,7 @@ class: middle center
 ## Don't Repeat Yourself (DRY)
 
 * If you have a line(s) of code that you use multiple times within a script or across scripts, put that into a function or define a variable
-* You can replace those lines where there was repititio with a call to the function or variable
+* You can replace those lines where there was repitition with a call to the function or variable
 * Go from maintaining 5 copies of code to 1
 * Significantly limits headaches
 
@@ -232,10 +232,6 @@ calc_shannon <- function(otu_count_vector){
 	return(shannon)
 }
 ```
---
-<br>
-If I want to change a color or plotting symbol or make the calculation of the Shannon index more efficient, I only need to change these lines of code - not where they're repeated
-
 ---
 
 ## Doh.
@@ -258,6 +254,9 @@ calc_shannon <- function(otu_count_vector){
 }
 ```
 
+--
+<br>
+If I want to change a color or plotting symbol or correct a bug in the calculation of the Shannon index or make it more efficient, I only need to change these lines of code - not where they're repeated
 
 ---
 
@@ -266,7 +265,12 @@ calc_shannon <- function(otu_count_vector){
 * As an example, assume that you have three figures and you want to use the same coloring and symbol scheme for each. To make things compartamentalized, you put the code for each figure in a separate R script.
 --
 
-* You'd have to redefine `figure_colors` and `figure_pchs` in each R script. Not DRY.
+* You'd have to define `figure_colors` and `figure_pchs` in each R script.
+--
+
+<br>
+
+.center.alert[Not DRY.]
 
 ---
 
@@ -288,7 +292,7 @@ source('code/utilities.R')
 
 --
 <br>
-.alert[Good practice to put this source command and any library loads at the top of the script]
+.alert.center[Good practice to put this source command and any library loads at the top of the script]
 ---
 
 ## "Wow, that's a useful set of functions!"
@@ -302,8 +306,7 @@ source('code/utilities.R')
 * Some unknown person on the otherside of the world might really like some functions you've written
 --
 
-* [Write a package](http://r-pkgs.had.co.nz)
-  * Some have suggested that one way to encapsulate a data analysis is to [make a package out of it](https://github.com/ropensci/rrrpkg)
+* [Write a package](http://r-pkgs.had.co.nz) - Some have suggested that one way to encapsulate a data analysis is to [make a package out of it](https://github.com/ropensci/rrrpkg)
 ---
 
 ## Defensive programming and testing
@@ -314,7 +317,7 @@ source('code/utilities.R')
 * Try to anticipate weird things...
   * Providing a function the wrong type of variable
   * Dividing by zero
-* Build in code to test for these and either fail nicely or give an error message
+* Build in code to test for weird behavior and either fail nicely or give an error message
 ]
 
 .right-column[
@@ -383,7 +386,7 @@ Better.
 ```bash
 set.dir(input=data/mothur, output=data/mothur, seed=19760620)
 ```
-* This set the mothur random number generator to 19760620 (my birthday in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601))
+* This set the mothur random number generator to `19760620` (my birthday in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601))
 
 ---
 
@@ -422,7 +425,7 @@ set.dir(input=data/mothur, output=data/mothur, seed=19760620)
 
 ## Tooling
 
-* The output from `sessionInfo` would ideally go into the general `README` file
+The output from `sessionInfo` would ideally go into the general `README` file
 
 ```R
 > sessionInfo()
@@ -445,7 +448,7 @@ loaded via a namespace (and not attached):
  [9] digest_0.6.12   evaluate_0.10
 ```
 
-* Or for specific packages
+Or for specific packages
 
 ```R
 > packageDescription("dplyr")$Version
@@ -467,7 +470,7 @@ install_version("ggplot2", version = "0.9.1", repos = "http://cran.us.r-project.
 * [`packrat` package](https://rstudio.github.io/packrat/): Installs specific versions of packages in an isolated manner that can be transferred between people
 --
 
-* A bunch of complex systems that only demonstrate how hard software versioning is
+* A bunch of complex systems that only demonstrate how hard software versioning is (e.g. [Docker](https://www.docker.com))
 ---
 
 ## R quirks to appreciate for effects on reproducibility

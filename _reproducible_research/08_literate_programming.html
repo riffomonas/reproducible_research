@@ -80,6 +80,7 @@ class: middle center
 * Papers: [`rmarkdown`](http://rmarkdown.rstudio.com), [`knitr`](https://yihui.name/knitr/)
 * Books: [`bookdown`](https://bookdown.org)
 * Slide decks: [`slidify`](http://slidify.org), [`slidy`](http://rmarkdown.rstudio.com/slidy_presentation_format.html), [`ioslides`](http://rmarkdown.rstudio.com/ioslides_presentation_format.html)
+* Blogs: [`blogdown`](https://github.com/rstudio/blogdown)
 * Interactive websites: [`htmlwidgets`](http://www.htmlwidgets.org), [`shiny`](http://rmarkdown.rstudio.com/authoring_shiny.html)
 
 ---
@@ -136,13 +137,13 @@ The original paper wasn't written with literate programming, but this gives you 
 
 * Recall we previously used markdown in the paper airplane example and to write our README files
 * We have the ability to insert R code to generate tables, figures, and text
-* `rmarkdown` package uses `knitr`package and other goodies to convert Rmarkdown files to a variety of formats
+* `rmarkdown` package uses the `knitr` package and other goodies to convert Rmarkdown files to a variety of formats
 
 ---
 
-## How it works
+class: middle, center
 
-.center[![Screenshot of what submision/practice.html looks like with a figure inserted]({{site.baseurl}}/assets/images/rmarkdown-flow.png)]
+![Screenshot of what submision/practice.html looks like with a figure inserted]({{site.baseurl}}/assets/images/rmarkdown-flow.png)
 
 .left.footnote[Source: [RStudio](http://rmarkdown.rstudio.com/lesson-2.html)]
 
@@ -172,7 +173,9 @@ The original paper wasn't written with literate programming, but this gives you 
 ## Note
 
 * You can do all of this through RStudio - they also have a notebook-like interface
-* We aren't going to do that because we are trying to emphasize the importance of having a workflow that is automated and can run without your intervention
+* We aren't going to do that because we are...
+  * trying to emphasize the importance of having a workflow that is automated and can run without your intervention
+  * assuming you will likely want to run everything on a cluster and may not be able to run a GUI on your server
 
 ---
 
