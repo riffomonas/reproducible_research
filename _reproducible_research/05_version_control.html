@@ -148,6 +148,42 @@ class: center middle
 
 ---
 
+## A word about customizing `git`
+
+* Many ways to configure git to look and behave the way you'd like
+* Some things need to be done from the outset
+
+```bash
+$ git config --global user.name "Pat Schloss"
+$ git config --global user.email "pat@schloss.org"
+$ git config --global color.ui "auto"
+$ git config --global core.editor "nano -w"
+$ git config --list
+```
+
+* These commands will tell `git` your name, email address, how to color text, what [text editor to use for editing commit messages](http://swcarpentry.github.io/git-novice/02-setup/), and finally, will list out the settings in your `config` file
+
+???
+
+Go ahead and run these git config commands with your name and email address
+
+---
+
+## Another word about customizing `git`
+
+* You can also create aliases for frequently used commands
+* For exampe, I can't remember if it's `gif diff --word-diff` or `gif diff --diff-word`. Plus typing all that stuff is tedious.
+
+```bash
+$ git config --global alias.diff-word 'diff --word-diff'
+```
+
+--
+* `git`'s [online materials](https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases) give other examples of aliases you can use to cut down on your typing
+* Beware that sometimes it's harder to remember the alias than the actual command
+
+---
+
 ## Let's create a silly project to emphasize some concepts
 
 * Create a new directory in your `~/` directory that we'll call `silly_repository`
@@ -549,42 +585,6 @@ This gives a reverse chronological ordering of your commits. You can explore the
 
 * What we put in the quotes of `git commit -m "something clever"` is the subject.
 * I find it useful to re-read this web page frequently to assess how useful my commit messages are
-
----
-
-## A word about customizing `git`
-
-* Many ways to configure git to look and behave the way you'd like
-* Some things need to be done from the outset
-
-```bash
-$ git config --global user.name "Pat Schloss"
-$ git config --global user.email "pat@schloss.org"
-$ git config --global color.ui "auto"
-$ git config --global core.editor "nano -w"
-$ git config --list
-```
-
-* These commands will tell `git` your name, email address, how to color text, what [text editor to use for editing commit messages](http://swcarpentry.github.io/git-novice/02-setup/), and finally, will list out the settings in your `config` file
-
-???
-
-Go ahead and run these git config commands with your name and email address
-
----
-
-## Another word about customizing `git`
-
-* You can also create aliases for frequently used commands
-* For exampe, I can't remember if it's `gif diff --word-diff` or `gif diff --diff-word`. Plus typing all that stuff is tedious.
-
-```bash
-$ git config --global alias.diff-word 'diff --word-diff'
-```
-
---
-* `git`'s [online materials](https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases) give other examples of aliases you can use to cut down on your typing
-* Beware that sometimes it's harder to remember the alias than the actual command
 
 ---
 
