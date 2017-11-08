@@ -158,10 +158,12 @@ $ git config --global user.name "Pat Schloss"
 $ git config --global user.email "pat@schloss.org"
 $ git config --global color.ui "auto"
 $ git config --global core.editor "nano -w"
+$ git config --global credential.helper 'cache --timeout=3600'
+$ git config --global push.default simple
 $ git config --list
 ```
 
-* These commands will tell `git` your name, email address, how to color text, what [text editor to use for editing commit messages](http://swcarpentry.github.io/git-novice/02-setup/), and finally, will list out the settings in your `config` file
+* These commands will tell `git` your name, email address, how to color text, what [text editor to use for editing commit messages](http://swcarpentry.github.io/git-novice/02-setup/), [how often to ask for your password](https://help.github.com/articles/caching-your-github-password-in-git/#platform-linux) (every hour), and will list out your `config` file
 
 ???
 
@@ -590,9 +592,9 @@ This gives a reverse chronological ordering of your commits. You can explore the
 
 ## Exercise
 
-* Copy the [MIT license](https://choosealicense.com/licenses/mit/) to create LICENSE.md
-* Add to the repository using `git status` -> `git add` -> `git status` -> `git commit` -> `git status` workflow
+* Copy the [MIT license](https://choosealicense.com/licenses/mit/) into `silly_repository` to create LICENSE.md
 * Edit the license to add the year and your full name
+* Add to the repository using our commit workflow
 * Create a GitHub repository and push your `silly_repository` to GitHub
 * On the GitHub version, add your PI's name to the license
 * Back in the terminal, type `git pull`
@@ -726,7 +728,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 ```
 
 * We can keep going with our project and pretend that the `code/mothur` line isn't there whenever we run `git status`
-* Or we could ask `git` to do this for us!
+* Or we could ask `git` to ignore it for us!
 
 ---
 
@@ -863,9 +865,8 @@ nothing to commit, working tree clean
   * This can be efficient
   * This result in committing large files, temp files, passwords, random crap that you don't want
   * Add one file at a time
-* You can use wild cards to add several files at once
-  * See above
-  * Add one file at a time
+* You could use wild cards to add several files at once
+  * [NO](https://imgur.com/ybFghGD).
 * Before typing `git commit`, force yourself to run `git status` and make sure you have staged what you want and only what you want
 
 ???
@@ -880,8 +881,8 @@ nothing to commit, working tree clean
 You are reorganizing your repository and you no longer need a file, but you want to retain its history:
 
 ```
-git rm code/old_script.R
-git commit -m "Remove old script file"
+$ git rm code/old_script.R
+$ git commit -m "Remove old script file"
 ```
 
 --

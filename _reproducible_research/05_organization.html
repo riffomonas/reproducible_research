@@ -143,11 +143,11 @@ project
 * Download the [data](https://github.com/riffomonas/bad_project/archive/v0.1.zip) to a new directory `~/bad_project`
 
 ```{bash}
-	wget https://github.com/riffomonas/bad_project/archive/v0.1.zip
-	unzip v0.1.zip
-	rm v0.1.zip
-	mv bad_project-0.1 bad_project
-	cd bad_project
+wget https://github.com/riffomonas/bad_project/archive/v0.1.zip
+unzip v0.1.zip
+rm v0.1.zip
+mv bad_project-0.1 bad_project
+cd bad_project
 ```
 
 * Using the recommended directory structure, move files to the appropriate directories
@@ -155,7 +155,7 @@ project
   * Use `mv current_file directory/` to move `current_file` into `directory/`
   * Don't forget the `/` after `directory`
 
-.footnote[Now would be a good time to [log into]() your AWS instance or your local HPC]
+.footnote[Now would be a good time to [log into](../hpc/) your AWS instance or your local HPC]
 
 ---
 
@@ -203,7 +203,7 @@ project
 ## Bad project: Evaluation
 
 * Compare your results to your neighbor
-* Once you are done, run `find . | diff - .solution` to compare your results to mine
+* Once you are done, run `cat .solution` to see my results
 * What do you notice? Do you agree with my organization?
 
 ---
@@ -212,7 +212,8 @@ project
 
 * The structure of most microbiome analysis projects is fairly standard
 * To help with the structure, we created a template, [`new_project`](https://github.com/SchlossLab/new_project/releases/latest)
-* Download the zip file for the latest release to your Documents directory
+* Return to y our home (~/) directory
+* Download the zip file for the latest release of `new_project`
 
 ---
 
@@ -250,6 +251,7 @@ YOUR PAPER'S ABSTRACT GOES HERE
 mv newproject_LICENSE.md LICENSE.md
 ```
 * This replaces the license ([CC0](https://creativecommons.org/share-your-work/public-domain/cc0/)) of the `new_project` repository with a license for your analysis ([MIT](https://en.wikipedia.org/wiki/MIT_License))
+* Using `nano`, go ahead and read and edit the license to include your name and the year (no need to keep my name unless you are in my lab)
 
 ???
 
@@ -262,11 +264,13 @@ mv newproject_LICENSE.md LICENSE.md
 ## Getting ready for `git`
 
 * At the terminal do the following:
+
 ```bash
 git init ./
 git add .
 git commit -m "Initial commit"
 ```
+
 * This is putting your new project under version control using `git`
 
 ---
@@ -279,12 +283,17 @@ git commit -m "Initial commit"
   * Give the repository the same name as your project (i.e. `Kozich_ReAnalysis_AEM_2013`).
   * Keep the repository public
   * Don't initialize with a `README` or `.gitignore` files or a license (you've already got those)
+  * Click "Create Repository"
 
 ---
 
 class: center middle
 
 ![Creating a new repository on GitHub]({{ site.baseurl }}/assets/images/github-new-repository-instructions.png)
+
+???
+
+Click on HTTPS
 
 ---
 
@@ -326,11 +335,13 @@ class: center middle
 ## Cleaning up
 
 * Remove the instructions file and commit
+
 ```bash
 git rm INSTRUCTIONS.md
 git commit -m "Remove instructions document"
 git push
 ```
+
 * Refresh your GitHub page and make sure the `INSTRUCTIONS.md` file goes away
 * If you ever need the information in the `INSTRUCTIONS.md` file, you can retreive it from the `new_project` [repository](https://github.com/SchlossLab/new_project/blob/master/INSTRUCTIONS.md)
 
@@ -365,9 +376,10 @@ git push
 
 ## When you're done...
 
-* ***Wait*** to commit and push your changes
+* Do not commit and push your changes - wait!
 * Add me/your PI as a collaborator
   * "Settings" -> "Collaborators" -> Enter handle -> "Add collaborator"
+  * I'm at `pschloss`
 
 ---
 
@@ -377,20 +389,21 @@ git push
 # README
 
 Obtained the Linux version of mothur (v1.39.5) from the mothur GitHub repository
+
 ```bash
 wget --no-check-certificate https://github.com/mothur/mothur/releases/download/v1.39.5/Mothur.linux_64.zip
 unzip Mothur.linux_64.zip
 mv mothur code/
 rm Mothur.linux_64.zip
 rm -rf __MACOSX
-`&#8203;``
-
-mothur should output the version by doing...
-```bash
-code/mothur/mothur -v
-`&#8203;``
+``````
 
 ```
+mothur should output the version by doing...
+
+```bash
+code/mothur/mothur -v
+``````
 
 ---
 
@@ -399,16 +412,16 @@ code/mothur/mothur -v
 ```bash
 # README
 
+
 Obtained the raw `fastq.gz` files from https://www.mothur.org/MiSeqDevelopmentData.html
-&#8203;* Downloaded https://www.mothur.org/MiSeqDevelopmentData/StabilityNoMetaG.tar
-&#8203;* Ran the following from the project's root directory
+* Downloaded https://www.mothur.org/MiSeqDevelopmentData/StabilityWMetaG.tar
+* Ran the following from the project's root directory
 
 ```bash
-wget --no-check-certificate https://www.mothur.org/MiSeqDevelopmentData/StabilityNoMetaG.tar
-tar xvf StabilityNoMetaG.tar -C data/raw/
-rm StabilityNoMetaG.tar
-`&#8203;``
-```
+wget --no-check-certificate https://www.mothur.org/MiSeqDevelopmentData/StabilityWMetaG.tar
+tar xvf StabilityWMetaG.tar -C data/raw/
+rm StabilityWMetaG.tar
+``````
 
 ---
 
@@ -418,6 +431,7 @@ rm StabilityNoMetaG.tar
 # README
 
 Obtained the silva reference alignment from the mothur website:
+
 ```bash
 wget http://mothur.org/w/images/1/15/Silva.seed_v123.tgz
 tar xvzf Silva.seed_v123.tgz silva.seed_v123.align silva.seed_v123.tax
@@ -425,17 +439,17 @@ code/mothur/mothur "#get.lineage(fasta=silva.seed_v123.align, taxonomy=silva.see
 mv silva.seed_v123.pick.align data/references/silva.seed.align
 rm Silva.seed_v123.tgz silva.seed_v123.*
 rm mothur.*.logfile
-`&#8203;``
-
+``````
+```
 Obtained the RDP reference taxonomy from the mothur website:
+
 ```bash
 wget -N http://www.mothur.org/w/images/8/88/Trainset14_032015.pds.tgz
 tar xvzf Trainset14_032015.pds.tgz
 mv trainset14_032015.pds/trainset* data/references/
 rm -rf trainset14_032015.pds
 rm Trainset14_032015.pds.tgz
-`&#8203;``
-```
+``````
 
 ---
 
@@ -444,7 +458,7 @@ rm Trainset14_032015.pds.tgz
 ```bash
 ## Re-analysis of Kozich dataset
 
-&#8203;**Scaling up.** The advantage of the dual-index approach is that a large number of samples
+**Scaling up.** The advantage of the dual-index approach is that a large number of samples
 can be sequenced using a number of primers equal to only twice the square root of the
 number of samples. To fully evaluate this approach, we resequenced the V4 region of 360
 samples that were previously described by sequencing the distal end of the V35 region on
