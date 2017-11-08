@@ -24,6 +24,7 @@ This paper by Noble lays out the rough ground work for the practical aspects of 
 ## Tutorials
 * [Introduction to reproducibility](introduction)
 * [First steps towards reproducibility](first_steps)
+* [Using high performance computers](hpc)
 * [The importance of documentation](documentation)
 * [Organizational skills for reproducibility](organization)
 * [Using version control](version_control)

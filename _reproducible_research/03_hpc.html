@@ -10,9 +10,581 @@ class: middle center
 
 ---
 
+## This is an aside
+
+* Whether you use an HPC is not critical to whether your work is reproducible
+* The material in this session is presented
+  * So that people following along can reproduce what I am doing
+  * Introduce and justify HPCs over personal computers
+* There are some fringe benefits of using an HPC that can benefit reproducibility
+
+---
+
 ## Learning goals
 
-*
+* Identify the practical and financial benefits of using high performance computers over a local computer
+* Identify your options for accessing a HPC
+* Use a scheduler on your local HPC
+* Use the interactive mode with your local computer cluster
+* Run jobs with `tmux`
+* Access HPC resources on Amazon Web Services (AWS)
+
+---
+
+
+class:middle
+
+## Most Frequently Asked Question...
+
+--
+
+## .alert.center[What type of computer should I get?]
+
+???
+
+I really hate this question because I don't want to spend other people's money!
+When you're picking out a computer there are a few things to consider
+
+---
+
+## Ask yourself...
+
+.footnote[[Melba Roy Mouton](https://en.wikipedia.org/wiki/Melba_Roy_Mouton), a NASA "Computer"]
+
+.left-column[
+* What am I going to use it for?
+*	What is my budget?
+* How much RAM do I need?
+* How much CPU speed?
+* How many CPUs?
+* How much space do I need?
+* What operating system do I want?
+* What does my lab use?
+]
+
+
+.right-column[
+![Melba Roy]({{ site.baseurl }}/assets/images/melba_roy.jpg)
+]
 
 
 ---
+
+## Problem with modern computers
+
+* They get old. Quick
+* They sit idle. A lot
+* They can be expensive
+* They can be ridiculously cheap
+* Hard to predict what you are going to use them for
+
+---
+
+## Quick comparison
+
+* MacBook Pro
+  * 15 in, 2.9GHz, 16GB RAM, 512GB SSD: <span style="color:red">**$2,800**</span>
+  * 13 in, 2.3GHz, 8GB RAM, 256GB SSD: <span style="color:red">**$1,500**</span>
+
+* Dell XPS (Windows)
+  * 15 in, 2.4GHz, 16GB RAM, 512GB SSD: <span style="color:red">**$2,000**</span>
+  * 13 in, 1.9GHz, 8GB RAM, 256GB SSD: <span style="color:red">**$1,050**</span>
+
+* System 76 (Linux)
+  * 15 in, 3.5GHz, 16GB RAM, 512GB SSD: <span style="color:red">**$1,200**</span>
+  * 14 in, 2.4GHz, 16GB RAM, 256GB SSD: <span style="color:red">**$828**</span>
+
+.footnote[For comparison purposes only]
+
+???
+
+Note that you can buy laptops even cheaper than these, but these are provided as a reference
+
+---
+
+## HPC pricing
+
+* [Amazon Web Services](https://aws.amazon.com/ec2/pricing/on-demand/)
+  * 4 CPU, 16GB RAM (on demand) ~ $0.1856/hour
+  * 8 CPU, 32GB RAM (on demand) ~ $0.3712/hour
+  * 64 CPU, 256GB RAM (on demand) ~ $3.20/hour
+* University of Michigan "[FLUX](http://arc-ts.umich.edu/rates/)"
+  * $16.94 per core per month (on demand; 4GB RAM per core)
+  * $13.30 per core per month (whole month; 25GB RAM per core)
+* Other public and commercial computer clusters are available
+
+???
+
+* Prices don't include cost of storage, which is generally pretty cheap
+* AWS also provides additional educational discounts
+* UM heavily subsidizes cost of HPC - about half the cost of AWS
+
+---
+
+## Benefits of HPC
+
+* Hardware constantly updated at no cost to you
+* Cheap! With AWS $1,000 would last 225 days with 100% usage (unlikely)
+* Flexible! May only need 256GB RAM (or more) for short period
+* Reinforces good reproducible research practices
+
+--
+
+<br>
+
+.alert.center[With availability of HPC, you are better off thinking of your laptop as a terminal rather than as a workhorse]
+
+---
+
+## Drawbacks of HPC
+
+* Learning curve
+* Learn command line
+* It feels weird at first
+
+???
+
+You could buy a lot of Dr. Pepper and ice cream with the money you save, which would help me get over these drawbacks
+
+---
+
+## Your local HPC
+
+![Flux configuration]({{ site.baseurl }}/assets/images/flux_configuration.jpg)
+
+???
+
+* You log into the head node from your computer.
+* You will get yelled at if you run anything significant on the head node. Some systems will automatically boot you from the system if you run things on the head node
+* You cannot directly log into the compute nodes
+* Must submit a "job" to run your processes on one of the compute node
+* Can submit multiple jobs at the same time using a scheduler
+
+---
+
+class:middle
+
+## Disclaimer...
+
+... your local HPC should hopefully have their own instructional materials to get you going. This is only to give you a rough look at what's going on
+
+---
+
+## Getting to your HPC
+
+* Need to get information from your systems administrators
+* Will likely use:
+  * [`ssh`](https://www.ssh.com/ssh/): Mac OS X or Linux
+  * [`PuTTY`](https://www.chiark.greenend.org.uk/~sgtatham/putty/): Windows
+* May need to navigate things like:
+  * VPN
+  * Two-factor authentication
+
+---
+
+## Install software
+
+* Can generally install software in your own storage to run on the HPC
+* Most HPCs also have a system where you can "load" modules to make common software available
+
+```
+$ module avail                 # list software that is available to load
+$ module list                  # list software that you have already loaded
+$ module load [modulename]	# load [modulename]
+$ module unload [modulename]  # unload [modulename]
+$ module save                  # save list of modules to load for each session
+```
+
+--
+Here's what I have loaded:
+
+```
+$ module list
+
+Currently Loaded Modules:
+  1) gcc/4.9.3      3) samtools/1.2              5) openmpi/1.10.2/intel/17.0.1   7) R/3.4.1
+  2) boost/1.61.0   4) python-anaconda3/latest   6) r-biomed-libs/3.3.2
+
+```
+
+Really only need gcc, boost, and R for these tutorials
+
+---
+
+## Scheduler
+
+* Your HPC will have software it uses to manage the jobs of you and everyone else
+* Mine uses Torque Portable Batch System (PBS)
+* PBS queues, starts, controls, and stops jobs
+* There are many ways to use PBS, I'll show you two: interactive and batch mode
+
+---
+
+## Batch mode
+
+```bash
+#!/bin/sh
+#PBS -l nodes=1:ppn=12
+#PBS -l mem=10gb
+#PBS -l walltime=500:00:00
+#PBS -j oe
+#PBS -m abe
+#PBS -V
+#PBS -M your_email@your_institution.edu
+#PBS -A example_fluxod
+#PBS -q fluxod
+#PBS -l qos=flux
+
+
+echo "ncpus-2.pbs"
+cat $PBS_NODEFILE
+qstat -f $PBS_JOBID
+
+cd $PBS_O_WORKDIR
+
+NCPUS=`wc -l $PBS_NODEFILE | awk '{print $1}'`
+
+# Put your bash code below here
+
+# Put your bash code above here
+
+echo "qsub working directory absolute is"
+echo $PBS_O_WORKDIR
+exit
+```
+
+Save as `my_job.qsub`
+
+???
+
+* ppn is the number of processors/cores you want to run per node (customize to your project/resources)
+* mem is the amount of memory you want to request (if this is above the available memory, the job will never launch)
+* walltime is in hours:minutes:seconds (your hpc may have limits)
+* -M put your email to get emails regarding status of your job
+* -A indicates your account (may not be required by your HPC)
+* -q is the queue that you want to be in (unless you're at UMich, it won't be fluxod)
+* qos is specific to your HPC
+---
+
+## Run your bash code by doing this...
+
+<br>
+
+```bash
+$ qsub my_job.qsub
+```
+
+* Once you submit the job, you can then log out and go away
+* It may take some time for the scheduler to launch your job. If it is taking more than 30 minutes, contact your SysAdmin and ask what is going wrong
+* When your job completes, you'll get an email
+* This can be hard if using batch scripts is foreign to you
+
+---
+
+## Interactive mode
+
+* We might want to run something interactively
+* Can do what we had previously like this:
+
+```bash
+$ qsub -I -V -A example_flux -q flux -l nodes=1:ppn=12,pmem=10gb,walltime=500:00:00,qos=flux
+```
+
+* Typing all of that can get tedious and you may forget what options to include
+
+---
+
+## Interactive mode with a file
+
+```bash
+#!/bin/sh
+#PBS -l nodes=1:ppn=12
+#PBS -l mem=10gb
+#PBS -l walltime=500:00:00
+#PBS -j oe
+#PBS -m abe
+#PBS -V
+#PBS -A example_fluxod
+#PBS -q fluxod
+#PBS -l qos=flux
+
+
+echo "ncpus-2.pbs"
+cat $PBS_NODEFILE
+qstat -f $PBS_JOBID
+
+cd $PBS_O_WORKDIR
+
+NCPUS=`wc -l $PBS_NODEFILE | awk '{print $1}'`
+```
+
+* Save this as `interactive.qsub`
+* Run as:
+
+```bash
+$ qsub -I interactive.qsub
+```
+
+* Then run your commands as you would normally
+
+---
+
+## But!
+
+* You might have a job that needs to run for a long period of time
+  * Power could go out
+  * Internet might drop you
+  * You might want to move computer
+* Instead, run the interactive job in the background using the [`tmux`](https://gist.github.com/MohamedAlaa/2961058) program
+
+```bash
+$ tmux
+$ qsub -I interactive.qsub
+$ mothur
+```
+
+---
+
+## `tmux`
+
+* `tmux`: Start a session
+* `Control-b d`: Detach from current session
+* `tmux ls`: List existing tmux sessions
+* `tmux a` or `tmux a #0`: Attach a specified session
+* There are many other commands and features for use wiht `tmux`, but these will get you pretty far
+
+--
+
+<br>
+.alert.center[Remember to use `tmux` before starting your interactive PBS session!]
+
+---
+
+## Other PBS tools to know
+
+* `qstat -u your_username`: List out the jobs you have submitted and their status
+* `qdel [job_id]`: Kill one of your jobs
+
+---
+
+## Amazon Web Services (AWS)
+
+.left-column[
+* Many "services"
+  * Compute nodes
+  * Long and short term Storage
+* Widely used
+  * Many commercial applications
+  * Web hosting
+  * Education applications
+]
+.right-column[
+
+<br>
+![AWS Services Webpage]({{ site.baseurl }}/assets/images/aws_splash.png)
+
+]
+
+---
+
+## Amazon Elastic Compute Cloud (EC2)
+
+* This is the service that we will primarily utilize for this series of tutorials
+* Create virtual computing environments that are called "instances"
+* Build upon existing instances called Amazon Machine Images (AMIs)
+* "Elastic" comes from the ability to manipulate the hardware configuration of the instance you are using
+* Can create your own AMI, which is preloaded with software and data and that you can share with others
+
+---
+
+## [AWS Tutorial](https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/)
+
+![AWS Launch a Linux Virtual Machine]({{ site.baseurl }}/assets/images/aws_tutorial.png)
+
+???
+
+Really important to go through this to demonstrate how to set up account and key pair
+
+---
+
+## Let's go...
+
+.left-column[
+* Go to https://aws.amazon.com
+* Click "Sign In to the Console"
+* Either Sign In using your existing Amazon account or create a new account
+* Type "EC2" in the search window in the upper right corner of the screen
+* Hit enter
+]
+
+.right-column[
+![Services listing]({{ site.baseurl }}/assets/images/aws_services.png)
+]
+
+???
+
+* Note that AWS periodically moves things around
+* The details of these instructions and screen shots may change over time, but they should provide a good road map
+---
+
+## EC2
+
+.left-column[
+* At this point you will see a dashboard that tells you what resources you are using
+* If you've never logged in before, you'll have a bunch of zeroes on this page
+* In the upper right corner of the screen next to your name is the region that your instance will be living in. Make sure it is set to "N. Virginia"
+* Click blue "Launch Instance" button
+]
+
+.right-column[
+<br>
+![EC2 dashboard]({{ site.baseurl }}/assets/images/aws_ec2_dashboard.png)
+]
+
+---
+
+## Finding an AMI
+
+.footnote[[Details of how riffomonas AMI was constructed](https://github.com/riffomonas/reproducible_research/blob/gh-pages/rr_notes_prep.md)]
+
+.left-column[
+* Along the left side click on the tab that says "Community AMIs"
+* In the search bar that says "Search Community AMIs", type "riffomonas"
+* Select the most recent version of the AMI (year-month format)
+* Press "Select" button
+]
+
+.right-column[
+<br>
+![Selecting AMI Instance]({{ site.baseurl }}/assets/images/aws_ami_selection.png)
+]
+
+
+---
+
+## Select instance type
+
+<br>
+![Selecting AMI Instance]({{ site.baseurl }}/assets/images/aws_instance_type.png)
+
+???
+
+* You'll have to scroll down to find the m3.large instance type
+* Press "Next: Configuration Instance Details"
+* Press "Next: Add Storage"
+
+---
+
+## Add storage
+
+<br>
+![Set amount of storage]({{ site.baseurl }}/assets/images/aws_storage.png)
+
+???
+
+* Change the amount of storage to 50
+* Press blue "Review and Launch" button
+* Press blue "Launch" button
+
+---
+
+## Security
+
+![Set key-pair]({{ site.baseurl }}/assets/images/aws_key_pair.png)
+
+???
+
+* Select the key-pair that you generated in the tutorial
+* Check the box that you have access to the key-pair
+* Select blue "Launch Instances" button
+
+---
+class:middle, center
+
+![Instances are running]({{ site.baseurl }}/assets/images/aws_view_instances.png)
+
+---
+class:middle, center
+
+![Instances dashboard]({{ site.baseurl }}/assets/images/aws_instances_dashboard.png)
+
+---
+
+## Connecting
+
+```bash
+$ ssh -i ~/.ssh/mothur.pem ubuntu@54.90.95.116
+The authenticity of host '54.90.95.116 (54.90.95.116)' can't be established.
+ECDSA key fingerprint is SHA256:wE5Nlhu+JLSYp7qWYjQKWwsVbc6Imd26fUN0htxEP+Q.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '54.90.95.116' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 16.04.2 LTS (GNU/Linux 4.4.0-1016-aws x86_64)
+```
+
+* May get warnings about packages being out of date...
+
+```bash
+$ sudo apt upgrade
+```
+
+* May get a comment about needing to restart instance
+  * Go back to instance dashboard"Action -> Instance State -> Reboot"
+
+???
+Note that the login will ask whether you want to continue connecting
+
+---
+
+## Now what?
+
+* You're using your own computer that is hosted by AWS
+* `tmux` and rock on!
+* Moving data around...
+  * Later we'll see how to get data into your instance using `wget` and `curl`
+  * Can also use `scp`
+
+```bash
+# move files from the instance to your local computer
+scp mothur@ec2-23-20-53-229.compute-1.amazonaws.com:data.tar.gz ./
+```
+
+```bash
+# move files from your local computer to the instance
+scp fastq.tar mothur@ec2-23-20-53-229.compute-1.amazonaws.com:data/raw
+```
+
+* Syntax: `scp`, path to file (including server information) to move, path to where you want the file
+
+---
+
+## Quitting
+
+* For temporarily quitting AWS session...
+  * Select your instance in the dashboard
+  * Click on the "Actions" button along the top of the console.
+  * Go Instance State -> Stop and click the blue button "Yes, Stop"
+  * You will see the state change to "stoping" and then "stopped"
+  * This is a safe state to leave your instance without getting charged for processing time
+  * If you repeat the previous step, but click "Start", it will restart the instance, albeit with a different DNS address
+* For permanently quitting AWS session...
+  * If you instead click "Terminate", it will shut down the instance
+  * All of your work will be deleted
+
+???
+
+* 'Control-b d' will detach tmux. If you're done with tmux, exit will get you out of tmux
+* The exit command from the command line will log you out of AWS
+
+---
+
+class: middle, center
+![Well done!]({{ site.baseurl }}/assets/images/awesomesauce.gif)
+
+---
+## Exercises
+
+* How can using an HPC facilitate reproducible research?
+
+--
+
+* What are the strengths and weaknesses of storing a project's analysis as an AMI?
