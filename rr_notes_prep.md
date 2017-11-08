@@ -55,7 +55,7 @@ history -c
 ```
 
 #### Create image in instance dashboard
-Image -> Create image
---name "riffomonas_2017_11"
---description "An AMI for Reproducible Research for Microbial Ecology Tutorials"
---make sure image is made public (right click on image, "Modify Image Permissions", public; may take a few minutes to make the image and then to make it public)
+* Image -> Create image
+* --name "riffomonas_2017_11"
+* --description "An AMI for Reproducible Research for Microbial Ecology Tutorials"
+* --make sure image is made public (right click on image, "Modify Image Permissions", public; may take a few minutes to make the image and then to make it public)
