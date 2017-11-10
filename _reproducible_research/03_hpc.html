@@ -105,8 +105,8 @@ Note that you can buy laptops even cheaper than these, but these are provided as
 ## HPC pricing
 
 * [Amazon Web Services](https://aws.amazon.com/ec2/pricing/on-demand/)
-  * 4 CPU, 16GB RAM (on demand) ~ $0.1856/hour
-  * 8 CPU, 32GB RAM (on demand) ~ $0.3712/hour
+  * 4 CPU, 16GB RAM (on demand) ~ $0.20/hour
+  * 8 CPU, 32GB RAM (on demand) ~ $0.40/hour
   * 64 CPU, 256GB RAM (on demand) ~ $3.20/hour
 * University of Michigan "[FLUX](http://arc-ts.umich.edu/rates/)"
   * $16.94 per core per month (on demand; 4GB RAM per core)
@@ -124,8 +124,10 @@ Note that you can buy laptops even cheaper than these, but these are provided as
 ## Benefits of HPC
 
 * Hardware constantly updated at no cost to you
-* Cheap! With AWS $1,000 would last 225 days with 100% usage (unlikely)
-* Flexible! May only need 256GB RAM (or more) for short period
+* Cheap! With AWS $1,000 would last 104 days with 100% usage (unlikely)
+* [Flexible](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-resize.html)!
+  * May only need 8 CPU/32 GB RAM for short period
+  * Downstream analyis with R could possibly be done on free instances
 * Reinforces good reproducible research practices
 
 --
@@ -467,9 +469,10 @@ Really important to go through this to demonstrate how to set up account and key
 <br>
 ![Selecting AMI Instance]({{ site.baseurl }}/assets/images/aws_instance_type.png)
 
+.footnote[[Numerous options available](https://aws.amazon.com/ec2/pricing/on-demand/)]
 ???
 
-* You'll have to scroll down to find the m3.large instance type
+* You'll have to scroll down to find the m4.2xlarge instance type
 * Press "Next: Configuration Instance Details"
 * Press "Next: Add Storage"
 
@@ -541,19 +544,7 @@ Note that the login will ask whether you want to continue connecting
 * `tmux` and rock on!
 * Moving data around...
   * Later we'll see how to get data into your instance using `wget` and `curl`
-  * Can also use `scp`
-
-```bash
-# move files from the instance to your local computer
-scp mothur@ec2-23-20-53-229.compute-1.amazonaws.com:data.tar.gz ./
-```
-
-```bash
-# move files from your local computer to the instance
-scp fastq.tar mothur@ec2-23-20-53-229.compute-1.amazonaws.com:data/raw
-```
-
-* Syntax: `scp`, path to file (including server information) to move, path to where you want the file
+  * Can also use `sftp` to pull things down and put them up ~ same syntax as ssh
 
 ---
 

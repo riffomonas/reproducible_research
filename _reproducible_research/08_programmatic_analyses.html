@@ -582,10 +582,9 @@ class: middle
 #
 ################################################################################
 
-plot_nmds <- function (axes_file){
+plot_nmds <- function(axes_file){
   axes <- read.table(file=axes_file, header=T, row.names=1)
-#  day <- as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(axes)))
-* day <- as.numeric(gsub(".*D(\\d*)_.*$", "\\1", rownames(axes)))
+  day <- as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(axes)))
   early <- day <= 10
   late <- day >= 140 & day <= 150
 
@@ -598,7 +597,7 @@ plot_nmds <- function (axes_file){
   pch[plot_early] <- 21
   pch[plot_late] <- 19
 
-* output_file_name <- "results/figures/nmds_figure.png"
+  output_file_name <- "results/figures/nmds_figure.png"
 
   png(file=output_file_name)
     plot(plot_axes$axis2~plot_axes$axis1, pch=pch, xlab="PCoA Axis 1",

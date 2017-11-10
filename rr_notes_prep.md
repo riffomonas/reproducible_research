@@ -9,7 +9,7 @@ https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/
 * Launch Instance
 * Community AMI
 * riffomonas
-* Choose a m3.large Instance
+* Choose a m4.2xlarge Instance
 * Need a 50 GB hard drive
 * Push "Review and Launch" button (blue button at bottom)
 * Push "Launch button"

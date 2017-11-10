@@ -189,36 +189,36 @@ class: middle, center
 class: middle
 
 ```bash
-	**Scaling up.** The advantage of the dual-index approach is that a large
-	number of samples can be sequenced using a number of primers equal to only
-	twice the square root of the number of samples. To fully evaluate this
-	approach, we resequenced the V4 region of 360 samples that were previously
-	described by sequencing the distal end of the V35 region on the 454 GS-FLX
-	Titanium platform (18). In that study, we observed a clear separation
-	between murine fecal samples obtained from 8 C57BL/6 mice at 0 to 9 (early)
-	and 141 to 150 (late) days after weaning, and there was significantly less
-	variation between the late samples than the early samples. In addition to
-	the mouse fecal samples, we allocated 2 pairs of indices to resequence our
-	mock community. We generated 4.3 million pairs of sequence reads from the
-	16S rRNA gene with an average coverage of 9,913 pairs of reads per sample
-	(95% of the samples had more than 2,454 pairs of sequences) using a new
-	collection of 8-nt indices (see the supplemental material). Although
-	individual samples were expected to have various amplification efficiencies,
-	analysis of the number of reads per index did not suggest a systematic
-	positive or negative amplification bias that could be attributed to the
-	indices. The combined error rate for the two mock communities was 0.07%
-	before preclustering and 0.01% after (n = 14,094 sequences). When we used
-	UCHIME to remove chimeras and rarefied to 5,000 sequences, there was a
-	average of 30.4 OTUs (i.e., 10.4 spurious OTUs). Similar to our previous
-	results, ordination of the mouse fecal samples again showed the separation
-	between the early and late periods and increased stabilization with age
-	(Fig. 4) (Mantel test coefficient, 0.81; P < 0.001). These results clearly
-	indicate that our approach can be scaled to multiplex large numbers of
-	samples.
+**Scaling up.** The advantage of the dual-index approach is that a large
+number of samples can be sequenced using a number of primers equal to only
+twice the square root of the number of samples. To fully evaluate this
+approach, we resequenced the V4 region of 360 samples that were previously
+described by sequencing the distal end of the V35 region on the 454 GS-FLX
+Titanium platform (18). In that study, we observed a clear separation
+between murine fecal samples obtained from 8 C57BL/6 mice at 0 to 9 (early)
+and 141 to 150 (late) days after weaning, and there was significantly less
+variation between the late samples than the early samples. In addition to
+the mouse fecal samples, we allocated 2 pairs of indices to resequence our
+mock community. We generated 4.3 million pairs of sequence reads from the
+16S rRNA gene with an average coverage of 9,913 pairs of reads per sample
+(95% of the samples had more than 2,454 pairs of sequences) using a new
+collection of 8-nt indices (see the supplemental material). Although
+individual samples were expected to have various amplification efficiencies,
+analysis of the number of reads per index did not suggest a systematic
+positive or negative amplification bias that could be attributed to the
+indices. The combined error rate for the two mock communities was 0.07%
+before preclustering and 0.01% after (n = 14,094 sequences). When we used
+UCHIME to remove chimeras and rarefied to 5,000 sequences, there was a
+average of 30.4 OTUs (i.e., 10.4 spurious OTUs). Similar to our previous
+results, ordination of the mouse fecal samples again showed the separation
+between the early and late periods and increased stabilization with age
+(Fig. 4) (Mantel test coefficient, 0.81; P < 0.001). These results clearly
+indicate that our approach can be scaled to multiplex large numbers of
+samples.
 
-	**FIG 4** Principal coordinate ordination of YC values (28) relating the
-	community structures of the fecal microbiota from 12 mice collected on days
-	0 through 9 (Early) and days 141 through 150 (Late) after weaning.
+**FIG 4** Principal coordinate ordination of YC values (28) relating the
+community structures of the fecal microbiota from 12 mice collected on days
+0 through 9 (Early) and days 141 through 150 (Late) after weaning.
 ```
 
 .footnote[`submission/practice.Rmd`]
@@ -343,7 +343,7 @@ class: middle center
 
 ---
 
-Let's add a title, date, and author
+## Let's add a title, date, and author
 
 </br>
 ```bash
@@ -361,11 +361,10 @@ twice the square root of the number of samples. To fully evaluate this
 
 ---
 
-Let's add a title, date, and author
 
-</br>
+class: middle, center
 
-.center[![Screenshot of what submision/practice.html looks like with title, author, and date]({{site.baseurl}}/assets/images/practice_html_title_author.png)]
+![Screenshot of what submision/practice.html looks like with title, author, and date]({{site.baseurl}}/assets/images/practice_html_title_author.png)
 
 ---
 
@@ -405,6 +404,8 @@ Code chunk...
 
 ```
 ---
+title: Reproducing Kozich et al
+author: Joe Schmo
 date: "February 30, 2017"
 output: html_document
 ---
@@ -803,7 +804,7 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 title: Reproducing Kozich et al
 author: Joe Schmo
 date: "February 30, 2017"
-output: markdown_document
+output: md_document
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 ---
@@ -861,10 +862,16 @@ date: "February 30, 2017"
 output:
   pdf_document: default
   word_document: default
-  markdown_document: default
+  md_document: default
 bibliography: references.bib
 csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 ---
+```
+
+<br>
+
+```
+R -e "render('submission/practice.Rmd', output_format ='all')"
 ```
 
 <br>
@@ -890,7 +897,7 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 
 ## Closing note
 
-You can put code in your YAML and even feed in parameters like a function
+You can put code in your YAML and even [feed in parameters](http://rmarkdown.rstudio.com/developer_parameterized_reports.html) like a function
 
 ```
 ---
@@ -911,4 +918,3 @@ csl: mbio.csl #Get themes at https://github.com/citation-style-language/styles
 * Edit your "Scaling up" code and paragraph to automate the printing of another number or two
 * Generate a figure using the data in the shared file
 * If you have code in `code/utilities.R` or anoter similar code file, where would you run `source('code/utilities.R')`?
-* Everyone seems to have the same ordination plot, but they're all rotated a bit. How could you correct this and what would you need to update to make it reproducible?

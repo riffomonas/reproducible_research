@@ -110,7 +110,7 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 * All of these dependencies are difficult to keep track of
 * The situation only worsens as the analysis becomes more complicated
-* You could use if statements using `bash` that checks time stamps
+* You could use `if` statements that check time stamps using `bash`
 
 --
 
@@ -119,7 +119,7 @@ You have finished `analysis_driver.bash` and are happy that you have automated y
 
 ---
 
-## Make
+## [Make](https://en.wikipedia.org/wiki/Make_%28software%29)
 
 * Developed by Stuart Feldman in 1977 as a Bell Labs summer intern
 * The goal was to have a tool for compiling software
@@ -148,6 +148,7 @@ Don't want to re-run or re-download files that require a lot of time to generate
 * The end product is a data-heavy paper written in Rmarkdown
 * Each step of the analysis may be slow
 * There are a lot of steps
+* Hard to keep track of all of the dependencies
 * Analysis run on an HPC, so it needs to be scripted
 * Want to make it possible for others (including me!) to replicate what I’ve done
 
@@ -210,6 +211,7 @@ class: center middle
 ## So I did it for them...
 
 ```bash
+$ cd ~
 $ git clone https://github.com/riffomonas/make_tutorial.git
 $ cd make_tutorial
 $ bash baby_name_analysis.bash
@@ -219,7 +221,7 @@ $ bash baby_name_analysis.bash
 * My [GitHub repository](https://github.com/riffomonas/make_tutorial)
 * Note that this is being driven by a single bash file
 * It is a mixture of bash commands (e.g. curl, unzip) and R calls
-
+* Note: you will need to install the `zoo` R package
 
 ---
 
@@ -276,9 +278,9 @@ Pretty good documentation here, eh?
 
 ---
 
-## Dependencies
+class: middle, center
 
-.center[![]({{site.baseurl}}/assets/images/538_analysis_dag.png)]
+![]({{site.baseurl}}/assets/images/538_analysis_dag.png)
 
 ---
 
@@ -606,8 +608,9 @@ data/processed/alive_2016_annual.csv : data/raw/alive_2016_per_100k.csv\
 	R -e "source('code/interpolate_mortality.R')"
 ```
 ---
+## Continued...
 
-class:middle
+<br>
 
 ```bash
 # Generate counts of total and living people with each name
@@ -785,42 +788,43 @@ If all of my figure generating code is in one script and I change the code for o
   * What is missing?
 --
 
-* Go ahead and see if you can adapt this Makefile for the Kozich project based on what you learned from the name example
+* Either adapt this Makefile for the Kozich project based on what you learned from the 538 name tutorial or delete the file and start over
 * Rememeber that `make -n <TARGET>` allows you to do a dry run
 
 ---
 
-## What happens if...
+## Hints...
 
-<br>
+* When getting the fastq.gz files, don't delete the tar file
+* Instead, put it in `data/raw` and make it a target
+* Use the tar file as a dependency in the next step
+* Why isn't this ideal?
+
+---
+
+## What happens if you do...
 
 ```bash
 make -n data/references/silva.seed.align
 ```
---
 
 <br>
 
 ```bash
 make -n results/figures/nmds_figure.png
 ```
---
-
-<br>
-
-
-```bash
-make -n write.paper
-```
---
 
 <br>
 
 ```bash
-rm results/figures/nmds_figure.png
 make -n write.paper
 ```
---
+
+<br>
+
+```bash
+make -n HMP_MOCK.v4.fasta
+```
 
 <br>
 
@@ -854,11 +858,20 @@ make write.paper
 * What would you change in the Makefile to re-run the analysis?
 * How could you test the effect of the change to the overall analysis?
 * Give it a shot and see how far you get
+  * Make sure to commit your repository before you change the raw data
+  * Modify your Makefile and remove its target
+  * Run `make write.paper`
+* Run `git diff-word submission/practice.md`
+* What changed?
 
 ---
 
-## After you Edit and run the rule to obtain the raw data
+## Parting thought...
 
-* Run `make write.paper`
-* Run `git diff-word manuscript.md`
-* What changes?
+* `make clean; make` is a philosophy to work by
+  * Probably more important than actually using `make`
+  * You won't be able to put all of your data into git/GitHub
+  * Instead assume that someone will get your Makefile and the skeleton of your project
+--
+
+* Don't worry about variables and fancy `make` stuff: get it to work and then refactor
