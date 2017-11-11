@@ -408,7 +408,7 @@ Create a new file `get_nmds_data.batch`. Where should it go?
 
 ```bash
 set.current(inputdir=data/mothur, outputdir=data/mothur, seed=19760620)
-dist.shared(shared=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.unique_list.shared, calc=thetayc, subsample=3000, iters=100, processors=8)
+dist.shared(shared=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.unique_list.shared, calc=thetayc, subsample=3000, iters=100, processors=4)
 nmds(phylip=current, maxdim=2)
 ```
 
