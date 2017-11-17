@@ -1,0 +1,425 @@
+---
+layout: presentation
+title: Reproducibility
+permalink: /reproducibility/
+---
+class: middle center
+
+# Issues in Reproducible Research
+
+---
+
+## Learning goals
+
+* Summarize the origins of the "reproducibility crisis"
+* Differentiate between reproducibility and replicability
+* Identify pressure points in making your work reproducible
+* Appraise ongoing and published research products for hallmarks of reproducible research
+* Articulate the importance of making raw data and detailed methods accessible
+* Label various technologies for facilitating reproducible research
+
+---
+
+## Before we go any further...
+
+* You need to read...
+  * [Collins & Tabak 2014. *Nature*]( http://www.nature.com/news/policy-nih-plans-to-enhance-reproducibility-1.14586)
+  * [Casadevall et al. 2016 *mBio*](http://mbio.asm.org/content/7/4/e01256-16.abstract)
+  * [Ravel & Wommack 2014. *Microbiome*]( https://microbiomejournal.biomedcentral.com/articles/10.1186/2049-2618-2-8)
+* They're short and important takes on where we are in science, in general, and microbiology, in particular.
+
+---
+
+background-image: url({{ site.baseurl }}/assets/images/jir.jpg)
+background-size: contain
+background-position: 50% 50%
+
+???
+
+What are the consequences of the public not trusting science?
+
+???
+
+---
+
+## Definitions
+
+* **Reproducibility:** "Ability to recompute data analytic results given an observed data set and knowledge of the data analysis pipeline."
+* **Replicability:** "The chance that an independent experiment targeting the same scientific question will produce a consistent result."
+
+.footnote[[Leek & Peng. 2015 *PNAS*](http://www.pnas.org/cgi/doi/10.1073/pnas.1421412111)]
+
+???
+
+--
+## .alert.center[Beware! Depending on who is talking, the definitions may be flipped]
+
+---
+
+background-image: url({{ site.baseurl }}/assets/images/repro_contingency_table.png)
+background-size: 85%
+background-position: 50% 50%
+
+.footnote[Kirstie Whitaker ([doi: 10.6084/m9.figshare.5440621](https://figshare.com/articles/Publishing_a_reproducible_paper/5440621))]
+
+???
+
+* Again, this is a slightly different definition.
+* It doesn't help that we also talk about "reproducible research" to cover everything in this table!
+
+---
+
+## Pop quiz: Reproducibility or Replicability?
+
+* A new person joins the lab and tries to repeat a previous lab member's experiments
+???
+probably replicability
+--
+
+* You download data from another lab, following their methods, you try to regenerate their results
+???
+reproducibility
+--
+
+* You start your first faculty position and rerun the mouse model that you ran as a postdoc
+???
+replicability
+--
+
+* Someone performs your study using a cohort of subjects in Korea
+???
+replicability/generalizability
+--
+
+* A colleague asks for your raw data and any scripts you may have to repeat your earlier analysis
+???
+reproducibility
+
+---
+
+## What are some threats to *replicability*?
+
+--
+
+.left-column[
+* Not a real effect
+* Poor experimental design
+* Contaminated/mistaken reagents
+* Confounding variables
+* Sex
+* Age
+]
+
+.right-column[
+* Mouse genotype
+* Differences in reagents, populations, environment
+* Sloppiness
+* Selection and experimental bias
+* Fraud/Scientific misconduct
+]
+
+---
+
+## What are some threats to *reproducibility*?
+
+--
+
+.left-column[
+* Data are not publicly available
+* Incomplete methods section
+* Operating systems
+* Evolution of software/databases
+* Methods rabbit hole
+]
+
+.right-column[
+* Use of random number generators
+* Missing details in protocols
+* Availability of software
+* "Custom XXXXX scripts"
+* URL/e-mail rot
+]
+
+--
+## .alert.center[This stuff is *really* hard!]
+
+---
+
+background-image: url({{ site.baseurl }}/assets/images/asm-reproducibility.jpg)
+background-size: contain
+background-position: 50% 50%
+
+.footnote[[Casadevall et al. 2016 *mBio*](http://mbio.asm.org/content/7/4/e01256-16.abstract)]
+
+--
+
+class: middle
+.blur-background[
+.center[![ASM Colloqium Blurb]({{ site.baseurl }}/assets/images/asm-reproducibility-blurb.png)]
+]
+
+???
+
+* Is this reproducibility, replicability, or neither?
+* What would you have said to the colloquium participants?
+
+---
+class: center middle
+
+## Is research that is reproducible and/or replicable necessarily correct?
+
+???
+
+No. But I'm optimistic that research that is well described and transparent is more likely to be done correctly. If nothing else, it provides an avenue for others to see how sensitive an analysis is to deviations from "correctness"
+
+---
+
+class: center middle
+
+![How to draw an owl meme]({{ site.baseurl }}/assets/images/draw-an-owl-meme.jpg)
+
+???
+
+In many ways, this meme is emblematic of what we will be discussing throughout this workshop.
+* I believe there is a reproducibility "crisis" because our description of methods is pretty lacking.
+* We need to learn how to use existing technology to virtually expand our Methods sections
+
+---
+
+## Case study
+
+Your lab publishes a paper and gets inundated by emails asking about the nitty gritty of the methods. The trainee that did the study has gone on to a new job.
+
+???
+
+Discuss this with your PI or other people in your lab...
+* Have you ever requested information from an author? What happens?
+* Have you ever been pinged for information? What happens?
+* What can you do to be proactive to avoid these cases?
+* How useful are laboratory notebooks?
+* How long are you responsible for maintaining these records?
+* How long can you reasonably expect someone to be helpful?
+
+---
+
+## The Reproducibility Crisis: Bayer
+
+> An unspoken rule among early-stage venture capital firms that “at least 50% of published studies, even those in top-tier academic journals, can't be repeated with the same conclusions by an industrial lab"
+
+.footnote[[Prinz et al. 2011. *Nature Reviews Drug Discovery*]( http://www.nature.com/nrd/journal/v10/n9/full/nrd3439-c1.html)]
+
+--
+
+![Prinz et al. figure]({{ site.baseurl }}/assets/images/prinz-replicability.png)
+
+
+???
+
+Survey based analysis at Bayer based on their "eaarly (target identification and validation) in-house projects in our strategic research fields of oncology, women's health and cardiovascular diseases that were performed over the past 4 years"
+
+
+
+---
+
+## The Reproducibility Crisis: Amgen
+
+![Begley & Ellis table]({{ site.baseurl }}/assets/images/begley-replicability.png)
+
+.footnote[[Begley & Ellis 2012. *Nature*]( http://www.nature.com/nature/journal/v483/n7391/full/483531a.html)]
+
+--
+> Cancer researchers must be more rigorous in their approach to preclinical studies. Given the inherent difficulties of mimicking the human micro-environment in preclinical research, reviewers and editors should demand greater thoroughness
+
+
+???
+
+Some non-reproducible preclinical papers had spawned an entire field, with hundreds of secondary publications that expanded on elements of the original observation, but did not actually seek to confirm or falsify its fundamental basis. More troubling, some of the research has triggered a series of clinical studies — suggesting that many patients had subjected themselves to a trial of a regimen or agent that probably wouldn't work.
+
+---
+
+class: center middle
+# .alert[Inconvenient Truth: Neither study did anything to demonstrate that their work could be reproduced]
+
+---
+
+## NIH's Response: Technical Factors
+
+* Publications rarely report basic elements of experimental design
+  * Blinding, Randomization, Replication
+  * Sample-size calculation
+  * Effect of sex differences
+  * Underlying data rarely made publicly available
+* Restrictions on lengths of methods sections
+* Assume reader is at an idealized level of expertise
+
+
+.footnote[[Collins & Tabak 2014. *Nature*]( http://www.nature.com/news/policy-nih-plans-to-enhance-reproducibility-1.14586)]
+
+
+???
+
+Important to note that Collins & Tabak did not think this was a matter of fraud:
+
+"Let's be clear: with rare exceptions, we have no evidence to suggest that irreproducibility is caused by scientific misconduct. In 2011, the Office of Research Integrity of the US Department of Health and Human Services pursued only 12 such cases"
+
+The development of instructional materials for this workshop was funded through an R25 mechanism that was a response to these issues
+
+---
+
+## NIH's Response: Social Factors
+
+* Failure to publish negative effects (i.e. file drawer problem)
+* "Some scientists reputedly use a 'secret sauce' to make their experiments work"
+* Perverse incentives to publish and hype striking results
+* [Impact Factor Mania](http://mbio.asm.org/content/5/2/e00064-14.full)
+
+.footnote[[Collins & Tabak 2014. *Nature*]( http://www.nature.com/news/policy-nih-plans-to-enhance-reproducibility-1.14586)]
+
+???
+
+---
+class: center middle
+
+![NIH reproducibility guidelines]({{ site.baseurl }}/assets/images/nih-grant-guideline.jpg)
+
+???
+
+There is a big push by NIH to improve the reproducibility and replicability of ongoing research. Much of these efforts have focused on what we are calling replicability.
+
+---
+
+## Ravel & Wommack editorial in *Microbiome*
+
+![Ravel & Wommack editorial screen shot]({{ site.baseurl }}/assets/images/all-hail-reproducibility.png)
+
+.footnote[[Ravel & Wommack 2014. *Microbiome*]( https://microbiomejournal.biomedcentral.com/articles/10.1186/2049-2618-2-8)]
+
+???
+
+* Initial thoughts?
+* "... it is no mistake that the best documented code turns out to be more frequently used by microbiome researchers"
+* Identify 5 different technologies or platforms that hte authors point to for improving reproducibility of microbiome research
+  * Data accessibility - SRA, dbGaP, figshare
+  * Metadata - MIMARKS
+  * Code/workflow - iPython notebooks/knitr
+  * Version control - git and GitHub
+
+---
+
+## Threats to reproducibility & replicability of microbiome research
+
+--
+
+.left-column[
+* Lack of standard methods
+* Accessibility of data
+* Different populations
+* Complex and lengthy data analysis
+]
+
+.right-column[
+* Variation in mouse colonies
+* Contaminants in low biomass samples
+* Sampling artifacts
+]
+
+---
+
+## Case study
+
+Consider the [GitHub repository](https://github.com/jfmeadow/Meadow_etal_Surfaces) that accompanied the paper by [Meadows et al.](http://microbiomejournal.biomedcentral.com/articles/10.1186/2049-2618-2-7) described by Ravel & Wommack
+
+* How accessible is the code?
+* What do you need to know to make sense of the repository?
+* Is it well documented?
+* How well organized is the repository?
+* How long did it take you to find the code for the figures?
+
+???
+
+Comments:
+* Data deposited in figshare rather than SRA (not good)
+* Not very well organized, but it's a small project
+* The Rmd provides narrative to explain what's happening
+* The figure code is in LillisSurfaces.Rmd and it is rendered in LillisSurfaces.md
+---
+
+## Critique a recent microbiome paper
+
+* Basic checklist
+  * How difficult it be to regenerate a P-value or a figure?
+	* Where are the raw data?
+	* Is the code available?
+	* How long is the Methods section?
+
+* Some possible examples from the Schloss Lab...
+  * [Sze & Schloss. 2016 *mBio*](http://mbio.asm.org/content/7/4/e01018-16)
+  * [Baxter et al. 2015 *Appl Env Microbiol*](http://aem.asm.org/content/81/1/396)
+  * [Zackular et al. 2013 *mBio*](http://mbio.asm.org/content/4/6/e00692-13.long)
+
+---
+
+## Why is reproducibility/replicability important?
+
+--
+
+* To make sure that the results are correct and/or generalizable
+--
+
+* So that others can build off of earlier work
+--
+
+* To enable others to repurpose materials and methods
+
+---
+
+## Preventative medicine
+
+* Too much emphasis on "gotcha science"
+* Research done in a manner to maximize reproducibility...
+  * makes life easier for you in the long run
+  * instills more confidence by others
+  * is easier for others to build from
+
+.footnote[[Leek & Peng. 2015 *PNAS*](http://www.pnas.org/cgi/doi/10.1073/pnas.1421412111)]
+
+---
+
+## Who must be able to reproduce your research?
+
+--
+
+.middle[.center[![You!]({{ site.baseurl }}/assets/images/you.gif)]]
+
+--
+
+.middle[.center[![Your PI]({{ site.baseurl }}/assets/images/boss.gif)]]
+
+---
+
+## Where we're going
+
+* Documentation
+* Keep raw data raw
+* Data organization as a form of documentation
+* Script everything
+* Don't repeat yourself (DRY)
+* Automation
+* Collaboration
+* Transparency
+
+???
+
+* It is important to note that these are broad concepts that you can use as you develop your skills as a researcher who embraces reproducible practices.
+* There are a number of tools that you will learn as you develop these concepts.
+* Note that the tools will likely change over the course of your career.
+* The important thing to remember is that the tooling should make it easier to do reproducible science.
+
+---
+
+## Exercises
+
+* How difficult would it be for you to regenerate any of the figures or p-values from a paper that your lab published 5 yrs ago?
+* What would be the most important thing to improve for your group's next paper?
+* What percentage of papers published in your field do you think are reproducible? Replicable? Why?
+* Create an ordered list of the broad groups of people that need to be able to reproduce your work

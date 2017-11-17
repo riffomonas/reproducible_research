@@ -22,7 +22,8 @@ This paper by Noble lays out the rough ground work for the practical aspects of 
 
 
 ## Tutorials
-* [Introduction to reproducibility](introduction)
+* [Introduction](introduction)
+* [Issues in reproducible research](reproducibility)
 * [First steps towards reproducibility](first_steps)
 * [Using high performance computers](hpc)
 * [The importance of documentation](documentation)
