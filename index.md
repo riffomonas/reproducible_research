@@ -1,5 +1,6 @@
 ---
 layout: default
+title: Reproducible Research
 ---
 
 # General Reproducible Research Tutorial Series
@@ -22,19 +23,20 @@ This paper by Noble lays out the rough ground work for the practical aspects of 
 
 
 ## Tutorials
-* [Introduction](introduction)
-* [Issues in reproducible research](reproducibility)
-* [First steps towards reproducibility](first_steps)
-* [Using high performance computers](hpc)
-* [The importance of documentation](documentation)
-* [Organizational skills for reproducibility](organization)
-* [Using version control](version_control)
-* [Automating reproducible analyses](automation)
-* [Using scripts to go from raw to polished](programmatic_analyses)
-* [Generating reproducible documents with literate programming](literate_programming)
-* [Automation and satisfying dependencies with makefiles](make)
-* [How to collaborate with yourself and others](collaboration) (still in prep...)
-* [Doing open science](open_science) (still in prep...)
+1. [Introduction](introduction)
+1. [Issues in reproducible research](reproducibility)
+1. [First steps towards reproducibility](first_steps)
+1. [Using high performance computers](hpc)
+1. [The importance of documentation](documentation)
+1. [Organizational skills for reproducibility](organization)
+1. [Using version control](version_control)
+1. [Automating reproducible analyses](automation)
+1. [Using scripts to go from raw to polished](programmatic_analyses)
+1. [Generating reproducible documents with literate programming](literate_programming)
+1. [Automation and satisfying dependencies with makefiles](make)
+1. [How to collaborate with yourself](collaboration_with_yourself) (still in prep...)
+1. [How to collaborate with others](collaboration_with_others) (still in prep...)
+1. [Doing open science](open_science) (still in prep...)
 
 
 ## Dependencies
