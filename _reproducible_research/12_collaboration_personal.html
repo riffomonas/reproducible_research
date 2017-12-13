@@ -12,13 +12,739 @@ class: middle center
 ---
 
 ## Learning goals
-* Traversing the repository's history
-* Issue trackers
-* GitFlow
-* Branches
-* Dealing with conflicts
+
+* Observe how to traverse the repository's history and the history of a specific file
+* Learn the advantages of using the Gitflow workflow to manage a project
+* Integrate GitHub's issue tracker to direct the flow of a project
+* Experience how to create, work on, and merge branches
+* Handle conflicts that arise when a file is modified on two different branches
 
 ---
 
-http://swcarpentry.github.io/git-novice/05-history/
-http://swcarpentry.github.io/git-novice/09-conflict/
+## Your PI noticed a small, but important bug
+
+.left-column[
+![Screenshot of what submision/practice.html looks like with a figure inserted]({{site.baseurl}}/assets/images/practice_html_with_figure.png)
+]
+.right-column[
+* They noticed that the ordination has "PCoA" on axes
+* NMDS was used to generate the ordination
+* Axes should really have "NMDS Axis 1" and "NMDS Axis 2"
+]
+--
+
+.right-column[
+
+<br/>
+.center.alert[ Which file contains this image and which file has the R code to generate the image?]
+
+]
+???
+
+The image file is results/figures/nmds_figure.png
+The code file is code/plot_nmds.R
+
+---
+
+## Has this bug always been there?
+
+* We've already seen `git log`, which tells us the history of all of our commits.
+--
+
+* We can see the history of specific files as well
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git log code/plot_nmds.R
+commit 33c54d1eb8bb2534d2abea5e2b8b3f1c057fccba
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Fri Nov 10 18:05:56 2017 +0000
+
+    Render nmds plot
+```
+
+* We only have one commit for this file, so the bug has always been there
+
+---
+
+## Exercises
+
+What would you do to fix this problem? (don't actually do these steps, we're going to learn a different approach)
+
+--
+
+* Edit and save `code/plot_nmds.R`
+* Re-run `make write.paper`
+* git add
+* git commit
+* git push
+
+---
+
+## A better way...
+
+.left-column[
+* This works for simple cases, but what if you want to try something out and aren't totally clear whether it will work out?
+* The approach we've taken assumes that our analyses are a linear process (blue)
+* Really, our analysis is like a bush that is periodically pruned (orange)
+* Examples
+  * There were two sets of fastq files that we could have started this analysis with
+  * Could have chosen to do PCoA rather than NMDS to generate ordination diagram
+]
+.right-column[
+.middle.center[![Linear versus forked analysis]({{site.baseurl}}/assets/images/analysis_paths.png)]
+]
+
+---
+
+## The Gitflow workflow
+
+* In this session we'll see how we can incorporate the experimental aspect of data analysis using a concept called "[Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)"
+* Gitflow was developed for software engineering where many members of a team are working to develop different features for a future version and they want to control how the different features are folded back into the next version
+* This isn't exactly what we're doing with our bush-like analyses, but it's pretty close
+
+---
+
+## Exercise
+
+* By making the analogy between software development and data analysis, can you think of some examples where it would be advantageous to use the gitflow workflow?
+
+--
+
+* Some possible scenarios
+  * Collaborator is editing the manuscript while you work on further analysis
+  * You and a colleague are working in parallel on the same project
+  * Experimentig with different data analysis paths
+
+---
+
+## General Gitflow workflow approach
+
+.left-column[
+1. Create an issue in GitHub
+1. Claim that issue so others know you are working on it
+1. Create a branch separate from "master"
+1. Move to the new branch
+1. Make the modifications needed to resolve the issue
+1. Commit changes to the branch
+1. Merge branch into master branch
+]
+--
+.right-column[
+.alert.center.middle[There's a lot of jargon here and things you haven't seen before, we'll get to that right now!]
+]
+---
+
+## Let's start by filing an issue on GitHub
+
+.middle.center[![Go to the issues tab in repository]({{site.baseurl}}/assets/images/goto_issues_repo.png)]
+
+---
+
+## Let's start by filing an issue on GitHub
+
+.middle.center[![Go to the issues tab in repository]({{site.baseurl}}/assets/images/create_new_issue.png)]
+
+---
+
+## Let's start by filing an issue on GitHub
+
+.middle.center[![Go to the issues tab in repository]({{site.baseurl}}/assets/images/edit_issue.png)]
+
+---
+
+## Let's start by filing an issue on GitHub
+
+.middle.center[![Go to the issues tab in repository]({{site.baseurl}}/assets/images/issue_001.png)]
+
+---
+
+## Now we want to create a branch in our repository
+
+* What to call the branch?
+  * Can call it `issue_001` or `fix_ordination_label`
+  * Advantage of `issue_001` is that you can look at github and easily see what the issue was
+--
+
+* What branch are we currently on?
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean
+```
+
+
+--
+* Create a new branch
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout -b issue_001
+Switched to a new branch 'issue_001'
+```
+--
+* Now which branch are we on?
+
+
+---
+
+class: middle
+
+```R
+################################################################################
+#
+# plot_nmds.R
+#
+# Here we take in the *.nmds.axes file from the mouse stability analysis and
+# plot it in R as we did in Figure 4 of Kozich et al.
+#
+# Dependencies:   2-D axes file generated by the nmds command in mothur
+# Produces:       results/figures/nmds_figure.png
+#
+################################################################################
+
+plot_nmds <- function(axes_file){
+  axes <- read.table(file=axes_file, header=T, row.names=1)
+  day <- as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(axes)))
+  early <- day <= 10
+  late <- day >= 140 & day <= 150
+
+  plot_axes <- axes[early | late, ]
+  plot_day <- day[early | late]
+  plot_early <- early[early | late]
+  plot_late <- late[early | late]
+
+  pch <- vector()
+  pch[plot_early] <- 21
+  pch[plot_late] <- 19
+
+  output_file_name <- "results/figures/nmds_figure.png"
+
+  png(file=output_file_name)
+    plot(plot_axes$axis2~plot_axes$axis1, pch=pch, xlab="NMDS Axis 1",
+					ylab="NMDS Axis 2")
+    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
+					legend=c("Early", "Late"), pch=c(21,19))
+  dev.off()
+}
+```
+???
+
+* Note:
+  - We changed the xlab and ylab values to contain NMDS rather than PCoA
+
+---
+
+## Let's update the figure and our manuscript
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ make -n write.paper
+R -e "source('code/plot_nmds.R'); plot_nmds('data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.unique_list.thetayc.0.03.lt.ave.nmds.axes')"
+```
+
+* Looks good, let's do it...
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ make write.paper
+```
+???
+
+Note that we did the make -n write.paper to see what commands it would run. Want to double check that our Makefile is set up right. Sometimes it may want to start over and we would need to figure out why.
+
+---
+
+## Now what?
+
+--
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_001
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   code/plot_nmds.R
+	modified:   results/figures/nmds_figure.png
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git add code/plot_nmds.R results/figures/nmds_figure.png
+```
+
+<br>
+Note that when we commit our changes, we will want to reference Issue 1 so that our commit is linked in the issue. GitHub's integration tools [allow us to do this](https://github.com/blog/1386-closing-issues-via-commit-messages) fairly simply
+
+---
+
+## Referencing the issue in our commit
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git commit -m
+```
+
+<br/>
+This will open up our text editor. There we can type the following:
+
+```
+Correct axis labels in ordination diagram
+
+This fix replaces PCoA with NMDS on the axis lables, closes #1
+```
+---
+
+## Let's see where we're at
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_001
+nothing to commit, working directory clean
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git log
+commit 94a4253bc832df768ddf93842488fa10ff6f1306
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Wed Dec 13 20:03:58 2017 +0000
+
+    Correct axis labels in ordination diagram
+
+    This fix replaces PCoA with NMDS on the axis lables, closes #1
+
+commit 08685cb297a4d79141b3665082f20418f1b4634c
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Sat Nov 11 14:50:42 2017 +0000
+
+    Editing
+
+commit d86aa9730d1dd61c2b2e2938d09566cfa718ff9d
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Sat Nov 11 12:05:53 2017 +0000
+
+    Transfer practice to manuscript
+```
+
+???
+Note that we're still on the branch_001 and that our log history has our latest commit as well as all of the previous commits from the master branch to the point where we created the branch
+
+---
+
+## Going back to the master branch
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git log
+commit 08685cb297a4d79141b3665082f20418f1b4634c
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Sat Nov 11 14:50:42 2017 +0000
+
+    Editing
+
+commit d86aa9730d1dd61c2b2e2938d09566cfa718ff9d
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Sat Nov 11 12:05:53 2017 +0000
+
+    Transfer practice to manuscript
+```
+
+???
+
+Note that master doesn't know what happened on issue_001, it doesn't have our newest commit
+
+---
+
+## Merging branches
+
+* We're happy with how our correction works so now we want to fold these edits into the main branch
+--
+
+* What if you forget what branch you were working on (or what branches are out there)
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git branch
+  issue_001
+* master
+```
+--
+
+* Merge `issue_001` into `master`
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge issue_001
+Updating 08685cb..4a48ffd
+Fast-forward
+ code/plot_nmds.R                |   4 ++--
+ results/figures/nmds_figure.png | Bin 14521 -> 14675 bytes
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+```
+
+---
+
+class: middle
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git log
+commit 94a4253bc832df768ddf93842488fa10ff6f1306
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Wed Dec 13 20:03:58 2017 +0000
+
+    Correct axis labels in ordination diagram
+
+    This fix replaces PCoA with NMDS on the axis lables, closing #1
+
+commit 08685cb297a4d79141b3665082f20418f1b4634c
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Sat Nov 11 14:50:42 2017 +0000
+
+    Editing
+
+commit d86aa9730d1dd61c2b2e2938d09566cfa718ff9d
+Author: Pat Schloss <pschloss@umich.edu>
+Date:   Sat Nov 11 12:05:53 2017 +0000
+
+    Transfer practice to manuscript
+
+```
+???
+
+Note that now the git log on master has the commit message from when we were on the issue_001 branch
+
+---
+
+## Cleaning up
+
+<br/>
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git branch -d issue_001
+Deleted branch issue_001 (was 4a48ffd).
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git push
+Counting objects: 7, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 14.56 KiB | 0 bytes/s, done.
+Total 7 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
+   08685cb..4a48ffd  master -> master
+```
+<br/>
+We can delete the old branch (or you could keep it) and then we want to push the changes to GitHub
+
+
+---
+
+.middle.center[![Show how the GitHub issue page is changed]({{site.baseurl}}/assets/images/close_issue.png)]
+
+---
+
+## Rinse, repeat
+
+* Some will develop their entire project this way. For example, each session of this tutorial could have been a different branch that was merged back into master
+* The issue tracker serves as a nice "to do" list that you can check off as you go through your analysis
+* Could also think of comments from your PI or reviewers as each being a different issue that you create and work through
+* Low barrier method to get your PI and collaborators to interact with your repository (or you can do it for them)
+
+---
+
+## More issues!
+
+* PI wants us to...
+  * Change the color of the points in the ordination from black and white to orange and blue
+  * Change the shape of the points to be squares instead of circles
+
+--
+* Use GitHub issues to create two separate issues to address these requests
+* Create two branches, `issue_002` and `issue_003`, to address these issues separately
+
+---
+
+class: middle
+
+.center[![Show how the GitHub issue page is changed with the new issues]({{site.baseurl}}/assets/images/new_issues.png)]
+
+???
+Note that our old issue (#1 is now closed and is indicated as such)
+---
+
+## Issue 2
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout -b issue_002
+Switched to a new branch 'issue_002'
+```
+<br>
+```R
+...
+  pch <- vector()
+  pch[plot_early] <- 21
+  pch[plot_late] <- 19
+
+	colors <- vector()
+	colors[plot_early] <- "orange"
+	colors[plot_late] <- "blue"
+
+  output_file_name <- "results/figures/nmds_figure.png"
+
+  png(file=output_file_name)
+    plot(plot_axes$axis2~plot_axes$axis1, pch=pch, colors=col, xlab="NMDS Axis 1",
+					ylab="NMDS Axis 2")
+    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
+					legend=c("Early", "Late"), pch=c(21,19), col=c("orange", "blue"))
+  dev.off()
+}
+```
+
+---
+
+## Git'ing Issue 2
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_002
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   code/plot_nmds.R
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git add code/plot_nmds.R
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git commit -m "Change plotting colors, close #2"
+[issue_002 62c686d] Change plotting colors, close #2
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+```
+
+* The next thing we'll do is to create a branch for `issue_003`. Note that a new branch forms off of the branch where we run `git checkout -b issue_003`
+* For these issues, it would make sense to perhaps have a single issue or to make `issue_003` branch from `issue_002`, but I'm tryint to make a pedagogical point
+
+---
+
+
+## Issue 3
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout -b issue_003
+Switched to a new branch 'issue_003'
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_003
+nothing to commit, working directory clean
+```
+<br>
+```R
+...
+  pch <- vector()
+  pch[plot_early] <- 0
+  pch[plot_late] <- 15
+
+  output_file_name <- "results/figures/nmds_figure.png"
+
+  png(file=output_file_name)
+    plot(plot_axes$axis2~plot_axes$axis1, pch=pch, xlab="NMDS Axis 1",
+					ylab="NMDS Axis 2")
+    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
+					legend=c("Early", "Late"), pch=c(0,15))
+  dev.off()
+}
+```
+
+---
+
+## Git'ing Issue 3
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_003
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   code/plot_nmds.R
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git add code/plot_nmds.R
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git commit -m "Change plotting symbols, close #3"
+[issue_003 a542e56] Change plotting symbols, close #3
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+```
+
+---
+
+## Merging
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+```
+
+<br>
+Now we would like to fold in our two issues to the `master` branch
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge issue_002
+Updating d6b7e3c..62c686d
+Fast-forward
+ code/plot_nmds.R | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+```
+
+--
+
+<br>
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge issue_003
+Auto-merging code/plot_nmds.R
+CONFLICT (content): Merge conflict in code/plot_nmds.R
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Ruh. Roh.
+
+---
+
+## We have a conflict
+
+There are lines that were changed in both branches. Think about this line:
+
+```
+    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
+					legend=c("Early", "Late"), pch=c(0,15))
+```
+
+<br>
+
+git is pretty good at figuring out how to deal with differences, but sometimes the differences are unavoidable (think about when two collaborators are editing a manuscript)
+
+---
+
+<br>
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+	both modified:   code/plot_nmds.R
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+We need to look at `code/plot_nmds.R` and resolve the differences manually to resolve the conflict
+
+---
+
+```
+...
+  pch <- vector()
+<<<<<<< HEAD
+  pch[plot_early] <- 21
+  pch[plot_late] <- 19
+
+  colors[plot_early] <- "orange"
+  colors[plot_late] <- "blue"
+
+=======
+  pch[plot_early] <- 0
+  pch[plot_late] <- 15
+>>>>>>> issue_003
+  output_file_name <- "results/figures/nmds_figure.png"
+  png(file=output_file_name)
+    plot(plot_axes$axis2~plot_axes$axis1, pch=pch, col=colors, xlab="NMDS Axis 1",
+                    ylab="NMDS Axis 2")
+    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
+<<<<<<< HEAD
+                    legend=c("Early", "Late"), pch=c(21,19), col=c("orange", "blue"))
+=======
+                    legend=c("Early", "Late"), pch=c(0,15))
+>>>>>>> issue_003
+  dev.off()
+}
+```
+* At various places where there are `<<<<`, `====`, and `>>>>`. These are the edits
+* `HEAD` indicates the changes following merging `issue_002` into `master`
+* `issue_003` indicates the changes from the branch
+
+---
+
+## After making the edits...
+
+```
+...
+  pch <- vector()
+  pch[plot_early] <- 0
+  pch[plot_late] <- 15
+
+  colors[plot_early] <- "orange"
+  colors[plot_late] <- "blue"
+
+  output_file_name <- "results/figures/nmds_figure.png"
+  png(file=output_file_name)
+    plot(plot_axes$axis2~plot_axes$axis1, pch=pch, col=colors, xlab="NMDS Axis 1",
+                    ylab="NMDS Axis 2")
+    legend(x=max(plot_axes$axis1)-0.125, y=min(plot_axes$axis2)+0.125,
+                    legend=c("Early", "Late"), pch=c(0,15), col=c("orange", "blue"))
+  dev.off()
+}
+```
+
+---
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+	both modified:   code/plot_nmds.R
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git add code/plot_nmds.R
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git commit -m "Merge branches for #2 and #3 into master"
+[master 1490965] Merge branches for #2 and #3 into master
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git push
+Counting objects: 12, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (12/12), done.
+Writing objects: 100% (12/12), 1.09 KiB | 0 bytes/s, done.
+Total 12 (delta 10), reused 0 (delta 0)
+remote: Resolving deltas: 100% (10/10), completed with 3 local objects.
+To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
+   d6b7e3c..1490965  master -> master
+```
+
+---
+
+class: middle, center
+
+![Screenshot of what submision/practice.html looks like with a figure inserted]({{site.baseurl}}/assets/images/issues_002_and_003_close.png)
+
+???
+
+Note that we made two referenes to issue 3 - once when we committed the changes and once when we resovled the merge
+
+---
+
+## Other thoughts on conflicts
+
+* Helps to think ahead about where there may be conflicts that arise
+* Example: Would have been better to resolve Issue 3 off of the same branch or a decendent of the Issue 2 branch
+* Sometimes conflicts are unavoidable
+
+---
+
+## Exercise
+
+* I forgot to run `make write.paper` on the final merge of the branches. Render the new files and commit the changes to GitHub referencing the issues in the commit message
+* Create and resolve an issue that replaces the NMDS ordination with a PCoA ordination.
