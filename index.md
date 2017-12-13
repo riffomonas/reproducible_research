@@ -34,7 +34,7 @@ This paper by Noble lays out the rough ground work for the practical aspects of 
 1. [Using scripts to go from raw to polished](programmatic_analyses)
 1. [Generating reproducible documents with literate programming](literate_programming)
 1. [Automation and satisfying dependencies with makefiles](make)
-1. [How to collaborate with yourself](collaboration_with_yourself) (still in prep...)
+1. [How to collaborate with yourself](collaboration_with_yourself)
 1. [How to collaborate with others](collaboration_with_others) (still in prep...)
 1. [Doing open science](open_science) (still in prep...)
 
