@@ -13,6 +13,11 @@
     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
     </script>
     <script type="text/javascript">
+			remark.macros.scale = function (alt, percentage) {
+			  var url = this;
+			  return '<img src="' + url + '" style="width:' + percentage + ';height:' + percentage + ';" alt="' + alt + '"/>';
+			};
+
       var slideshow = remark.create({
 			  // Set the slideshow display ratio
 			  // Default: '4:3'

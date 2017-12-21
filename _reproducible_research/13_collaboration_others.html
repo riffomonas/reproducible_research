@@ -1,11 +1,11 @@
 ---
 layout: presentation
-title: Collaboration (Part 2)
+title: Collaboration with others
 permalink: /collaboration_with_others/
 ---
 class: middle center
 
-# Collaboration with Others
+# Collaboration with others
 
 .middle[.center[![You!]({{ site.baseurl }}/assets/images/teamwork.gif)]]
 
@@ -13,17 +13,649 @@ class: middle center
 
 ## Learning goals
 
-* Appreciate that version control allows multiple individuals to work on simultaneously on the same document
-* Pull requests
-* Contributions file
-* Making your repository more discoverable
-  * URL in paper
-  * Tagging your repository
+* Expand use of Gitflow workflow for teamwork (with yourself or an actual team)
+* Make a pull request to incorporate new code
+* Apply many of the principles that we've been working on throughout series of tutorials
 
 ---
 
-# You need to collaborate with others and you need them to collaborate with you
+## The annoying postdoc in the lab has a great idea...
+
+.left-column[
+* Postdoc: You're using R's base graphics? You should be using the tidyverse!
+* You: Meh. I have a plot, it says what I want...
+* Postdoc: It'd be really easy, you should totally change your code.
+* You: Make a pull request and I'll think about it
+]
+
+--
+
+.right-column[
+<br/>
+.center[![Drop the mic by telling someone to file a pul request]({{site.baseurl}}/assets/images/obama.gif)]
+]
+
+---
+
+## Pull requests
+
+* Pull requests (PRs) are a mechanism that allow others to contribute to your project, but that give you (or someone you designate) the power to accept or reject the contribution
+* The PR can be discussed between you and the contributor and allow the contributor to make changes before you accept the contribution
+
+---
+
+## Pull requests and Gitflow
+
+* As a project gets bigger or more public, more people might want to contribute
+* Can delegate issues to different contributors
+* Don't want all contributors to have the ability to merge to the `master` branch
+* Even on a projet with a single developer, you may not want to be able to merge changes to `master` without someone seeing your code
+
+---
+
+## New concepts that we'll discuss before we're done
+
+* Fork
+* Upstream
+* Pull request
+* Code review
+
+---
+
+## Extension of Gitflow
+
+1. Fork of a repository into your own GitHub account
+2. Claim an issue from the primary copy of the project repository. Alternatively, file an issue and ask developer whether they would be interested in a PR on this issue.
+3. Create a branch from your copy where you will work on the changes
+4. Make and commit necessary changes to your copy
+5. Merge upstream copy back into your copy to resolve differences
+6. Push your copy up to your GitHub account
+7. File a pull request
+8. Repeat steps 4-7 until developers accept your PR
+
+---
+
+class: middle
+
+.center[![Create an organization for your research group]({{site.baseurl}}/assets/images/new_organization.png)
+]
+
+* If you don't already have an account for your lab, go ahead and create one
+* My group already has one that we use to support each of our manuscripts
+* You can tell GitHub that you and your organzation are at an academic institution and get unlimited free private repositories (make them public when you submit your papers!)
+
+???
+
+Note that you can make a pull request to a repository owned by an individual who isn't part of an organization. We're doing it to an organization to get your lab group on GitHub!
+---
+
+class: middle
+
+.center[![Complete the information about your group]({{site.baseurl}}/assets/images/new_organization_signup.png)
+]
+
+???
+
+For now, don't worry about inviting members to your Organization, but you can if you'd like to
+
+---
+
+class: middle, center
+
+![Click settings to transfer the repo from your organization to your lab's]({{site.baseurl}}/assets/images/click_settings_to_transfer.png)
+
+---
+
+class: middle, center
+
+![Click Transfer button]({{site.baseurl}}/assets/images/transfer_ownership_button.png)
+
+.left.footnote.alert[this is at the bottom of the settings page]
+
+---
+
+.left-column.center[
+<br/>
+![Enter information to confirm transfer]({{site.baseurl}}/assets/images/transfer_repository_checks.png)
+]
+--
+
+.right-column.center[
+![Enter password to confirm]({{site.baseurl}}/assets/images/password.png)
+]
+
+---
+
+class: middle, center
+
+![Select settings for who has access]({{site.baseurl}}/assets/images/transfer_team_access.png)
+
+---
+
+<br/>
+![It takes a few seconds for the transfer to complete]({{site.baseurl}}/assets/images/transfer_pending.png)
+
+--
+
+![Eventually the transfer completes and it's done]({{site.baseurl}}/assets/images/transfer_pending_update.png)
+
+---
+
+class: middle, center
+
+![Select settings for who has access]({{site.baseurl}}/assets/images/transfer_success.png)
+
+.alert[If you look back at your account, you should no longer see this repository]
+
+---
+
+## Phew...
+
+* Let's recap what we've just done...
+  * Created an organization for our research group
+  * Transfered ownership from our personal account to our lab (A Good Idea&trade;)
+--
+
+* This may seem like a bit much for a project where you are the only researcher, but...
+  * Sets up a layer of organization that can reduce errors
+  * Creates a structure where others in your group (e.g. annoying postdoc, awesome PI, etc) can review your code
+  * Reinforces best practices for contributing to other projects
+--
+
+<br/>
+## .center.alert[Next, we need to make our own copy - FORK!]
+
+---
+
+class: middle, center
+
+![Press the fork button in the top right corner of the page]({{site.baseurl}}/assets/images/press_fork_button.png)
+
+---
+
+class: middle, center
+
+![Press the fork button in the top right corner of the page]({{site.baseurl}}/assets/images/press_fork_button.png)
+
+---
+
+class: middle, center
+
+![Select the account where you want the copy to go]({{site.baseurl}}/assets/images/select_were_to_fork.png)
+
+---
+
+class: middle, center
+
+![Give the fork a second or two]({{site.baseurl}}/assets/images/forking.png)
+
+---
+
+class: middle, center
+
+![Note that the forked repository is now in your account and that it indicates this is a forked version of the repository]({{site.baseurl}}/assets/images/forked_repository.png)
+
+---
+
+class: middle, center
+
+![Well done, you've forked the repository]({{site.baseurl}}/assets/images/steve_martin_fork.gif)
+
+---
+
+## Getting a local copy - two options
+
+1. Your local repository is already looking for the remote (i.e. GitHub) repository in your account
+--
+
+1. Alternatively (and perhaps better), you could *clone* the repository into your local directory
+	* Delete your `Kozich_ReAnalysis_AEM_2013` directory
+```
+cd ~/
+rm -rf Kozich_ReAnalysis_AEM_2013
+```
+  * Click the green "Clone or download" button and press the copy button:
+```
+git clone https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
+```
+  * Re-render data
+```
+make write.paper
+```
+
+???
+* Option 2 is the preferred approach because it makes sure that you're off to a fresh start.
+* Option 1 is probably fine for this case
+* Option 2 is what you would do if you were to collaborate on someone else's project
+
+---
+
+## What is the `remote`?
+
+* You have been working on your *local* version of the repository on AWS
+* The *remote* version is what is on GitHub and is under your account (e.g. pschloss)
+* We need a second remote, *upstream*, that tells git what the version upstream or the parent of our repository
+
+---
+
+## Looking at the remotes
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git remote -v
+origin	https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git (fetch)
+origin	https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git (push)
+```
+
+--
+<br/>
+## Let's set our upstream remote
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git remote add upstream https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013.git
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git remote -v
+origin	https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git (fetch)
+origin	https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git (push)
+upstream	https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013.git (fetch)
+upstream	https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013.git (push)
+```
+
+---
+
+## Fetching and pulling
+
+* Doing it in two steps...
+  * A `fetch` brings down a the commits from the remote branch that are not in your current branch and stores them locally
+  * A `merge` will integrate the commits from the remote branch into your local branch
+  * Allows you to manage potential conflicts
+--
+
+* Doing it in one step...
+  * A `pull` will both fetch and merge the remote commits
+  * If you aren't keeping track of things closely, a `pull` may result in numerous conflicts
+--
+
+* In the original version control tutorial we used `pull` since we were the only one working on the remote version - this would still be the case with the version in your account, but may not be the case with your upstream branch
+---
+
+## What this looks like...
+
+<br/>
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git pull origin
+Already up-to-date.
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git fetch upstream
+From https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013
+ * [new branch]      master     -> upstream/master
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge upstream/master
+Already up-to-date.
+```
+
+--
+### Note that instead of the git `pull command`, you could also do
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git fetch origin
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge origin
+Already up-to-date.
+```
+
+---
+
+## Issue 4
+
+1\. Create the issue in GitHub on the upstream repository (e.g. the one in SchlossLab)
+--
+
+.center[![:scale Create the issue in GitHub on the upstream repository, 75%]({{site.baseurl}}/assets/images/issue_004.png)]
+
+---
+
+## Issue 4
+
+2\. Create a branch in your local repository for the issue
+--
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout -b issue_004
+Switched to a new branch 'issue_004'
+```
+
+--
+
+<br/>
+3\. Edit `code/plot_nmds.R`
+
+---
+
+```R
+################################################################################
+#
+# plot_nmds.R
+#
+# Here we take in the *.nmds.axes file from the mouse stability analysis and
+# plot it in R as we did in Figure 4 of Kozich et al.
+#
+# Dependencies:   2-D axes file generated by the nmds command in mothur
+# Produces:       results/figures/nmds_figure.png
+#
+################################################################################
+
+library(dplyr)
+library(ggplot2)
+
+plot_nmds <- function (axes_file){
+
+  axes <- read.table(file=axes_file, header=T, row.names=1) %>%
+						mutate(day = as.numeric(gsub(".*D(\\d*)$", "\\1", rownames(.)))) %>%
+						mutate(early_late = ifelse(day <= 10, "early", ifelse(day>=140 & day <=150, "late", NA))) %>%
+						filter(!is.na(early_late))
+
+	ggplot(axes) +
+		aes(x=axis1, y=axis2, pch=early_late, col=early_late) +
+		geom_point(pch=19) +
+		labs(x="NMDS Axis 1", y="NMDS Axis 2") +
+		scale_color_brewer(palette="Set1", labels=c("Early", "Late"), name=NULL) +
+		theme_classic() +
+			theme(legend.background = element_rect(size=0.5, linetype="solid", color="black"),
+						legend.text = element_text(size=12),
+						legend.position = c(0.15,0.15),
+						axis.title = element_text(size=14),
+						axis.text = element_text(size=12),
+						panel.border = element_rect(colour = "black", fill=NA, size=1)
+			) +
+		ggsave("results/figures/nmds_figure.png")
+}
+```
+
+---
+
+## Confirm that we're on the issue branch
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_004
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   code/plot_nmds.R
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+--
+
+## Confirm that `make write.paper` works
+--
+
+## Commit the changes to your `issue_004` branch
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git add code/plot_nmds.R results/figures/nmds_figure.png submission/manuscript.pdf
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git commit -m "Refactor code to use tidyverse, addresses #4"
+[issue_004 f593581] Refactor code to use tidyverse, addresses #4
+ Date: Fri Dec 15 18:07:41 2017 +0000
+ 3 files changed, 39 insertions(+), 38 deletions(-)
+ rewrite code/plot_nmds.R (63%)
+ rewrite results/figures/nmds_figure.png (97%)
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_004
+nothing to commit, working directory clean
+```
+
+---
+
+## Push the *branch*
+
+1\. First we need to make sure that we're synced with the upstream version
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git fetch upstream
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge upstream/master
+Already up-to-date.
+```
+--
+
+<br>
+2\. Now we push our branch up to our remote branch
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git push origin issue_004
+Username for 'https://github.com': pschloss
+Password for 'https://pschloss@github.com':
+Counting objects: 9, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (9/9), 170.60 KiB | 0 bytes/s, done.
+Total 9 (delta 4), reused 0 (delta 0)
+remote: Resolving deltas: 100% (4/4), completed with 3 local objects.
+To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
+ * [new branch]      issue_004 -> issue_004
+```
+
+---
+
+## Use GitHub interface to create pull request
+
+.center[![:scale Confirm that new branch exists on GitHub and create pull request, 85%]({{site.baseurl}}/assets/images/new_github_branch.png)]
+
+---
+
+## Describe pull request
+
+.center[![:scale Fill in information to tell the developer what has been done in the pull request, 60%]({{site.baseurl}}/assets/images/issue_04_create_pr.png)]
+
+---
+
+## Wait for someone to review your PR
+
+.center[![:scale At this stage someone else can look at your modifications and either accept the changes or make suggestions, 60%]({{site.baseurl}}/assets/images/issue_04_pr_iteration_1.png)]
+
+---
+
+## Get critique from someone
+
+.center[![:scale At this stage someone else can look at your modifications and either accept the changes or make suggestions, 50%]({{site.baseurl}}/assets/images/issue_04_pr_feedback_iteration_1.png)]
+
+---
+
+## Set guidelines for making contributions
+
+```
+# Contributing to MY_NEW_PROJECT
+
+Complete the following for your project...
+
+* Steps for creating good issues or pull requests.
+* Links to external documentation, mailing lists, or a code of conduct.
+* Community and behavioral expectations.
+```
+
+---
+
+## This will render as a link when filing a new issue
+
+.center[![:scale Contributions link, 80%]({{site.baseurl}}/assets/images/new_issue_contribution.png)]
+
+---
+
+## Redirects to the `CONTRIBUTING.md` page
+
+.center[![:scale Contributions link, 80%]({{site.baseurl}}/assets/images/contributing_md.png)]
+
+.footnote.alert[See the [Software Carpentry page](https://github.com/swcarpentry/website/blob/gh-pages/CONTRIBUTING.md) for a more developed version]
+
+---
+
+## Code review
+
+---
+
+class: middle
+
+```
+...
+  +- Makefile       # executable Makefile for this study, if applicable
 
 
-http://swcarpentry.github.io/git-novice/08-collab/
-http://swcarpentry.github.io/git-novice/09-conflict/
+### How to regenerate this repository
+
+#### Dependencies and locations
+* Gnu Make should be located in the user's PATH
+* mothur (v1.XX.0) should be located in the user's PATH
+* R (v. 3.X.X) should be located in the user's PATH
+  * dplyr (v0.7.4)
+  * ggplot2 (v2.2.1)
+* etc.
+
+
+#### Running analysis
+...
+```
+---
+
+class: middle
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch issue_004
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git add README.md
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git commit -m "Add tidyverse dependencies"
+[issue_004 9371170] Add tidyverse dependencies
+ 1 file changed, 2 insertions(+)
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git fetch upstream
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge upstream/master
+Already up-to-date.
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git push origin issue_004
+Counting objects: 3, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 339 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
+   f593581..9371170  issue_004 -> issue_004
+```
+
+---
+
+## Round 2
+
+.center[![:scale At this stage someone else can look at your modifications and either accept the changes or make suggestions, 50%]({{site.baseurl}}/assets/images/issue_04_pr_iteration_2.png)]
+
+---
+
+## Round 2
+
+.center[![:scale The developer gives positive feedback, 50%]({{site.baseurl}}/assets/images/issue_04_pr_feedback_iteration_2.png)]
+
+
+---
+
+## Pull request accepted
+
+.center[![:scale Your pull request gets merged into codebase, 50%]({{site.baseurl}}/assets/images/issue_04_pr_merge.png)]
+
+---
+
+## Pull request accepted
+
+.center[![:scale Your pull request gets merged into codebase, 50%]({{site.baseurl}}/assets/images/issue_04_pr_final.png)]
+
+---
+
+## Pull request accepted
+
+.center[![:scale Your pull request gets merged into codebase, 50%]({{site.baseurl}}/assets/images/issue_04_pr_branch_deleted.png)]
+
+---
+
+## Pull request accepted
+
+.center[![:scale Your pull request gets merged into codebase, 50%]({{site.baseurl}}/assets/images/issue_04_pr_accepted.png)]
+
+---
+
+## Issue 4 closed
+
+.center[![:scale Issue 4 can be closed, 50%]({{site.baseurl}}/assets/images/issue_04_closed.png)]
+
+---
+
+## Update your local repository
+
+Fetch and merge the upstream version of `master`
+
+```
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout master
+Switched to branch 'master'
+Your branch is up-to-date with 'origin/master'.
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git fetch upstream
+remote: Counting objects: 1, done.
+remote: Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (1/1), done.
+From https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013
+   24abf18..269a650  master     -> upstream/master
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge upstream/master
+Updating 24abf18..269a650
+Fast-forward
+ README.md                       |   2 ++
+ code/plot_nmds.R                |  43 ++++++++++++++++++++++---------------------
+ results/figures/nmds_figure.png | Bin 17954 -> 153646 bytes
+ submission/manuscript.pdf       | Bin 51920 -> 187424 bytes
+ 4 files changed, 24 insertions(+), 21 deletions(-)
+```
+---
+
+## Update your local repository
+
+Push the merged version to your GitHub copy of the forked_repository
+
+```
+untu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 3 commits.
+  (use "git push" to publish your local commits)
+nothing to commit, working directory clean
+ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git push
+Counting objects: 13, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (13/13), done.
+Writing objects: 100% (13/13), 171.52 KiB | 0 bytes/s, done.
+Total 13 (delta 6), reused 0 (delta 0)
+remote: Resolving deltas: 100% (6/6), completed with 4 local objects.
+To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
+   24abf18..269a650  master -> master
+```
+
+---
+
+## Exercise
+
+* Based on what you've learned in this series of tutorials, why should the "final" version of your repository be in your group's organization account and not just your private account?
+* Looking around the GitHub version of your lab's copy of the repositoryl, How would you add someone from your lab to review your code?
+* Who could provide a review of your code?
+
+---
+
+## Get a "virtual" badge for completing these tutorials
+
+* You will need to add yourself to the "Honor Roll"
+* To do this...
+  * Fork a copy of the [repository](https://github.com/riffomonas/reproducible_research.git) that supports this website
+  * Create a local copy of the repository
+  * Add a file that is named `your_github_id.yml` (e.g. `pschloss.yml`) that is a copy of `_honor_roll/_template.yml`
+  * Complete the needed information
+  * Add the changes to your copy of the respository
+  * Create pull request
+  * After it has been accepted you will see your information on the [honor roll](../honor_roll/) page
