@@ -1,8 +1,3 @@
-To do...
-* Redo kozich images with the w_metag data
-* Format links to minimalR
-* Learning goals and objectives
-
 ## Notes
 * Delete rr_practice repository
 * Delete Kozich_ReAnalysis_mBio_2013 repository
