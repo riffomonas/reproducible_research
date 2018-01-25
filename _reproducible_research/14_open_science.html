@@ -7,21 +7,263 @@ class: middle center
 
 # {{ page.title }}
 
+.center[[![:scale Make your research open!, 80%]({{site.baseurl}}/assets/images/leeuwenhoek-doodle.gif)](https://www.google.com/doodles/antoni-van-leeuwenhoeks-384th-birthday)]
+
 ---
 
 ## Learning goals
-* Licenses
-* Preprints
-* Public vs. private repositories
-* CITATION.md
-* Contributions file
-* Making your repository more discoverable
-  * URL in paper
-  * Tagging your repository
 
+* Justify the value of doing open science
+* Identify the steps you can take to maximize the discoverability of your work
 
 ---
 
-http://swcarpentry.github.io/git-novice/10-open/
-http://swcarpentry.github.io/git-novice/11-licensing/
-http://swcarpentry.github.io/git-novice/12-citation/
+## Case study: Leeuwenhoek's 'Concerning Little Animals'
+
+* Revolutionized microbiology because of his microscope and precise grinding of lenses
+--
+
+* His descriptions of little animals aroused suspicion
+  * Wrote in low Dutch, which had to be translated to English and was heavily edited
+  * Refused to give any description of his methods
+  * Actively discouraged teaching people his methods of grinding lenses
+--
+
+* Hooke, Huygens, others were initially unable to reproduce his work
+  * Hooke eventually validated Leeuwenhoek's results
+  * Was able to use this experience to popularize compound microscope design
+  * Leeuwenhoek's microscopes that were possibly better than Hooke's were forgotten
+
+.footnote[[Lane 2015. Phil Trans R Soc B](http://rstb.royalsocietypublishing.org/content/370/1666/20140344)]
+---
+
+## Team Leeuwenhoek or Team Hooke?
+
+.left-column[
+
+.center[![:scale Leeuwenhoek microscope, 60%]({{site.baseurl}}/assets/images/leeuwenhoek_microscope.png)]
+
+.footnote[[Jeroen Rouwkema](https://en.wikipedia.org/wiki/Antonie_van_Leeuwenhoek#/media/File:Leeuwenhoek_Microscope.png)]
+]
+
+.right-column[
+.center[![:scale Hooke microscope, 80%]({{site.baseurl}}/assets/images/hooke_microscope.png)]
+
+.footnote[[Public domain](https://en.wikipedia.org/wiki/Robert_Hooke)]
+
+
+]
+
+---
+
+## Science done in the open has a bigger impact
+
+* These papers are better cited
+* Easier for others to build off your work
+* Builds transparency - a critical component of reproducible research
+
+---
+
+## Tools we have to maximize openness of your work
+
+<div style="float:right;">
+![:scale Make your research open!, 100%]({{site.baseurl}}/assets/images/open_access.png)
+</div>
+
+* Licenses and Copyrights
+* Public vs. private repositories
+* `CITATION.md` file
+* `CONTRIBUTING.md` file
+* Make your repository discoverable
+  * URL in paper
+  * Tagging your repository
+* Preprints
+* Publish in Open Access journals
+
+---
+
+## Licenses and Copyrights
+
+* If a license or copyright are not provided with code or text, it is presumed to be closed source with all rights remaining with the author (i.e. not open)
+* Do not write a license from scratch unless you are a lawyer (even then, why?)
+* Numerous options are availble and this can be confusing
+	* https://choosealicense.com
+	* https://creativecommons.org/share-your-work/
+  * https://opensource.org/licenses
+  * https://www.gnu.org/licenses/license-list.html
+  * https://opensource.guide/legal/
+
+---
+
+## Legalese
+
+* Copyright declares and proves who owns the intellectual property (the code, text, etc.) and exists without you asserting it
+* Licensing describes the terms under which people are allowed to use the copyrighted material and you have to grant it to others
+
+---
+
+## Important points
+
+* If you include other people's code in your code and it has the [General Public License (GPL)](https://www.gnu.org/licenses/gpl-3.0.en.html), then your code must be licensed with the GPL as well
+* You are highly unlikely to make any money off of your code
+* A closed or restrictive license is more likely to reduce the number of citations than a more open license
+* Creative Commons licenses (e.g. CC-BY) [do not cover source code](https://opensource.stackexchange.com/questions/1717/why-is-cc-by-sa-discouraged-for-code)
+
+---
+
+## What do we do in the Schloss Lab?
+
+* Generally uses the [MIT License](https://opensource.org/licenses/MIT) for our code
+  * Requires all copies of the licensed software include a copy of the license and the copyright notice
+  * We still retain copyrights
+* Papers and preprints use the [CC-BY license](https://creativecommons.org/licenses/by/4.0/)
+  * Require attribution
+  * Allows others to do whatever they want with the material
+
+---
+
+class: center,middle
+
+![:scale You can edit your license to either change the license or change the copyright information]({{site.baseurl}}/assets/images/license.png)
+
+???
+
+GitHub helps you to add a license to your project
+
+---
+
+class: center,middle
+
+![:scale You can edit your license to either change the license or change the copyright information]({{site.baseurl}}/assets/images/edit_license.png)
+
+---
+
+class: center,middle
+
+![:scale You can change the license]({{site.baseurl}}/assets/images/select_license.png)
+
+---
+
+## Public vs. private repositories
+
+* Private repositories allow you to restrict who can see your work
+* GitHub gives academic users [unlimited private repositories](https://help.github.com/articles/discounted-organization-accounts/)
+* It is OK to work with a private repository, but make it **_public_** before submitting your manuscript
+* The odds of anyone scooping you if you work in a public repository are very low. Probably more likely that you get unsolicited help
+
+???
+
+* I typically work in public, but much of my lab prefers to work in private
+* All of mothur development is done publicly
+
+---
+
+## `CITATION.md` file
+
+Add a file called `CITATION.md` to the root of your GitHub repository that tells people how to cite your work
+
+```
+To reference this project in publications, please cite the following:
+
+Kozich JJ, Westcott SL, Baxter NT, Highlander SK, Schloss PD. Development of a
+dual-index sequencing strategy and curation pipeline for analyzing amplicon
+sequence data on the MiSeq Illumina sequencing platform. Appl Environ Microbiol.
+2013 Sep;79(17):5112-20. doi: 10.1128/AEM.01043-13.
+
+@article{Kozich2013,
+  doi = {10.1128/aem.01043-13},
+  url = {https://doi.org/10.1128/aem.01043-13},
+  year  = {2013},
+  month = {jun},
+  publisher = {American Society for Microbiology},
+  volume = {79},
+  number = {17},
+  pages = {5112--5120},
+  author = {James J. Kozich and Sarah L. Westcott and Nielson T. Baxter and Sarah K. Highlander and Patrick D. Schloss},
+  title = {Development of a Dual-Index Sequencing Strategy and Curation Pipeline for Analyzing Amplicon Sequence Data on the {MiSeq} Illumina Sequencing Platform},
+  journal = {Applied and Environmental Microbiology}
+}
+```
+
+---
+
+## `CONTRIBUTING.md` file
+
+* We have already discussed the value of a `CONTRIBUTING.md` file in the previous tutorial
+* Helps to direct community members to the standards that you expect them to follow in terms of behavior and coding
+* Signals that you are looking for people to contribute to your project
+
+---
+
+## Make your repository discoverable
+
+* Be sure to include the URL to your GitHub page in the manuscript
+* Obtain a digital object identifier (DOI) for your repository
+  - [Zenodo](https://zenodo.org) is a service that interacts with GitHub to create a permanent link to your repository (i.e. no link rot)
+  - Can version your DOIs so people can link to specific instances of your repository
+  - The repository, not just the paper, becomes citable and those citations can be tracked
+* Tagging your repository
+
+---
+
+class: middle, center
+
+![:scale Click on the topics link]({{site.baseurl}}/assets/images/topics_add.png)
+
+---
+
+class: middle, center
+
+![:scale Enter reproducible-paper]({{site.baseurl}}/assets/images/topics_reproducible_paper.png)
+
+---
+
+class: middle, center
+
+![:scale Once you hit enter, click on the new link]({{site.baseurl}}/assets/images/topics_link.png)
+
+---
+
+class: middle, center
+
+![:scale See the other papers with that topic]({{site.baseurl}}/assets/images/topics_list.png)
+
+---
+
+<div style="float:right;margin-top:40px">
+	<img src="{{site.baseurl}}/assets/images/preprints.png">
+</div>
+
+## Preprints
+
+* Traditional peer review process...
+  * Your work is seen by 2 reviewers and an editor
+  * Adversarial process
+  * Secretive
+  * Slow
+* Preprints supplement peer review...
+  * Open for anyone to see; high engagement
+	* Collaborative
+  * Public
+  * Immediate
+* [Learn more about preprints!](http://mbio.asm.org/content/8/3/e00438-17.full)
+
+---
+
+## Publish in Open Access journals!
+
+* [Papers published with an open access model](http://www.nature.com/openresearch/about-open-access/benefits-for-authors/) have higher accessability, citation, likelihood of being built upon by others
+* If you received NIH funding, a version must be publicly posted in [PubMed Central](https://www.ncbi.nlm.nih.gov/pmc/)
+* There are a variety of models that journals use to make their work open access
+* You retain copyright
+* Can be expensive ([PeerJ: $1,095](https://peerj.com/pricing/); [ASM Journals: $2,300](http://msphere.asm.org/content/publication-fees); [Nature Communications: $5,200](http://www.nature.com/openresearch/publishing-with-npg/nature-journals/))
+
+---
+
+## Exercises
+
+* Who owns the copyright of the last three papers published in your lab?
+* Can you find the licenses used for R, mothur, and QIIME?
+* Have a discussion with your PI and the rest of your lab regarding which software license you think best fits your projects
+* Do your PI and research group have a preference for whether to publish your research under an open source license?
+* Read and discuss the ideas put forth in "[Preprinting Microbiology](http://mbio.asm.org/content/8/3/e00438-17.full)" at one of your research group's lab meetings. What would it take to submit your next paper as a preprint? If you have already posted a preprint, what was your experience?

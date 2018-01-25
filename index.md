@@ -36,7 +36,7 @@ This paper by Noble lays out the rough ground work for the practical aspects of 
 1. [Automation and satisfying dependencies with makefiles](make)
 1. [How to collaborate with yourself](collaboration_with_yourself)
 1. [How to collaborate with others](collaboration_with_others)
-1. [Doing open science](open_science) (still in prep...)
+1. [Doing open science](open_science)
 
 
 ## Dependencies
