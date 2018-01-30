@@ -49,7 +49,7 @@ When you're picking out a computer there are a few things to consider
 
 ## Ask yourself...
 
-.footnote[[Melba Roy Mouton](https://en.wikipedia.org/wiki/Melba_Roy_Mouton), a NASA "Computer"]
+.footnote[[Melba Roy Mouton](https://en.wikipedia.org/wiki/Melba_Roy_Mouton), an early NASA "Computer"]
 
 .left-column[
 * What am I going to use it for?
@@ -63,8 +63,8 @@ When you're picking out a computer there are a few things to consider
 ]
 
 
-.right-column[
-![Melba Roy]({{ site.baseurl }}/assets/images/melba_roy.jpg)
+.center.right-column[
+![:scale Melba Roy, 80%]({{ site.baseurl }}/assets/images/melba_roy.jpg)
 ]
 
 
@@ -399,7 +399,7 @@ $ mothur
 
 ---
 
-## [AWS Tutorial](https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/)
+## Do the [AWS Tutorial](https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/)
 
 ![AWS Launch a Linux Virtual Machine]({{ site.baseurl }}/assets/images/aws_tutorial.png)
 
@@ -467,7 +467,7 @@ Really important to go through this to demonstrate how to set up account and key
 ## Select instance type
 
 <br>
-![Selecting AMI Instance]({{ site.baseurl }}/assets/images/aws_instance_type.png)
+.center[![:scale Selecting AMI Instance, 70%]({{ site.baseurl }}/assets/images/aws_instance_type.png)]
 
 .footnote[[Numerous options available](https://aws.amazon.com/ec2/pricing/on-demand/)]
 ???
@@ -481,7 +481,7 @@ Really important to go through this to demonstrate how to set up account and key
 ## Add storage
 
 <br>
-![Set amount of storage]({{ site.baseurl }}/assets/images/aws_storage.png)
+.center[![:scale Set amount of storage, 70%]({{ site.baseurl }}/assets/images/aws_storage.png)]
 
 ???
 
@@ -493,7 +493,7 @@ Really important to go through this to demonstrate how to set up account and key
 
 ## Security
 
-![Set key-pair]({{ site.baseurl }}/assets/images/aws_key_pair.png)
+.center[![:scale Set key-pair, 80%]({{ site.baseurl }}/assets/images/aws_key_pair.png)]
 
 ???
 
@@ -545,6 +545,197 @@ Note that the login will ask whether you want to continue connecting
 * Moving data around...
   * Later we'll see how to get data into your instance using `wget` and `curl`
   * Can also use `sftp` to pull things down and put them up ~ same syntax as ssh
+  * Perhaps easiest way is to use the [FileZilla](https://filezilla-project.org/download.php?type=client) client
+
+
+???
+
+
+---
+
+
+## Setting up FileZilla
+
+.left-column[
+* FileZilla can be run on Windows, Mac OS X, and Linux
+* Download and install the appropriate version of [FileZilla](https://filezilla-project.org/download.php?type=client) for your computer (You don't need the "Pro" version)
+]
+
+.right.right-column[
+
+![:scale What a fresh install of FileZilla looks like, 90%]({{ site.baseurl }}/assets/images/filezilla_fresh.png)
+
+]
+
+---
+
+class: middle, center
+
+![:scale Click on SFTP and then Add key file...]({{ site.baseurl }}/assets/images/filezilla_sftp_settings.png)
+
+---
+
+class: middle, center
+
+![:scale Add keypair file...]({{ site.baseurl }}/assets/images/filezilla_find_keypair.png)
+
+???
+
+* On a Mac, hold down CMD-Shift-. (dot) to see the hidden files
+
+---
+
+class: middle, center
+
+![:scale keypair successfully loaded...]({{ site.baseurl }}/assets/images/filezilla_keypair_loaded.png)
+
+---
+
+class: middle, center
+
+![:scale Need to connect to our server...]({{ site.baseurl }}/assets/images/filezilla_select_server.png)
+
+---
+
+class: middle
+
+
+.center.left-column[
+![:scale Need the DNS from AWS...]({{ site.baseurl }}/assets/images/filezilla_aws_dns.png)
+]
+
+.center.right-column[
+![:scale Enter the information into Filezilla]({{ site.baseurl }}/assets/images/filezilla_aws_host_info.png)
+]
+
+
+---
+
+class: middle, center
+
+![:scale Approve the key connection...]({{ site.baseurl }}/assets/images/filezilla_approve_host_key.png)
+
+---
+
+class: middle, center
+
+![:scale Connected]({{ site.baseurl }}/assets/images/filezilla_aws_connected.png)
+
+???
+
+We would like to get rid of those dot (hidden) files
+
+---
+
+class: middle, center
+
+![:scale Filezilla -> View ]({{ site.baseurl }}/assets/images/filezilla_view.png)
+
+---
+
+class: middle, center
+
+![:scale Create a filter ]({{ site.baseurl }}/assets/images/filezilla_filters.png)
+
+---
+
+class: middle, center
+
+![:scale Create a filter ]({{ site.baseurl }}/assets/images/filezilla_create_filter.png)
+
+---
+
+class: middle, center
+
+![:scale Create a filter ]({{ site.baseurl }}/assets/images/filezilla_filter_name.png)
+
+---
+
+class: middle, center
+
+![:scale Create a filter ]({{ site.baseurl }}/assets/images/filezilla_program_filter.png)
+
+---
+
+class: middle, center
+
+![:scale Create a filter ]({{ site.baseurl }}/assets/images/filezilla_apply_ok_filter.png)
+
+---
+
+class: middle, center
+
+![:scale Create a filter ]({{ site.baseurl }}/assets/images/filezilla_filter_effect.png)
+
+---
+
+class: middle, center
+
+![:scale Set double click behavior ]({{ site.baseurl }}/assets/images/filezilla_double_click_behavior.png)
+
+???
+
+* We also want to set the behavior of double clicking
+* Easiest for our purposes to have a double click open a file rather than download it
+
+---
+
+## Let's test it out
+
+* Log into AWS
+* From your home directory (`cd ~`) do the following...
+
+```
+ubuntu@ip-172-30-0-221:~$ wget -O picture.jpg https://picsum.photos/400/?random
+--2018-01-30 15:40:30--  https://picsum.photos/400/?random
+Resolving picsum.photos (picsum.photos)... 104.37.178.1, 2610:1c8:c::1
+Connecting to picsum.photos (picsum.photos)|104.37.178.1|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: /400/400/?image=360 [following]
+--2018-01-30 15:40:30--  https://picsum.photos/400/400/?image=360
+Reusing existing connection to picsum.photos:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 20204 (20K) [image/jpeg]
+Saving to: ‘picture.jpg’
+
+picture.jpg          100%[====================>]  19.73K  --.-KB/s    in 0.001s
+
+2018-01-30 15:40:30 (24.4 MB/s) - ‘picture.jpg’ saved [20204/20204]
+
+ubuntu@ip-172-30-0-221:~$ ls
+picture.jpg
+
+```
+
+???
+
+The wget command should create an image file (picture.jpg) in your home directory.
+
+---
+
+class: middle
+
+.left-column[
+![:scale Before refreshing ]({{ site.baseurl }}/assets/images/filezilla_empty_directory.png)
+]
+
+--
+
+.right-column[
+![:scale After refreshing ]({{ site.baseurl }}/assets/images/filezilla_refrehsed_directory.png)
+
+]
+
+???
+---
+
+class: middle, center
+
+![:scale A random picture ]({{ site.baseurl }}/assets/images/filezilla_random_picture.png)
+
+???
+
+You will get a different random picture
 
 ---
 
@@ -573,10 +764,9 @@ class: middle, center
 ![Well done!]({{ site.baseurl }}/assets/images/good_job.gif)
 
 ---
+
 ## Exercises
 
 * How can using an HPC facilitate reproducible research?
-
---
-
 * What are the strengths and weaknesses of storing a project's analysis as an AMI?
+* From your terminal, delete `picture.jpg`. Confirm that you can no longer see it in Filezilla
