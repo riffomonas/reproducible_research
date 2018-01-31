@@ -57,7 +57,7 @@ What are the consequences of the public not trusting science?
 ---
 
 background-image: url({{ site.baseurl }}/assets/images/repro_contingency_table.png)
-background-size: 85%
+background-size: 80%
 background-position: 50% 50%
 
 .footnote[Kirstie Whitaker ([doi: 10.6084/m9.figshare.5440621](https://figshare.com/articles/Publishing_a_reproducible_paper/5440621))]
@@ -66,6 +66,16 @@ background-position: 50% 50%
 
 * Again, this is a slightly different definition.
 * It doesn't help that we also talk about "reproducible research" to cover everything in this table!
+
+---
+
+background-image: url({{ site.baseurl }}/assets/images/repro_contingency_table_mine.png)
+background-size: 80%
+background-position: 50% 50%
+
+???
+
+Different populations could mean different human cohorts, mice strains, bacterial strains, etc.
 
 ---
 
@@ -97,6 +107,28 @@ reproducibility
 
 ---
 
+## What are some threats to *reproducibility*?
+
+--
+
+.left-column[
+* Data are not publicly available
+* Incomplete methods section
+* Operating systems
+* Evolution of software/databases
+* Methods rabbit hole
+]
+
+.right-column[
+* Use of random number generators
+* Missing details in protocols
+* Availability of software
+* "Custom XXXXX scripts"
+* URL/e-mail rot
+]
+
+---
+
 ## What are some threats to *replicability*?
 
 --
@@ -121,33 +153,14 @@ reproducibility
 
 ---
 
-## What are some threats to *reproducibility*?
+class: middle, center
 
---
-
-.left-column[
-* Data are not publicly available
-* Incomplete methods section
-* Operating systems
-* Evolution of software/databases
-* Methods rabbit hole
-]
-
-.right-column[
-* Use of random number generators
-* Missing details in protocols
-* Availability of software
-* "Custom XXXXX scripts"
-* URL/e-mail rot
-]
-
---
-## .alert.center[This stuff is *really* hard!]
+# .alert[This stuff is *really* hard!]
 
 ---
 
 background-image: url({{ site.baseurl }}/assets/images/asm-reproducibility.jpg)
-background-size: contain
+background-size: 90%
 background-position: 50% 50%
 
 .footnote[[Casadevall et al. 2016 *mBio*](http://mbio.asm.org/content/7/4/e01256-16.abstract)]
@@ -165,13 +178,24 @@ class: middle
 * What would you have said to the colloquium participants?
 
 ---
-class: center middle
+
+class: center, middle
 
 ## Is research that is reproducible and/or replicable necessarily correct?
 
 ???
 
 No. But I'm optimistic that research that is well described and transparent is more likely to be done correctly. If nothing else, it provides an avenue for others to see how sensitive an analysis is to deviations from "correctness"
+
+---
+
+class: center, middle
+
+## Is a result that fails to replicate someone's "fault"?
+
+???
+
+Not necessarily. We will be discussing threats to reproducibility and replicability, but it is important to remeber that the ability to replicate a result is both a product of the underlying biology and random variation - A small p-value does not guarantee the correct result.
 
 ---
 
@@ -203,6 +227,24 @@ Discuss this with your PI or other people in your lab...
 
 ---
 
+## Philip Bourne baited others into doing this experiment
+
+<img src="{{site.baseurl}}/assets/images/bourne_table.png" alt="Bourne reproduciblity timing table" width=50% style="float:right;margin-top:20px">
+
+.footnote[[Garijo et al. 2013. *PLOS ONE*]( http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0080278)]
+
+.left-column[
+* In 2011, he challenged those attending the [*Beyond the PDF* workshop](https://sites.google.com/site/beyondthepdf/) to reproduce the work performed in his group's 2010 article [*The Mycobacterium tuberculosis Drugome and Its Polypharmacological Implications*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000976)
+* The result was a detailed analysis of what it would take an author, expert, novice and someone with minimal bioinformatics training to reproduce the analysis
+* Training and detailed/automated workflows were seen as critical factors (as well as time and money)
+]
+
+???
+
+We might ask what a reasonable amount of time is to expect someone to try to reproduce your result!
+
+---
+
 ## The Reproducibility Crisis: Bayer
 
 > An unspoken rule among early-stage venture capital firms that “at least 50% of published studies, even those in top-tier academic journals, can't be repeated with the same conclusions by an industrial lab"
@@ -211,7 +253,7 @@ Discuss this with your PI or other people in your lab...
 
 --
 
-![Prinz et al. figure]({{ site.baseurl }}/assets/images/prinz-replicability.png)
+.center[![:scale Prinz et al. figure, 70%]({{ site.baseurl }}/assets/images/prinz-replicability.png)]
 
 
 ???
@@ -291,7 +333,7 @@ There is a big push by NIH to improve the reproducibility and replicability of o
 
 ## Ravel & Wommack editorial in *Microbiome*
 
-![Ravel & Wommack editorial screen shot]({{ site.baseurl }}/assets/images/all-hail-reproducibility.png)
+.center[![:scale Ravel & Wommack editorial screen shot, 70%]({{ site.baseurl }}/assets/images/all-hail-reproducibility.png)]
 
 .footnote[[Ravel & Wommack 2014. *Microbiome*]( https://microbiomejournal.biomedcentral.com/articles/10.1186/2049-2618-2-8)]
 
