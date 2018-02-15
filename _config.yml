@@ -28,6 +28,11 @@ collections:
   reproducible_research:
     output: true
 
+layouts_dir: /resources/_layouts
+includes_dir: /resources/_includes
+sass:
+  sass_dir: /resources/_sass
+  style: compressed
 
 # Build settings
 markdown: kramdown
