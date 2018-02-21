@@ -27,6 +27,8 @@ github_username:  patschloss
 collections:
   reproducible_research:
     output: true
+  honor_roll:
+    output: true
 
 layouts_dir: /resources/_layouts
 includes_dir: /resources/_includes
