@@ -13,6 +13,40 @@ class: middle center
 
 ---
 
+## This is a test!
+
+This is a listing of the top 5 songs from [Casey Kasem's Top 40 Year End Countdown for 1976](http://oldradioshows.com/at100/1976.html). Using markdown, convert this to an ordered list and italicize the song name.
+
+<br>
+
+Silly Love Songs, Paul McCartney & Wings
+
+Don't Go Breaking My Heart, Elton John & Kiki Dee
+
+Disco Lady, Johnny Taylor
+
+December 1963, Four Seasons
+
+Play that Funky Music, Wild Cherry
+
+---
+
+## This is a test!
+
+This is a listing of the top 5 songs from [Casey Kasem's Top 40 Year End Countdown for 1976](http://oldradioshows.com/at100/1976.html). Using markdown, convert this to an ordered list and italicize the song name.
+
+<br>
+
+```
+1. *Silly Love Songs*, Paul McCartney & Wings
+1. *Don't Go Breaking My Heart*, Elton John & Kiki Dee
+1. *Disco Lady*, Johnny Taylor
+1. *December 1963*, Four Seasons
+1. *Play that Funky Music*, Wild Cherry
+```
+
+---
+
 ## This is an aside
 
 * Whether you use an HPC is not critical to whether your work is reproducible
@@ -153,17 +187,15 @@ You could buy a lot of Dr. Pepper and ice cream with the money you save, which w
 
 ---
 
-## Your local HPC
+## Getting to your HPC
 
-![Flux configuration]({{ site.baseurl }}/assets/images/flux_configuration.jpg)
-
-???
-
-* You log into the head node from your computer.
-* You will get yelled at if you run anything significant on the head node. Some systems will automatically boot you from the system if you run things on the head node
-* You cannot directly log into the compute nodes
-* Must submit a "job" to run your processes on one of the compute node
-* Can submit multiple jobs at the same time using a scheduler
+* Need to get information from your systems administrators
+* Will likely use:
+  * [`ssh`](https://www.ssh.com/ssh/): Mac OS X or Linux
+  * [`PuTTY`](https://www.chiark.greenend.org.uk/~sgtatham/putty/): Windows
+* May need to navigate things like:
+  * VPN
+  * Two-factor authentication
 
 ---
 
@@ -175,15 +207,17 @@ class:middle
 
 ---
 
-## Getting to your HPC
+## Your local HPC
 
-* Need to get information from your systems administrators
-* Will likely use:
-  * [`ssh`](https://www.ssh.com/ssh/): Mac OS X or Linux
-  * [`PuTTY`](https://www.chiark.greenend.org.uk/~sgtatham/putty/): Windows
-* May need to navigate things like:
-  * VPN
-  * Two-factor authentication
+![Flux configuration]({{ site.baseurl }}/assets/images/flux_configuration.jpg)
+
+???
+
+* You log into the head node from your computer.
+* You will get yelled at if you run anything significant on the head node. Some systems will automatically boot you from the system if you run things on the head node
+* You cannot directly log into the compute nodes
+* Must submit a "job" to run your processes on one of the compute node
+* Can submit multiple jobs at the same time using a scheduler
 
 ---
 
@@ -538,6 +572,32 @@ $ sudo apt upgrade
 
 ???
 Note that the login will ask whether you want to continue connecting
+
+---
+
+## `tmux`
+
+* You might have a job that needs to run for a long period of time
+  * Power could go out
+  * Internet might drop you
+  * You might want to move computer
+* Instead, run the interactive job in the background using the [`tmux`](https://gist.github.com/MohamedAlaa/2961058) program
+
+
+---
+
+## `tmux`
+
+* `tmux`: Start a session
+* `Control-b d`: Detach from current session
+* `tmux ls`: List existing tmux sessions
+* `tmux a` or `tmux a #0`: Attach a specified session
+* There are many other commands and features for use wiht `tmux`, but these will get you pretty far
+
+--
+
+<br>
+.alert.center[Remember to use `tmux` before starting your interactive PBS session!]
 
 ---
 
