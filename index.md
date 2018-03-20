@@ -13,7 +13,7 @@ title: Reproducible Research
 
 			<h3>Tutorials</h3>
 			<ol class="tutorials">
-				<li><a href="introduction">Introduction</a></li>
+				<li><a href="introduction">Introduction</a> <a href="https://www.youtube.com/watch?v=CfO_f6a3XSo&t="><i class="fab fa-youtube"></i></a></li>
 				<li><a href="reproducibility">Issues in reproducible research</a></li>
 				<li><a href="first_steps">First steps towards reproducibility</a></li>
 				<li><a href="hpc">Using high performance computers</a></li>
