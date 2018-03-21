@@ -14,7 +14,7 @@ title: Reproducible Research
 			<h3>Tutorials</h3>
 			<ol class="tutorials">
 				<li><a href="introduction">Introduction</a><a href="https://youtu.be/CfO_f6a3XSo"><i class="fab fa-youtube"></i></a></li>
-				<li><a href="reproducibility">Issues in reproducible research</a></li>
+				<li><a href="reproducibility">Issues in reproducible research</a><a href="https://youtu.be/Is_12ws11GQ"><i class="fab fa-youtube"></i></a></li>
 				<li><a href="first_steps">First steps towards reproducibility</a></li>
 				<li><a href="hpc">Using high performance computers</a></li>
 				<li><a href="documentation">The importance of documentation</a></li>
