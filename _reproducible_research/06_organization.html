@@ -68,7 +68,7 @@ You need to read: [Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscom
 	* [Westcott & Schloss *mSphere* study](https://github.com/SchlossLab/Westcott_OptiClust_mSphere_2017/)
 * Questions
 	* What do you notice about the structure of the two projects?
-  * How long did it taketo find the code for Figure 1?
+  * How long did it take to find the code for Figure 1?
   * Where is the main document?
 	* Where would the data go?
 
@@ -358,7 +358,7 @@ git push
   * The data (hint: grab the data from the "With genomes/metagenomes" link)
   * The reference files
   * mothur
-  * Dump the text (for the figure lengend and the paragraph titled, "Scaling up") in the main REAME.md
+  * Dump the text for the figure lengend and the paragraph titled, "Scaling up", in the main REAME.md
 * Obtain the files and put them in the correct locations
 * Do your best to document what you are doing
 
@@ -374,12 +374,23 @@ git push
 * `tar xvf` - unpacks a `.tar` file
 * `tar xvzf` - unpacks a `.tar.gz` or `.tgz` file
 * `rm` - removes files
+* In a mardown file you can have text rendered as code by putting the code inside of two sets of three back ticks
 
+```
+```
+code/mothur/mothur -v
+``````
+
+On GitHub, this will be rendered as...
+
+```bash
+code/mothur/mothur -v
+```
 ---
 
 ## When you're done...
 
-* Do not commit and push your changes - wait!
+* .alert[Wait!]  Do not commit or push your changes
 * Add me/your PI as a collaborator
   * "Settings" -> "Collaborators" -> Enter handle -> "Add collaborator"
   * I'm at `pschloss`
@@ -492,7 +503,7 @@ indicate that our approach can be scaled to multiplex large numbers of samples.
 
 ---
 
-## Write example command line text that does the following...
+## Write the command line code that does the following...
 
 * Creates a new directory called `my_awesome_directory`
 * Move from your home directory to the `my_awesome_directory` directory
