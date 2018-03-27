@@ -44,7 +44,7 @@ mv *.R code/
 
 ## Learning goals
 
-* Define and justfify the use of version control
+* Define and justify the use of version control
 * Differentiate between various version control approaches
 * Apply version control to your project
 * Construct meaningful descriptions of the differences between versions
@@ -434,6 +434,7 @@ nothing to commit, working tree clean
 * This is exactly<sup>*</sup> what we did with the paper airplane example in the earlier tutorial
 
 .footnote[<sup>*</sup> except that GitHub did it all for us]
+
 ---
 
 class: center middle
@@ -667,6 +668,41 @@ git diff 824d1786bbc8514fb260a38db63470d0fdcb6f49 README.md
 * You can `push` your commits as often as you want
 * Ideally at the end of a work session to have a back up
 * Remember to `pull` if you've changed something on GitHub (i.e. the remote) before you `push` again
+
+---
+
+## Ruh roh.
+
+You were trying to clean up your home directory and did this...
+
+```bash
+$ cd ~
+$ rm -rf silly_repository
+$ ls
+```
+
+<br/>
+Now what?!?!?
+
+--
+
+<br/>
+
+```bash
+$ git clone https://github.com/pschloss/silly_repository.git
+$ ls
+$ cd silly_repository
+$ ls
+```
+
+<br/>
+Phew!
+
+---
+
+class: center middle
+
+![Sheep cheering]({{ site.baseurl }}/assets/images/sheep-cheering.gif)
 
 ---
 
