@@ -11,6 +11,29 @@ class: middle center
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
 ---
+
+## Exercise
+
+You've made a few changes to README.md to update the versions of the software packages you are using in your analysis. What are the commands that you would enter to commit and push those changes?
+
+--
+
+```bash
+$ git status
+$ git add README.md
+$ git status
+$ git commit -m "Update versions of software packages"
+$ git status
+$ git push
+```
+
+--
+
+<br/>
+If you want to be super careful, you might also want to run `git pull` before the first `git status`
+
+---
+
 ## Learning goals
 
 * Appreciate the value of automating analyses
