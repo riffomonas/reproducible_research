@@ -34,7 +34,7 @@ title: Reproducible Research
 				<li><a href="organization">Organizational skills for reproducibility</a></li>
 				<li><a href="version_control">Using version control</a></li>
 				<li><a href="automation">Automating reproducible analyses</a></li>
-				<li><a href="programmatic_analyses">Using scripts to go from raw to polished</a></li>
+				<li><a href="scripting_analyses">Scripting analyses</a></li>
 				<li><a href="literate_programming">Generating reproducible documents</a></li>
 				<li><a href="make">Automation with makefiles</a></li>
 				<li><a href="collaboration_with_yourself">How to collaborate with yourself</a></li>
