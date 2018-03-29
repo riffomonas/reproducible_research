@@ -29,7 +29,11 @@ title: Reproducible Research
 				</li>
 
 
-				<li><a href="hpc">Using high performance computers</a></li>
+				<li>
+					<a href="hpc">Using high performance computers</a>
+					<a href="https://youtu.be/5RgRS5VPX1g"><i class="fab fa-youtube"></i></a>
+				</li>
+
 				<li><a href="documentation">The importance of documentation</a></li>
 				<li><a href="organization">Organizational skills for reproducibility</a></li>
 				<li><a href="version_control">Using version control</a></li>
