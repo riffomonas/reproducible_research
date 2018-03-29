@@ -264,11 +264,15 @@ calc_shannon <- function(otu_count_vector){
 	shannon <- -1 * relative_abundance * sum(log(relative_abundance))
 	return(shannon)
 }
+otus <- c(50, 40, 30, 20, 10, 5, 2, 1, 1, 1, 1, 1)
+calc_shannon(otus)
+ [1] 13.1012820 10.4810256  7.8607692  5.2405128  2.6202564  1.3101282
+ [7]  0.5240513  0.2620256  0.2620256  0.2620256  0.2620256  0.2620256
 ```
 
---
+---
 
-Let's try that again...
+## Let's try that again...
 
 ```R
 calc_shannon <- function(otu_count_vector){
@@ -276,11 +280,13 @@ calc_shannon <- function(otu_count_vector){
 	shannon <- -1 * sum(relative_abundance * log(relative_abundance))
 	return(shannon)
 }
+calc_shannon(otus)
+[1] 1.769286
 ```
 
 --
 <br>
-If I want to change a color or plotting symbol or correct a bug in the calculation of the Shannon index or make it more efficient, I only need to change these lines of code - not where they're repeated
+To correct a bug in the calculation of the Shannon index or make it more efficient, I only need to change these lines of code - not where they're repeated
 
 ---
 
