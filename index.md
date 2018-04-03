@@ -34,7 +34,11 @@ title: Reproducible Research
 					<a href="https://youtu.be/5RgRS5VPX1g"><i class="fab fa-youtube"></i></a>
 				</li>
 
-				<li><a href="documentation">The importance of documentation</a></li>
+				<li>
+					<a href="documentation">The importance of documentation</a>
+					<a href="https://youtu.be/llOrbyj0rp8"><i class="fab fa-youtube"></i></a>
+				</li>
+
 				<li><a href="organization">Organizational skills for reproducibility</a></li>
 				<li><a href="version_control">Using version control</a></li>
 				<li><a href="automation">Automating reproducible analyses</a></li>
