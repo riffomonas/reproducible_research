@@ -39,7 +39,11 @@ title: Reproducible Research
 					<a href="https://youtu.be/llOrbyj0rp8"><i class="fab fa-youtube"></i></a>
 				</li>
 
-				<li><a href="organization">Organizational skills for reproducibility</a></li>
+				<li>
+					<a href="organization">Organizational skills for reproducibility</a>
+					<a href="https://youtu.be/kUnDnmBBGuU"><i class="fab fa-youtube"></i></a>
+				</li>
+
 				<li><a href="version_control">Using version control</a></li>
 				<li><a href="automation">Automating reproducible analyses</a></li>
 				<li><a href="scripting_analyses">Scripting analyses</a></li>
