@@ -44,7 +44,12 @@ title: Reproducible Research
 					<a href="https://youtu.be/kUnDnmBBGuU"><i class="fab fa-youtube"></i></a>
 				</li>
 
-				<li><a href="version_control">Using version control</a></li>
+				<li>
+					<a href="version_control">Using version control</a>
+					<a href="https://youtu.be/299Anq-Fc4w"><i class="fab fa-youtube"></i></a>
+				</li>
+
+
 				<li><a href="automation">Automating reproducible analyses</a></li>
 				<li><a href="scripting_analyses">Scripting analyses</a></li>
 				<li><a href="literate_programming">Generating reproducible documents</a></li>
