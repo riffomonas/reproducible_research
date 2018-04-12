@@ -50,7 +50,11 @@ title: Reproducible Research
 				</li>
 
 
-				<li><a href="automation">Automating reproducible analyses</a></li>
+				<li>
+					<a href="automation">Automating reproducible analyses</a>
+					<a href="https://youtu.be/57pDlPCodkc"><i class="fab fa-youtube"></i></a>
+				</li>
+
 				<li><a href="scripting_analyses">Scripting analyses</a></li>
 				<li><a href="literate_programming">Generating reproducible documents</a></li>
 				<li><a href="make">Automation with makefiles</a></li>
