@@ -55,7 +55,12 @@ title: Reproducible Research
 					<a href="https://youtu.be/57pDlPCodkc"><i class="fab fa-youtube"></i></a>
 				</li>
 
-				<li><a href="scripting_analyses">Scripting analyses</a></li>
+				<li>
+					<a href="scripting_analyses">Scripting analyses</a>
+					<a href="https://youtu.be/FiN3GiCAupo"><i class="fab fa-youtube"></i></a>
+				</li>
+
+
 				<li><a href="literate_programming">Generating reproducible documents</a></li>
 				<li><a href="make">Automation with makefiles</a></li>
 				<li><a href="collaboration_with_yourself">How to collaborate with yourself</a></li>
