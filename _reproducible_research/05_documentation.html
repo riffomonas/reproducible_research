@@ -12,6 +12,22 @@ class: middle center
 .footnote.left.title[{{site.url}}{{site.baseurl}}{{page.permalink}}]
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
+???
+
+Welcome back to the <i>Riffomonas Reproducible Research Tutorial Series</i>. Today's tutorial is all about the importance of documentation. I don't know about you, but when I'm working on a project, my first inclination is to write for myself. Also, I generally have a very high regard for myself and my ability to remember things that I did today, tomorrow, next week, six months from now, even next year.
+
+The fact is I couldn't tell you what I had for lunch yesterday much less what I was doing for analysis on a project six months ago. I also have a bit of a bias recollection of things. If I were to describe to you how to get to my departmental seminar room, I might alter those instructions based on whether or not you're familiar with the University of Michigan. You may have encountered this with a previous tutorial, when we were developing instructions on how to fold a paper airplane.
+
+I might make certain assumptions that you would know what a paper airplane looks like and how it's supposed to be folded. So my instructions may have not been explicit to tell you to fold the paper airplane...to fold the piece of paper lengthwise. And so what I was looking for would be a paper airplane that looks like this. A fairly classical model of a paper airplane. But if you had folded it widthwise on the first step instead of lengthwise, you get a paper airplane that looks a little bit different.
+
+It has a shorter body. You'll see that the fins back here stick out at the back of the plane, right? And so it's a bit of an imperfect reproduction of my paper airplane. Right? Regardless, they still fly pretty well. I still have fun with them but it's an imperfect reproduction because I made a critical assumption about how you would make that first fold and perhaps I wasn't explicit enough in my instructions.
+
+Although writing documentation throughout analysis can be tedious and isn't a whole lot of fun, it's critical for ourselves albeit next week or six months from now. It's even more critical if we expect someone else to build upon our work. Today, we'll be discussing various ways that we can provide documentation throughout a project.
+
+A downfall of many projects is to see the final manuscript as the documentation for that project. Really, a manuscript is just a signpost along the way towards other projects that hopefully others will continue to build on. Regardless, there are many other steps going from the beginning of a project to a manuscript that need to be documented. Where did you get certain reference files?
+
+What did you do at different stages of the analysis? What parameters did you use? All these things need to be documented so that others can build upon them. And it's even more critical for you if you are going to be picking this project up again, say in six months or in two months after your reviewer's comments come back and you need to update the manuscript. Join me now in opening the slides for today's tutorial which you can find within the <i>Reproducible Research Tutorial Series</i> at the riffomonas.org website.
+
 ---
 
 background-image: url({{ site.baseurl }}/assets/images/repro_contingency_table_exercise.png)
@@ -19,14 +35,21 @@ background-size: 70%
 background-position: 50% 80%
 
 .alert[Can you fill in the missing text for each of the four quadrants?]
+
+???
+Before we discuss today's tutorial on documentation, I'd like to revisit some material that we discussed in the second tutorial of this series. You'll hopefully remember this grid that I suggested was a useful framework for thinking about issues in reproducible research. So what I'd like you to do is take 30 seconds or so and see if you can remember what goes in each of these four quadrants.
 ---
 
 background-image: url({{ site.baseurl }}/assets/images/repro_contingency_table_mine.png)
 background-size: 70%
 background-position: 50% 80%
 
----
+???
+There were single words that we had that I described going in each of these four areas. So go ahead and hit pause and once you've come up with a solution, go ahead and press play again. So hopefully you came up with something that looks like this where if you're using the same methods in the same population as somebody else and you get the same result, we'll say that's reproducible.
 
+If you've got the same population or system but you're using different methods, perhaps think of this as like triangulation, you would say that the result was robust. If you're using the same methods but on different systems or different populations, we'll say that the result is replicable. And then finally if you're using different methods applied to different populations and systems and you get the same result, we can say that that result then is generalizable.
+
+---
 
 ## Learning goals
 
@@ -36,6 +59,15 @@ background-position: 50% 80%
 * Review the written documentation of a project and provide recommendations
 * Critique and generate self-documenting directory, function, and variable names
 
+???
+
+So moving on in today's content, the learning goals for this tutorial are to first demonstrate that every threat to reproducibility is grounded in the ability to document one's work. All right? That every problem that we have with reproducibility is ultimately a problem of documentation and communicating with the people that follow us.
+
+Second, we want to identify the various forms of documentation that can appear in a reproducible research project. We'll then articulate the importance of scripting to document the processing of raw data to a final product. Next, we'll review the written documentation of a project and provide recommendations.
+
+And finally, we'll critique and generate self-documenting directory, function, and variable names in various scripts that we might use.
+
+
 ---
 
 class: middle center
@@ -43,6 +75,14 @@ class: middle center
 > Your single most important collaborator is you, six months from now and current you doesn't have email
 
 ~ Many People
+
+???
+
+A guiding principle in thinking about reproducibility is this quote that is popular among many people within the software carpentry community but nobody really knows who to attribute it to. "Your single most important collaborator is you, six months from now and current you doesn't have email," right? So how would you go about documenting your project if you knew that you had to drop it for six months, come back, and get going again? Right? So you have to go to a conference, or you're going on maternity leave, or you're going to be teaching for a semester.
+
+How would you write your documentation? How would you go about doing your project today anticipating something like that so that when you pick it back up again in a few months or few weeks you're ready to go again? And I, and many other people would agree that if you can do that, if you can document your project such that it's not that difficult to pick it back up again, then anybody else should be able to easily pick it up as well.
+
+And so by satisfying you as your most important collaborator, you will then satisfy future collaborators.
 
 ---
 
@@ -58,11 +98,17 @@ class: middle center
 
 ???
 
-All of these have some aspect of documentation baked into them.
+So today, to discuss where we're going, we're going to talk about various types of documentation and specifically written documentation and then a number of other areas where we can document our project without really writing out pages of documentation.
+
+One area is a principle of keeping your raw data raw, using data organization as a form of documentation, the idea of scripting everything, the dry principle of don't repeat yourself, automation, and transparency. So we're going to be discussing each of these in this tutorial but they will all come up again, and again, and again in subsequent tutorials.
+
+So if they seem a little bit abstract right now or if I'm talking about comment in code, know that we will be doing more of comment in code later in the tutorial. This is an introduction to these different ways that we can provide documentation.
 
 ---
 
 ## Where have we seen the importance of documentation already?
+???
+This is an introduction to these different ways that we can provide documentation. So where have we seen the importance of documentation already? Okay, so think about, I think this is the fifth tutorial in the series, where have we already seen the importance of documentation?
 --
 
 * ORCID provides a universal way to connect to someone
@@ -73,23 +119,66 @@ All of these have some aspect of documentation baked into them.
 * README.md exercise
 * Commit messages
 
+???
+Well, this is a partial list and so one area we might think of is at our ORCID iD which provides a universal way to connect to somebody.
+
+It kind of aggregates all of their scholarship. We might think about the data description fields in a figshare data set. Meadows et al. in that paper we looked at, used our Markdown documents which combined both code and text. There's a project description in GitHub for each repository. When we wrote that README file for the paper airplane exercise, that was another example.
+
+And then also the project license that you may have seen in a few of those projects. The dense documentation about the permissions that the authors give to subsequent researchers for how they can interact with and use the code. And then also, when we were doing the paper airplane exercise at the bottom of the page we'd write little text about what we did to update the code, and those are called commit messages which we'll see in the subsequent tutorials when we talk more about version control.
 ---
 
 ## What makes a README.md useful?
 
 * Examples
-	* [Meadow et al. *Microbiome* study](https://github.com/jfmeadow/Meadow_etal_Surfaces/blob/master/README.md)
-	* [Sze et al. *mBio* study](https://github.com/SchlossLab/Sze_Obesity_mBio_2016/blob/master/README.md)
-	* [Westcott & Schloss *mSphere* study](https://github.com/SchlossLab/Westcott_OptiClust_mSphere_2017/blob/master/README.md)
+  * [Meadow et al. *Microbiome* study](https://github.com/jfmeadow/Meadow_etal_Surfaces/blob/master/README.md)
+  * [Sze et al. *mBio* study](https://github.com/SchlossLab/Sze_Obesity_mBio_2016/blob/master/README.md)
+  * [Westcott & Schloss *mSphere* study](https://github.com/SchlossLab/Westcott_OptiClust_mSphere_2017/blob/master/README.md)
 * Questions
   * What do you notice about these?
   * What else would you like to see?
-	* How would you change the README you wrote for the paper airplane example?
+  * How would you change the README you wrote for the paper airplane example?
 
 ???
 
-* These three examples span a spectrum from minimalistic to more complex
-* Documentation is frequently a thankless task that no one wants to spend time on when they could be analyzing data and writing a manuscript
+So, all of these are examples of documentation that don't involve us writing copious lines of text describing how we did something. The documentation is baked in to these various aspects of how we're doing our project and that's a great practice. So one of the really useful tools is what's called a README file.
+
+And again, we've seen these in various GitHub repositories that we've already looked at including our paper airplane example. And so what makes a README file useful? And so I think to help with this, let's look at a couple of different examples. So we'll look at the Meadow et al. Microbiome study. Two papers from my lab, one from Marc Sze and colleagues looking in mBio as well as a paper from Sarah Westcott and myself.
+
+And so as we look at these, what I want you to answer… as the questions I want you to answer are, what do you notice about them? What other information would you like to see? And how would you change the README you wrote for that paper airplane example in the previous tutorial? Okay? And again, I'm showing these examples not to say one is infinitely better than others, but I think they all have flaws.
+
+They all have weaknesses and we can learn from each of these to make better README files in the future. So I'm going to go ahead and click on these and open up in separate tabs. And so this is the Meadow et al. README file. I guess my link go straight to the README, but you'll see if you click on that link that as we recall, the GitHub will render the README file on the main page of the repository.
+
+It's also here in nice bold letters, README.md. And so if you look at this, these scripts detail statistical analysis of bacterial communities found on classroom surfaces, okay. And there's some amount of information here, it's pretty minimalistic I would say. Something if I was searching through GitHub and came upon this I might wonder, well, what's the title of the paper?
+
+Where is the paper? How do I get a hold of that? Right? Here is from Marc Sze's obesity paper and here he's got a title. I believe this is the abstract of the paper and some information about how to analyze the full data set, how much ram you might need, how long it takes to complete.
+
+And then there's an overview here of the organization of the project, and so you'll see the project directory. This is the top level README, there's a folder for documents, data, code, results, scratch, temporary files, other files, and a makefile. Again, if we click on this link to get back to the parent, we don't see a link to the actual paper and so maybe that would be a good thing for Marc and I to go ahead and do since this is our own paper, to tell people where this paper exists.
+
+And, yeah, I mean, it's got a lot of good stuff going for it but at the same time it's missing something. Something you might also notice is that up here there's directory for submission but down here there's no directory for submission, that says there's three files, study.Rmd, study.md, study.html.
+
+And those are probably here in this submission directory where there's a lot of other stuff that doesn't necessarily correspond to what we saw in the README file, okay? So there's documentation but it doesn't totally align with the documentation as it actually exists in the repository.
+
+So speaking from experience, you know, you're so excited to have the paper finished that generally you don't go back and tidy up these little pieces, but it's really important because again if somebody wanted to come along and if say, they say they did want to add their own data set to the pipeline, we need to improve the documentation so that it's easier for them to do that.
+
+So here is a third one, a paper from Sarah Westcott and I. Again, the title of the paper, the abstract, organization, different data files that we used. There's a directory called submission along with the various files in that directory. Down here is a list of the different dependencies you need to run the analysis, so what versions of the software we used, where the things need to be installed, and then how you would go about building the paper.
+
+So if you go to a prompt within their suppository and you type "make write.paper," it'll run it, okay? And then links to the data sets that we used in the study, links to the PubMed versions of those papers. Okay. So, again, more organization, more documentation, still no link to the paper which is pretty bad of me. And so we should go back and fix that, okay?
+
+So hopefully, by the time you're watching this video I've gone in and updated to indicate where it goes. And so a good place to do that might be right here, a paper describing OptiClust method. Let's go ahead and just do that. And so what I did is up here there's this description paper describing OptiClust method.
+
+You can press Edit and then we'll say, "paper describing OptiClust method published in mSphere, mSphere." And then let me go to PubMed, and get the PubMed link. So over to Schloss [au]. So I'll go ahead and grab that link and pop it into this description, maybe I'll put it in the website actually.
+
+We'll see how that works and go save. And so then you now see, "paper describing opticlust method published in mSphere." And here's a link to the paper, right? So that makes things really nice and it links it back to the paper then. And, of course, in the paper we describe the presence of the suppository.
+
+Another thing that we've done is that we've created a topic, as it's called within GitHub called reproducible-paper. So what you can do is if you click on Manage Topics, you could type in reproducible-paper and it will pull that up. And it will be basically a tag on your repository. And so if you then click on reproducible-paper, this will pull up other reproducible papers that people have been publishing and that they've tagged.
+
+And so here's somebody that put together some tools for doing reproducible research other things from my lab. Here is a reproducible paper from Ben Marwick. And so here again, is a really nice README file describing, "The repository contains research compendium of our work from the 1989 excavation of Malakanuja,"right?
+
+And so it's nice to be able to look at other people's repositories within this reproducible-research tag to get an idea of how we might improve the reproducibility of our own projects. Okay. So again, like I said, none of these files are perfect. They all leave a little bit to be desired, but as you interact with other people's repositories or as you look at what other people have done, critique them and think about what's good, what's limiting and what can you bring from those to improve your own study.
+
+Okay? So I'm going to go ahead and close these tabs out. A big problem with this, like we saw with the Meadow and Sze examples is that documentation is a very thankless task that no one wants to spend a lot of time on when they could be analyzing data and writing a manuscript.
+
+But again, in the long run if your goal is to get other people to build upon your work or if you want to be able to communicate with you in six months, it's really critical to have that documentation, to have that form of communication. It really helps to have a README in the root of your project, and that then provides navigation, can provide navigation to anyone coming into your project.
 
 ---
 
@@ -97,7 +186,11 @@ All of these have some aspect of documentation baked into them.
 
 * `README.md` in root of project directory provides a navigation to anyone coming to your project
 ???
-Important to note that every directory can/should have a README.md file that outlines what is in the directory and where it came from
+A nice feature of GitHub is that it will automatically show the README file when you open the repository's webpage. It's also useful to provide this directory structure so a newbie coming in knows where everything is or should be, right? Or if your PI comes in and needs to make a figure for a presentation, how difficult is it for them to find the data in the code to build a figure from your previous paper?
+
+You can also then specify software dependencies versions and where they should be installed, and then give instructions on how someone would enter the project and what they would do to run your project. And so this README that we're describing is in the root of your project. It's at the highest level folder of your project and so something you might also consider would be putting a README file in some of these subdirectories.
+
+So, putting a README file in your data directory to perhaps explain where did the data come from or putting a README file in your submission directory to perhaps describe where the manuscript has been submitted or what conferences you've presented it at.
 --
 
 * GitHub automatically shows the `README.md` file when you open the repository's webpage
@@ -116,6 +209,12 @@ Important to note that every directory can/should have a README.md file that out
 ## Keep raw data raw
 
 * By keeping a raw version of your data you can always start over - you can always go back to a blank page.
+???
+The next thing I want to talk about is keeping your raw data raw. And this is really critical because by keeping a raw version of your data, you can always start over, you can always go back to a blank page, if you will. Whereas if you've got, say a spreadsheet that you're working with and you start editing things where perhaps people formatted the date differently when they've entered data, if that's the only version of the file you have then if you screw up, or if more data are added, or if there's different versions it quickly becomes a headache.
+
+And so it's a really great practice to keep your raw data as raw as possible even if it's got all sorts of formatting issues and different problems, to keep that file somewhere within your directory structure for your project so that you can always go back to it. As an example, I've done this frequently, have you ever accidentally sorted a spreadsheet by one column, so one column now is sorted alphabetically but the rest of the tables, the rest of the spreadsheet didn't get sorted with it?
+
+I think that's a very common problem. And so if you have a raw version of that, that's not such an issue. You can always go back and figure things out.
 --
 
 * Have you ever accidentally sorted a spreadsheet by one column when you meant to sort by all of them?
@@ -132,15 +231,28 @@ Important to note that every directory can/should have a README.md file that out
 
 ???
 
-One way to enforce that raw data stay raw, is to put them into a directory for raw data
+We can also think of data organization as a form of documentation. And so have you ever been to a conference or a seminar and you get to see somebody's desktop, and you see it's covered in a thousand files? How efficiently do you think they're able to access the information in any one of those files? How easy would it be for them to find the file they want? You might also ask, you know, what's the likelihood that one of those files might get lost or deleted? And perhaps over six months, as you've perhaps seen I maybe have like 20 icons on my desktop, and I know that I probably have too many there because it's very easy to lose track of things.
+
+And if I accidentally delete something and I don't notice it for another six months, then that can be a big problem. And then similarly, if somebody, say somebody can make it work with a thousand files on their desktop, how likely are they going to be able to teach that system to you, right? So if you've got to come into the system, into their system and understand where the code is or where the raw data are, or their naming scheme, how difficult is it going to be for you to pick that up?
+
+And so this is where it's very valuable to have separate directories for your code, your data, your figures, your tables, and your documents so that you can then make it very clear where the different types of files should be located. If you think about the repositories we looked at, those with better organization, it was very clear where different types of data should be.
 
 ---
 
 ## Script everything/Don't Repeat Yourself
 
 * Your scripts become the lens that you and others can use to see how you have analyzed your data
+???
 
+So next, we want to think about scripting. And that we want to able to script everything to convert from raw data to processed data. And so by scripting everything we can make it automated so that I don't have to question what parameters I used. If I'm providing you a script that has explicit instructions that the computer's following to complete the analysis, then that's going to have all the parameters, that's going to have the location of the code, that's going to have the name of the software I used.
+
+Your scripts then become that lens that you and others can use to see how you've analyzed your data. And your instructions then become better as you become more explicit. So if your computer knows what you're doing or what you want to do, then it's a good chance that others will know what you're doing too. Also, if you cannot, if you don't allow yourself to manually manipulate the raw data, then you have to be explicit in how you document the processing of your data.
+
+Sometimes I've worked with a tool called ARB, A-R-B for working with 16S sequences. And it's got a nice graphical interface that I haven't figured out how to work with from a script and so if I'm working with that software, I have to be very explicit about what buttons I push, what toggles I flip, what parameters are set because if I have to come back and do it again I know I'm going to have to do it and I'm going to have to remember how to do it.
+
+I maybe go into ARB, I don't know, once or twice a year at most. Also then, although the computer might understand what you're saying, you might not understand what you're saying, right? So your code needs to be interpretable and we'll talk little bit about this in a bit but you need to provide comments for your scripts so that when you come back for it to look at it in six months or when others come and look at it, they need to understand what's going on.
 --
+
 * Your instructions become better as you become more explicit
 
 --
@@ -154,8 +266,20 @@ One way to enforce that raw data stay raw, is to put them into a directory for r
 ## Automation
 
 * Automation helps to keep track of the ordering and maintenance of dependencies
+???
+Related to scripting is automation, and automation is helpful because it will keep track of the ordering and maintenance of dependencies. And so if you have a really complicated data analysis workflow and if you say add a data set or add a piece of data or remove a piece of data, off the top of your head would you know what steps to repeat to kind of update the overall project?
 
+And again, as those projects get more complicated it gets a lot harder. And so by automating your workflows that will then keep track of the ordering and the maintenance of your dependencies. And so a question to ask yourself is if you had to add more data, how difficult would it be for you to update your analysis and would you remember all of the steps?
+
+And so one of the goals for that paper with Marc Sze was that if another person publishes a paper that has obesity data, some BMI information in [inaudible] data, we would like to be able to add that data set and right at the end there, "make write.paper" and have it regenerate the plots, regenerate the whole paper including that new data set.
+
+I think that's the ideal. It doesn't always work out that well. But again, thinking about automation in those terms, it's very easy to see how that would facilitate greater reproducibility. Again, in these large and complex analyses it becomes very easy to lose track of where you are in the analysis.
+
+And by again scripting it so that you've got your workflow down for the computer to read then it becomes much more explicit. Okay. And, of course, not only do we have software dependencies but we also have data dependencies.
+
+Where if we're doing, say it's a classification of 16S sequences, well, there are all the upstream steps going from a FASTQ file to that sequence that we're trying to classify, but then there's also dependencies like the reference files that we use. And those types of file dependencies that go into our analyses.
 --
+
 * If you added more data, how difficult would it be for you to update your analysis? Would you remember all of the steps?
 
 --
@@ -169,8 +293,16 @@ One way to enforce that raw data stay raw, is to put them into a directory for r
 ## Transparency
 
 * How well are you going to document your analysis if you know that someone else might look back at what you have done?
+???
+So next aspect of documentation we want to think about is transparency. And so how well are you going to document your analysis if you know that someone else might look back at what you've done? Okay? And so this is the question that I realize you could be fairly cynical about but I'm hoping that you think about this question in the spirit that it's intended, that again, if the intent is for somebody else to eventually build upon your work, which is the goal of all science I hope, then you want to be transparent, you want to help future you as well as future collaborators.
 
+And so you might want to write in documentation that is explicit about why you've done different things or why you've done the things you've done. Why did you pick the RDP training set for classification versus the silver or the green genes training sets? Why did you pick this particular parameter value, okay?
+
+And so by being transparent about that and being transparent about your documentation it then is much easier for others to build upon, right? So science will only move forward when others can build off of our workflows. Yeah, I mean, if you're trying to have sharp elbows and keep people away from what you're doing, yeah, be opaque, don't tell people why you're doing things.
+
+But I can almost guarantee that nobody's going to build off of or want to work with the data that you're doing. You could put all your data, all your code up on GitHub, but if you don't give me a roadmap, if you don't tell me what you did or why you did things then it's kind of worthless. So a tool that we have for doing all this, a lot of this documentation is using plain text.
 --
+
 * By letting others see how and why you have done things, you increase the likelihood that they will build off of what you have done
 
 --
@@ -186,6 +318,10 @@ One way to enforce that raw data stay raw, is to put them into a directory for r
 * Anyone can read it - you don't need expensive software licenses
 * We can use code to generate text
 
+???
+And we've already talked about that a bit. And as we described and worked with Markdown, as we were making the paper airplane repository and writing out that README file. And so by using Markdown we put greater emphasis on writing the text rather than the formatting. Okay, you know we use an asterisk to denote a bulleted list or two asterisks around a word to denote italicization, some emphasis, right?
+
+And so it's easier for computers to read text, plain text than say, a Word file. And so it's much more portable, it's doesn't depend on another person having the software to read it. A text file is a very generic version of a file, anybody can use it. We can also use code to generate text which we'll see in a future tutorial.
 ---
 
 ## Self-documenting directory and file names
@@ -194,6 +330,20 @@ One way to enforce that raw data stay raw, is to put them into a directory for r
   * `raw_data`, `build_figure_1.R`
   * `RawData`, `BuidFigure1.R`
   * not: `raw data`, `build figure 1.R`
+???
+So when we write this documentation, we've already talked about one file for documentation which is called README, well, what does that file name tell you? It tells you to read it, right? It's very explicit about what's going on in that file.
+
+Sometimes you'll see a file called install, right? And so that's going to probably have instructions on installation. So it's very important also to put documentation into our filenames, and so thinking long and hard about what we name things. And there's a few rules that you want to keep up on.
+
+So one best practice but one rule is don't put spaces in your directories or filenames. Yeah, it looks prettier to the eye but it ends up causing big problems for computers because the computers frequently freak out at spaces. And so we really discourage the use of spaces in directory or filenames.
+
+And so as you can see here, the example of raw data, you could write that as two words which the computer would see that perhaps as two files or two directories but if you want it to be a directory called raw data. you would use raw_data or you could blend the two words together to make it RawData And the same goes for files like BuildFigure1.
+
+You could have it as underscores or using capitalization to denote the boundaries on individual words. It's also helpful to be descriptive, atomic, and logical, right? So don't name your directories, stuff.
+
+Don't name your directory, data raw, or data mothur. Name a directory data, and then within data have a directory called raw and have another directory called mothur that you can then use the directory structure as a form of documentation to show you where the different types of data are.
+
+Okay? And data, you know what that is, that's where the data are. If you just call something, stuff, well, I don't know, I guess there's stuff in there but I don't know what the stuff is.
 --
 
 * Be descriptive, atomic, and logical
@@ -213,6 +363,24 @@ One way to enforce that raw data stay raw, is to put them into a directory for r
   * nouns: variables (`sequence`)
   * verbs: functions (`cluster_sequences`)
   * logicals: questions (`is_sequence`)
+
+???
+
+As we move to thinking about our code, there's always a goal to make our code what's called self-documenting. Where we want to pick meaningful, variable, and function names in our scripts.
+
+Again, we don't want to call a function or a variable, stuff. We don't want to call things, foo, or bar, that's kind of a generic variable name that a lot of programmers like to use. We want to use meaningful names. We want to choose a casing strategy and be consistent about it.
+
+So we talked about this already in the last slide about directory and filenames that we don't want spaces in our variable or function names and so using underscores is what's called snake case because the text, it's all lowercase and it looks like a snake. Alternatively, there's camel case where the first letter of the name is in lowercase but then you use capitals to denote the word boundaries.
+
+So it looks kind of like a camel. Alternatively, you could also capitalize the first letter. But the key is to be consistent, pick one type of casing strategy and stick with it. Try not to mix snake case and camel case. I have done this frequently and as I work with these scripts more and more I frequently forget, was that variable in snake case or was it in camel case?
+
+But if I always wrote in snake case, which I'm trying to do more and more then I don't have that question. I don't have to worry about it. And depending on the programming language, there's other symbols that you probably want to avoid because those symbols are going to have some baked-in meaning. In R, you generally want to avoid using periods, and hyphens, and other symbols in your variable names.
+
+But the only symbol that I want to use in a variable name is an underscore. Something else that you might try is applying some grammar to your variable names. And so if you've got a variable, give it a noun as a name. So we can think of a sequence, Sequence, as a variable name for a sequence.
+
+That is a noun. For functions, we might think of giving the names verbs, so, cluster sequences, plot data, generate figure 3. If we have a variable that's illogical, think of it as a question. Use the variable name to be a question, is sequence?
+
+And so then we would expect the answer to be true or false, yes or no. Okay? And so again, by using grammar, nouns, verbs, logicals, we can think about how we can name our variables better to make them a little bit more self-documenting. So that if I see a variable called, cluster sequences, I know it's not holding a value but it's holding a function.
 
 ---
 
@@ -239,11 +407,15 @@ One way to enforce that raw data stay raw, is to put them into a directory for r
 ]
 
 ???
-* / ~ directory names, () ~ function names, .R ~ file names
 
-Things to note:
-* Avoid having a variable name overlap with a function name (e.g. length)
-* In some languages CamelCase indicates a class, other languages permit ?'s in variable names
+All right, so based on that, I'd like you to look at these filenames or look at these directory names, and how would you fix them if you think there's a problem? And so if there's a forward slash at the end of the name, think of that as a directory name. If there's a pair of parentheses, think of that as a function name.
+
+And if there's a dot, letter, like .R, generate-figure-1.R, think of that as a file name. So look at these, and how would you suggest that somebody change their names, the variable, and file, and directory names, and function names to be more consistent and to be more helpful?
+
+So go ahead and pause this, Go ahead and pause this, and answer this question and edit these variable, function, file, and directory names to be more descriptive, to be more helpful.
+
+There isn't necessarily a right or wrong answer. Ultimately, this is going to relate to what's helpful for you and again, helpful for you in six months when you're coming back and trying to figure out what this variable means. So as I said with that last exercise, there isn't really a right or wrong answer, there are some peculiarities for how we can name files, or directories, or variables, or functions that are kind of built into the environment, but for the most part, how we name things is a tool to help us, it's a tool for documentation.
+
 ---
 
 ## Do it with style
@@ -256,6 +428,19 @@ Things to note:
   - Hadley Wickham: [R](http://adv-r.had.co.nz/Style.html)
   - Google: [R](https://google.github.io/styleguide/Rguide.xml) and [bash](https://google.github.io/styleguide/shell.xml)
 * Style guides are pedantic and often arbitrary - their goal is to enforce readability and good practices
+
+???
+
+And so a lot of people develop what's called a style guide. If you've ever read the instructions to authors for a manuscript for a journal, you know, every journal has a different style guide. There's no right or wrong reason for why they want you to cite references a certain way or use different headings or whatever.
+
+But they need consistency, right? They need consistency so that all the papers in that journal look the same. Well, the same is true with our code and with our data analysis tools, that we need consistency. We need to develop a style guide. And so I'd encourage you to come up with a style guide with your research group that you might think, well, I'm working on this project and no one else is working with me.
+
+And that happens a lot in academia, I know, but at the same time think about the potential that if you and your colleagues in the lab realized that you're all generating the same type of plot or doing a similar type of analysis you could very quickly see the value in sharing code between projects. But if you're all using a different style or a different approach to coding, then that's perhaps going to be of limited use because you're not going to be able to talk to each other.
+
+It's going to be really difficult to interface with each other. And so again, be consistent within your own project and across projects and then hopefully, across your research group. And think about what you want people to be doing in terms of programming and approaches that they go. You could also poach ideas from other style guides.
+
+Hadley Wickham has one for R. Google has one for R and Bash. The links are here on that page and you can click on those to go see the style guides. And something to appreciate is that style guides are pedantic and often very arbitrary. And their goal isn't to make sense necessarily, their goal is to enforce readability and good practices on how we program.
+
 ---
 
 .middle[.center[![Screen shot of Hadley Wickham's R style guide]({{ site.baseurl }}/assets/images/hadley-style-guide.png)]]
@@ -264,7 +449,9 @@ Things to note:
 
 ???
 
-This is an example: some style suggestions are arbitrary and others are based on the language being used
+And so here's an example from Hadley Wickham's style guide where he says, "Place spaces around all infix operators," things like equals, plus, minus, arrow. And, "The same rule applies when using equals in function calls." "Always put a space after a comma and never before,""just like in regular English."
+
+So you might say, "Well, why do I need a space before and after a division sign or a plus sign?" Well, more space makes things more readable, that are easier to read. Well, you might disagree with Hadley, that's fine. But, come up with a style and be consistent about it. And again, Hadley's got a lengthy style guide as does Google for our code.
 
 ---
 
@@ -277,7 +464,15 @@ This is an example: some style suggestions are arbitrary and others are based on
 
 ???
 
-We'll come back to these in a later session
+So other areas that help you to enforce good coding practices, and we'll come back to this in a later tutorial when we talk more about scripting. Within R there's a file called a .Rprofile file. So pop quiz, what does that dot mean in front of .Rprofile? If you don't remember I'll let you look that up. But you generally won't see that .Rprofile file. And so there might be some secret source in that file that if you give somebody a copy of your directory or R code from your directory, they may not get that .Rprofile file with your code.
+
+And so if you've got a whole bunch of code in there that your script to generate a figure depends on, then that person that's trying to generate the figure as well is going to be in for a world of hurt. Similarly, don't save your R session on exiting. If you save your R session, then you're going to have variables that may or may not persist to the next session.
+
+Again, that's not going to be very portable between users, between environments or between projects. Don't use attach or setwd in R. Again, we'll come back to why these are problems, but ultimately they're problems of documentation. We are creating an assumption about the structure, about the tools that other people are going to be using including yourself again, in six months.
+
+And so it's really helpful then to be able to run everything from the root of your project directory. And so if you're running everything from the root of your project directory and it's very clear where everything starts and ends and there is no mystery about whether or not you are in a certain directory when you ran a script because you're always in the root of your project when you run every script. So again, these are kind of getting a little bit away from where we want to be about talking about documentation, but they also relate to these issues of transparency, and documentation, and not making assumptions about future you or future collaborators.
+
+And we'll come back and discuss these again in a subsequent tutorial.
 
 ---
 
@@ -285,11 +480,27 @@ class: middle center
 
 # .alert[Write code for people to read: Pick languages to facilitate this goal]
 
+???
+
+Another thing to think about is to write code for people to read, right? And want to pick languages to facilitate this goal, that languages like R and Python are very popular I think because they're very easy to read.
+
+Another language that isn't so widely used on bioinformaticists is Ruby which is very easy to read. Other languages like Perl are very powerful and have been very popular but they're impossible to read. I've heard them called, "write once, read never" languages that you can write the code, it will work, but you're not really sure why.
+
+And if you had to explain to somebody it might be really hard. Related to this, is that there is also a push among some people to write minimalistic code, and so there's a game that people like to play called code golf where they're given an assignment, do this operation in the fewest lines of code or fewest characters. So you can imagine that there's this push then, to generate code that is, frankly worthless.
+
+Because it's not readable and it's so cute or sophisticated in a way that it's worthless because nobody knows what it's doing or how it works. And so really think about writing code for people to read. Okay, if your variable has 10 letters in it, big deal, I mean, that might seem really long but if it's a descriptive variable name, then that's really helpful.
+
+It's transparent, it helps others to read what you're doing. One of the things my group does as a group for lab meetings is to go over each other's code, and there are people in the group that know nothing about coding but because people write their code well and use descriptive and expressive variable names, people that don't code can participate and can read the code and figure out what's going on in the text.
+
 ---
 
 ## Comment your code
 
 * Self-documenting code is insufficient
+???
+And so that's very powerful, and I think that's a goal that we should all hope for. So related to making our code more readable is to be sure we're commenting our code. Yeah, you know, we want to give expressive, variable, and function names but that's really insufficient for documenting your code. Something to think about would be at the top of a script file, having some type of explanation about what the script does and what are the expected inputs and outputs to the file.
+
+Beyond just the top of the file, if you have more sophisticated and complex functions, they also should have better descriptions about what's going on in the code as well, what are the inputs and outputs. And then use comments liberally to describe what a line of code should be doing and why. Very few people put in too much code. It's usually problem that there's not enough code.
 --
 
 * The top of a script file should explain what the script does and describe the expected inputs and outputs
@@ -305,3 +516,29 @@ class: middle center
   * Comment the code to indicate what is going on and where you have potential questions
   * At the top of the file add a comment that includes your assessment of how readable the code is and if there is anything about the code you might change
 * Compare your commented code to someone around you
+
+???
+
+So I have an exercise for you now, and what I'd like you to do is copy and paste in our script that I've got linked here from this study from Kozich et al. from my research group. We'll see this code, this project in subsequent tutorials and what I would like you to do is copy it into a new text file and save it.
+
+And I'd like you to think about three things that we did well in this code stylistically and three things I could improve upon. Comment the code, add comments to indicate what's going on and where you have potential questions. At the top of the file add a comment that includes your assessment of how readable the code is and if there's anything about the code that you might change.
+
+And then compare your code, commented code to somebody else. So I'm going to go ahead and come out of full screen, and open this in a tab. And so here's my R code. And as I talked about in the previous tutorial, we can use our terminal.
+
+And what I'd like you to do is to create a file that we'll call plot_nmds.R. And if you're using Git Bash or if you're using Terminal on a Mac or a Linux at the at the command prompt you can open a text editor that's fairly simple to use called Nano.
+
+And so this is again, a nice text editor it's not super powerful but it will get the job done for the purposes of this tutorial series. And so go ahead and copy and paste the code in here. I'm going to hit Ctrl+O which will then ask me to write the name of the file to write and I will say plot_nmds.R, and then you can cursor around in here.
+
+And as you've perhaps noticed at the top here, you can make a comment by using the pound sign. And so again, to…hit Enter. To get out, hit Ctrl+X. And so now we can type Nano, plot_nmds.R and it pops back open.
+
+So again, what I'd like you to do is with that R script that we've now copied and pasted into our text editor, we're using Nano as a text editor, name three things that we did well stylistically and three things that I could improve upon. Again, just thinking about stylistically, don't say, "Oh, you're using base R, you should be using ggplot."
+
+We'll, save that for another tutorial also, but think about my variable names, my function names, my commenting. Comment the code to indicate what's going on, navigate the reader through the code, and perhaps use comments to indicate where you might have questions about what's going on. And then at the top of the file, add a comment that includes your assessment of how readable the code is and if there's anything bigger about the code that you might change.
+
+Many of the practical aspects of today's tutorial will reappear throughout the rest of the series. We haven't talked about scripting yet, but we'll again, see the need for code hygiene and commenting in a future tutorial. Later, we'll make use of a tool called Make that helps to document the flow of data from a raw file all the way through a summary statistic that might wind up in your final manuscript.
+
+Similarly, in the next tutorial, we'll see the need for README files and structure to separate raw and process data files. Between now and then, please look back at the directories where you have your most recent project. Do you have any type of README files to orient someone coming into the project? How well do you comment your code?
+
+If your PI were to come along and take a look at your directories, would they be able to find the code and the data needed to generate figure 3? That's your homework for the next tutorial. Until then, think about the various ways that we can improve the documentation of our projects and resolve to do a better job of documenting them.
+
+I know this is an area that I frequently slack on and need to do a better job with too.

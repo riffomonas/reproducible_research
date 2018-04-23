@@ -10,11 +10,29 @@ class: middle center
 .footnote.left.title[{{site.url}}{{site.baseurl}}{{page.permalink}}]
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
+???
+
+Welcome back to the Riffomonas Reproducible Research Tutorial Series. In today's tutorial, we'll be doing a deep dive into version control with a program called git. We've already seen and used git in the paper airplane exercise where we used git on GitHub. And in the last tutorial, when we created a new repository for the Kozich analysis which we'll be using for the rest of this tutorial series.
+
+As we'll see, version control is useful for making our methods open to others, collaborating with others, and tracking the history of our project. These are all important for making our analyses more reproducible. I think version control is useful for helping with reproducibility also, because it allows me to have another type of documentation for my analyses. Not only can I track the changes to my code, but I can also annotate those changes with the who, what, when, and why of a change being made.
+
+These annotations become little notes that I leave myself for the future to mark what I was thinking and where I was going. I know I'm weird but for me pounding out git init at the command line to create a new repository is one of the best feelings I have in science, it means I'm starting a new project. Of course, I may only get to type that command a few times a year.
+
+Most of the time that I'm using git however, I'll only be using five or six commands to do everything I want, that's what we're going to cover today. It's easy to get flustered with git and to get confused, take it slow, practice, and try to understand what we're doing. As you go through the materials today, I'll try to emphasize how to safely use git for your projects.
+
+Like the last tutorial, this one will have a lot going on it. Again, feel free to take it in chunks, use that pause button to stop my yammering and practice things for yourself. If you get stuck, feel free to use the comment box below or to send me an email. Now join me in opening the slides for today's tutorial which you can find within the Reproducible Research Tutorial Series at the riffomonas.org website.
+
 ---
 
 ## Exercise
 
 You are in the root of your project directory and there are 5 files that end in `.R` - these are files that contain R scripts. Based on what you learned in the last tutorial you konw that it would be great to get these into a new directory called `code`. Write the two commands to create the directory and move the R scripts into that directory.
+
+???
+
+Similar to the previous tutorials, before we get going on today's material, I'd like to have you do a little exercise. So let's assume that you're at the root of your project directory and there's five files in your root directory that all end in .R, these are R scripts. So based on what we talked about in the last tutorial, what would be the commands that you would need to write, two commands, to create a directory called code, and then to move those R script files into the directory?
+
+So go ahead and think about this or write them out longhand, feel free to hit pause if you need some time to think about it. Great, so hopefully you came up with a way to move those files into a directory called code.
 
 --
 
@@ -25,6 +43,11 @@ mv file_2.R code/
 ...
 mv file_5.R code/
 ```
+
+???
+
+Now there are several ways to do this, and again, the key is that you get the files into the directory called code. How many lines it takes you to do it, or how you do it doesn't really matter. So one option would be to say mkdir code, and then individually move file_1.R to code file_2.R to code and so forth for all five files.
+
 --
 or
 
@@ -32,6 +55,11 @@ or
 mkdir code
 mv file_1.R file_2.R file_3.R file_4.R file_5.R code/
 ```
+
+???
+
+If you do this, you might find that, well, five might be the limit of the number of files that you would want to do this way just because it gets kind of long and tedious and drawn out. Certainly, if you had 100 files, you wouldn't want to do this. Alternatively you could do one mv command, one move where you have the five R files all in the same line going into code. It's effectively the same thing that you had in the previous example where you had the five mv commands, but we're doing this in one line, okay? So this is still a lot of typing, it's still kind of tedious.
+
 --
 or
 
@@ -39,6 +67,10 @@ or
 mkdir code
 mv *.R code/
 ```
+
+???
+
+A final option that's pretty succinct and straightforward is to, again, make your directory for code, and then you can do mv *.R to code. That star tells bash to match anything that comes before a .R. So if we had 100 files that ended in .R, this one line with that star would allow us to take all those R files and move them into code. So hopefully this is review and these little bash skills are really helpful to practice as we think about working within the command line environment.
 
 ---
 
@@ -51,6 +83,12 @@ mv *.R code/
 * Look through the history of a project to see how a file has changed
 * Integrate git and GitHub tooling to improve documentation of the evolution of an analysis
 
+???
+
+The learning goals for today are to define and justify the use of version control, we're going to talk about different types of approaches to version control. We're going to use two projects to apply version control to our projects. We're going to think about documenting the changes and the differences between different versions of our repositories.
+
+And then we're going to look through the history of a project to see how a file has changed. And then we're going to start using git with our big analysis, this Kozich reanalysis project that we will be working with for the rest of the tutorial series.
+
 ---
 
 ## Survey: Do you keep track of different versions of things?
@@ -59,9 +97,12 @@ mv *.R code/
 * When have you needed to go to a backup?
 
 ???
-* If they accidentally delete something
-* If they somehow introduce a bug
-* Dropbox / Box
+
+So to get started, I want you to think about whether or not you keep track of different versions of things. Do you back up your data or your code?
+
+So hopefully you have a backup of your data and your code. If you don't, maybe you should start, but where do you store this? How do you store it? Okay? You know, perhaps you're using Dropbox or Box, perhaps you have things stored on Google Docs or something like that, perhaps you know that the server you're working on or the computer you're working on has time machine so there's a backup there.
+
+And so those are all ways to back up your code or your data. And have you ever needed to go back to a backup? Under what circumstances have you had to go back to something because you perhaps accidentally deleted it? And so perhaps it's because you accidentally deleted something, right, that perhaps you accidentally deleted your thesis directory, where you've got all that great writing you're doing.
 
 ---
 
@@ -74,7 +115,14 @@ mv *.R code/
 * How difficult would it be to go back to a previous version?
 
 ???
-* Expect things like track changes or compare versions in Word (not helpful for Excel)
+
+Perhaps you also were doing some programming and you found that you had introduced a bug at some point, and you needed to go back to a previous version of the code, before you introduced the bug, because you're not really sure where you introduced the bug. So these are all reasons why you might want to keep track of different versions of things.
+
+So if we have different versions of things then we might run into problems, we might have conflicts, we might have difficulty knowing which is the correct version, right? So how do you keep track of these different versions of your project? Where are they kept? How do you compare the different versions?
+
+How do you know the differences between the versions? And how difficult would it be to go back to a previous version? So you can imagine that things get very complicated very fast when you have multiple versions. And so one place that we see multiple versions being used a lot is when you're working on a manuscript. So if you're a trainee, you might be the person in the lab that's responsible for writing the first draft or the manuscript, and then you share it with other people in the lab and perhaps your PI or other collaborators.
+
+And very quickly you might have five or six different versions of that manuscript floating around. And so now you've got multiple versions, and so now you have this problem of how do you keep track of the different versions? Where are they? When they come back to you, how do you organize them to know whose version was what?
 
 ---
 
@@ -83,13 +131,22 @@ class: center middle
 ![]({{site.baseurl}}/assets/images/phd-story-told-in-filenames.gif)
 
 .left.footnote[[source: PhDComics](http://www.phdcomics.com/comics.php?f=1323)]
+
 ???
+
+And so one of the things that we can perhaps all relate to is this comic from PHD Comics of somebody's data for a project that they're working on, where, you know, they start out with great intentions for this data from May 20th of 2010. But then they go crazy because they can't keep track of what's going on or perhaps bugs they're introducing. And so finally, to make it clear they say, "Use this one," but a couple days later they realize, "We're starting over."
+
+So this is something we can all relate to where we think we've got the right version, but alas, we don't, we've got to keep reiterating to try to improve the code or the data analysis, or the data generation as we go through.
 
 ---
 
 ## Case study: Scenario
 
 As an graduate student you were taught proper methods for keeping a laboratory notebook. You were perhaps told to give each experiment a title, rationale, hypothesis, description of methods, data, results, and a conclusion. Now you have been given a project that involves analyzing 10 million 16S rRNA gene sequences. How will you change your lab notebook practices?
+
+???
+
+What I'd like you to think about is something that you're probably already familiar with, that as a graduate student you were taught the proper methods for keeping a lab notebook. You were perhaps told to give each experiment a title, a rational, a hypothesis, to describe your methods, data, results, conclusions. And so now that you're in grad school, now that you're doing bioinformatic analysis perhaps you have a project that involves 10 million 16S RNA gene sequences, so what are you going to do with that in a lab notebook?
 
 ---
 
@@ -104,6 +161,10 @@ As an graduate student you were taught proper methods for keeping a laboratory n
 
 Take 5 minutes to jot down your answers to these questions
 
+And so what I'd ask you is, have you had this situation in the past? How have you dealt with it? I think a lot of people struggle with thinking about how to organize something like a laboratory notebook for keeping track of their data analysis.
+
+And so what are the strengths and weaknesses of the approach you've used? So perhaps you write everything longhand on pen and paper, or perhaps you...what might be another option? Perhaps you're copying and pasting things into a Word document. So the problems with those, of course, is that it's a pain in the butt to write out all the code for a project you're working on.
+
 ---
 
 class: center middle
@@ -113,8 +174,12 @@ class: center middle
 .left.footnote[Source: Pat Schloss's notebook ca 2008]
 
 ???
-* An early computational notebook that I still have
-* My heart was there, but something wasn't quite right
+
+So here's an example of a notebook that I kept about 10 years ago in 2008, this is literally my handwriting, this is my research notebook from November of 2008, where I am writing out as you can see on the left side of this notebook bash commands. On the right side are the calls to Perl scripts that I had written, and a justification for what was going on.
+
+And this notebook I still have with me and it has about 200 pages of this stuff. So I have a lab notebook but it was painful to write, you can imagine with the various numbers that are in here, that perhaps I transposed some numbers or I get it wrong.
+
+Perhaps I want to go back and change a parameter then I need to notify myself on this page that, "Hey, if you go forward to page 250, that we have new results." So it's there but it's not really useful, and it's prone to errors. The other thing is that I can't easily copy and paste this into my bash shell.
 
 ---
 
@@ -136,6 +201,16 @@ You are working on a manuscript and send it out to your PI. They're taking longe
 
 What do you typically do in this situation?
 
+So if you had a Word document, that's nice, too, because it's now at least an electronic format, but the Word document isn't executable. I can't run that Word document to run my analysis, I'm always going to have be copying, and pasting, and moving things around. And I don't trust myself very well to get that all right. If I needed to change a parameter or to add new data, again, it's going to be another page or two in my laboratory notebook or in my Word document to keep track of things.
+
+And I might be tempted to write over things in my Word document, losing kind of that history of what I had done previously. There's also a big push now I know here at the University of Michigan a big push for electronic notebooks for bench science. And again, these all seem to have kind of a proprietary feel to them that if you move institutions or if you want to share your notebook with someone else, they need to have access to the lab notebook system you have.
+
+The other problem, of course, is that if they're designed for wet lab work then they might not be geared for working in computational science, where, again, we're running commands from a command line or executable scripts, on, say, a high-performance computer like Amazon. And so it's a way to document things but it's perhaps of limited use. As a case study, we might return to this idea of drafting a manuscript, and so perhaps you've had the experience that this guy over on the right side here finishes a manuscript and calls it final.doc, their manuscript is good to go.
+
+Give it to the PI, I think the guy's name is, like, Professor Smith or something. Maybe it takes them a couple weeks to get feedback to the student. In the meantime, the student found some typos, so they make some changes, at the same time, the PI is making changes. And then it comes back together and now there's conflicts between your versions, the PI's versions, perhaps your collaborators' versions.
+
+And so you've got this mess of text and tracked changes is great but it can only get you so far when you're merging differences between different versions of a manuscript. And so, again, you have this naming problem that you see on the right side here of this slide, but it's a big problem.
+
 ---
 
 class: center middle
@@ -146,10 +221,11 @@ class: center middle
 
 ???
 
-* The preceding discussions are prime opportunities to use git
-* git is a version control system. Others exist including subversion and mercurial
-* A major difficulty with this, however, is teaching collaborators how to use git or GitHub
-* I don't have any silver bullets to solve the issue with collaborators, but throughout this tutorial and others we'll see some strategies make it easier
+And so as you might predict from the content or the title of this tutorial, one of the tools that we have that can help with this is version control. And so what we're going to talk about is a tool called git, G-I-T, and git is frequently a source of confusion and headaches for people.
+
+I think that's because it's totally different than what people think they've experienced before, but the reality is, as we've already talked about in the previous slides, you've seen things like this already. That you have some naming scheme for all those different files that you're trading with Dr. Smith, perhaps you're using Dropbox and each day you archive all your files into a zip file and you put those into Dropbox or something like that.
+
+Or you're using a laboratory notebook where you're commenting what you're doing. And so git and GitHub, which we've already seen, are useful tools for helping us to think about how we can maintain versions, and something we'll call branches that we'll talk about in the future tutorial. How can we look at these versions and integrate different versions to not have this big mess that we commonly experience when we're trading files back and forth?
 
 ---
 
@@ -157,31 +233,51 @@ class: center middle
 
 * GitHub is a web service built upon `git` - GitHub is ***not*** `git`
 
+???
+
+We've already talked about git and GitHub when we did our paper airplane example. And then when we started the Kozich reanalysis repository in the previous tutorial. GitHub is a web service that's built upon git, so GitHub is not git. It uses git but it's not git itself, and it does a great job for making git more accessible. And we've already seen that. When we were trying to push our repository from the Kozich reanalysis up to GitHub, it gave us really nice instructions on how to do that. So public repositories are free on GitHub, public means that anybody can see it. Some people might be a little bit unsure about making their repositories public.
 --
 * Public repositories are free on GitHub
 
+???
+Public repositories are free on GitHub, public means that anybody can see it. Some people might be a little bit unsure about making their repositories public.
 --
+
 * If you are an academic and contact GitHub, you can have unlimited private repositories
+???
+If you're an academic and you contact GitHub then you can get unlimited private repositories. I would encourage you to try to be public as much as possible. Again, one of the things we're hoping for is greater collaboration. If nothing else, when you go to submit that manuscript, be sure that it has been made public. I've reviewed papers in the past, where they reference a GitHub repository and it's been private.
 
+Accidentally we submitted a paper once where it was private, and that was a bit embarrassing. So be sure to add that to your checklist of things before you submit a paper to make sure that your repository has been made public. Or if you're comfortable with it, make it public from the start.
 --
+
 * Can create a group account for your lab (e.g. [SchlossLab](https://github.com/SchlossLab)) as a final resting place for lab project and papers
+???
+You can also create a group account for your lab, and so my group has an account called SchlossLab, that's kind of a final resting place for all the lab projects and papers.
 
+So if a former student in my lab, say, had a repository that was connected to his account and he leaves or she leaves, and then they, say, delete the repository, delete their account accidentally, well, then it's lost. But if that repository had been stored within SchlossLab, then I keep it forever, so to speak.
+
+So I'd really encourage people to set up lab accounts that can then be the final resting place for all their lab projects and papers. So again, git is hard. I don't want to diminish that fact but you can do it. It's not that hard, it's not insurmountable.
 --
+
 * `git` is hard, but you can do it and GitHub goes out of their way to make it easier
 
 ???
 
-* BitBucket is another web service built upon git
+And I feel like git and GitHub go out of their way to really try to make it easier. And again, everything that I use in git I'm going to be presenting in today's tutorial. So you may not realize it, but you're already a git pro. As we've already talked about, we used git and GitHub during the paper airplane activity. We also talked about in the last tutorial in starting the Kozich reanalysis project.
 ---
 
 ## You're already a `git` pro!
 
 * During the paper airplane activity you made a *commit*
 * In starting the Kozich reanalysis project you created a repository, added files to the repository, committed them, linked to a remote repository, and pushed your repository to GitHub
+???
+We added files to the repository, we committed them, we linked to a remote repository. So these are all aspects of git that we've already used that you perhaps didn't already appreciate. So again, git can be frustrating and hard, but it really doesn't need to be.
+
 --
 
 .center.alert[`git` can be frustrating and hard, but it really doesn't need to be]
-
+???
+And I'm probably making this a bigger deal than it really needs to be.
 ---
 
 ## A word about customizing `git`
@@ -202,9 +298,21 @@ $ git config --list
 * These commands will tell `git` your name, email address, how to color text, what [text editor to use for editing commit messages](http://swcarpentry.github.io/git-novice/02-setup/), [how often to ask for your password](https://help.github.com/articles/caching-your-github-password-in-git/#platform-linux) (every hour), and will list out your `config` file
 
 ???
+So we're going to return to the command line now and start to use git, and customize git to work with a couple projects. So what I want to do is I need to also log into my AWS instance. So hopefully, this is second nature to you now, but I'm going to quickly log in. Great, so like I said, hopefully, this was familiar to you. As you saw me typing here, I made a few goofs myself, so. Again, you can go back to the notes from one of the previous tutorials on working with remote computers using AWS EC2 instances if this seems a bit foggy to you still.
 
-Go ahead and run these git config commands with your name and email address
+Okay, so I'm going to type CTRL+L to clear my screen and we're going to start doing some customization of our git within our EC2 instance. And so to configure things for git we need to use a command called git config, and so what types of things do we want to configure?
 
+Well, we want to tell git who we are, what our email address is, what type of text editor we'd like to use, and things like that. So we're going to enter a few commands here, so I'll do git config --global, and this tells git that these configuration settings are going to be global.
+
+So regardless of what repository we're in, these configuration settings are going to be held. So enter your name. Your email address. This is a set of color options so different things will be lit up in different colors.
+
+This sets our text editor, we use a program called Nano which we've already used, but w flag is helpful for working with git.
+
+So this credential.helper cache --timeout=3600 is a tool that tells git that we need to reenter our password for GitHub every 3600 seconds, so every hour.
+
+Again, this is a setting for how to push. And then finally, those are the various configuration options we're going to set. And we can look at the settings we have by doing git config --list. And so this tells us what our configuration settings are.
+
+And again, because we used the global flag when we were running git config, these are the options that are going to be held across all of the repositories on this Amazon instance.
 ---
 
 ## Another word about customizing `git`
@@ -216,7 +324,18 @@ Go ahead and run these git config commands with your name and email address
 $ git config --global alias.diff-word 'diff --word-diff'
 ```
 
+???
+Now with these configuration settings, we can also create aliases, so we might have a set of commands that we frequently use, and we can create an alias so that we can take some complex git command and make it easier to type out.
+
+So one that we'll use in a bit is called git diff and there's a flag called word diff. So we could do git diff --word-diff. And frequently, I can't remember if it's word-diff or diff-word.
+
+And so what I'd like to do is to create an alias that I'm going to call diff word. So we're going to do git config --global alias.diff -word. And then "diff --word-diff."
+
+So again, we'll see this in a bit, but as your git commands perhaps get more complicated or you try to do different things, know that you can create these aliases. And also, if you... In the notes for this tutorial, there's a link for online materials from git and GitHub with some other examples of aliases that you might consider trying.
+
+As with all these things, sometimes it's more difficult to remember the alias than the actual command, so your mileage may vary on some of these things. All right, so we're going to create a silly project to emphasize some concepts using version control.
 --
+
 * `git`'s [online materials](https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases) give other examples of aliases you can use to cut down on your typing
 * Beware that sometimes it's harder to remember the alias than the actual command
 
@@ -246,12 +365,26 @@ biodiesel pok pok. Synth microdosing locavore offal, XOXO mustache sartorial.
 
 .footnote[Source: [Hipster ipsum](https://hipsum.co)]
 
+???
+
+So we're in our home directory, and we know we're in the home directory because we have the ~ to the left of that $ sign, but we can get to the home directory again by doing cd ~. I'm going to make a directory called silly repository, and I'm going to cd in there.
+
+So I'm going to now create a new file called README, so right now there's nothing in here, I do nano README.md. So I'm going to grab some random text from a cool website called hipsum.co. So there's a set of texts called Lorem Ipsum which is Latin placeholder text.
+
+And so some smart people created a more modern version called Hipster Ipsum which is artisanal filler text for your product. So we're going to "Hipster, neat," no Latin, and we'll let it fly. And so you can see that we now have some random hipster text.
+
+Waistcoat, PBR&B, tofu, banjo, so I think it's random so you'll probably get something a bit different than I got. But I'm going to highlight a paragraph here, copy it, come back to Nano and paste it in. And at the top here I'll add a second-level heading README.
+
+I'm going to save that, Ctrl+O, and then Ctrl+X to quit out, and if I ls, I now see my README.md file. So now we'd like to create a repository, we want to put this file under version control. Like I said, it's silly, right?
 ---
 
 ## Let's create a repository.
 
 How did we do it before?
+???
+So what did we do before? Do you remember? We can write git init. So we run that and we see "initialized empty git repository at /home/ubuntu/silly repository/.git." If we type ls it doesn't look like anything's changed, but if we type ls -a, we now see there's a directory in there called .git.
 
+And as we've talked about in previous tutorials, if there's a period before a filename or before a directory name, that that means the directory is going to be hidden, unless we use this -a option with ls. So let's type ls .git and we see there's a whole bunch of directories and files in here.
 --
 
 ```bash
@@ -276,7 +409,6 @@ $ ls .git
 HEAD		config		hooks		objects
 branches	description	info		refs
 ```
-
 ---
 
 ## What's going on?
@@ -284,27 +416,38 @@ branches	description	info		refs
 * `git init .` creates a repository
 * You know the directory is a repository because your directory contains the `.git` directory
 * The contents of `.git` help `git` to keep track of your changes and history
+???
+And what's going on is that when we create a repository by doing git init. we're taking that current directory as the root of our directory and making that under version control. And so this .git then is a directory that contains all the information that's necessary to make it a repository. Okay?
 --
 
 * YOU DO NOT NEED TO LOOK INSIDE THIS DIRECTORY
+???
+You do not need to look in this directory, the only time I ever look in this directory is when I'm teaching people how to use git. So you really don't want to touch this directory, don't delete the directory, don't modify anything in the directory, know it's there, okay? Be appreciative that it's there, but really, forget about it, don't worry about it.
 --
 
 * DO NOT DELETE `.git` unless you want to nuke your repository
 
+???
+If you want to remove your project from version control, the easiest way to do that would be to delete your .git directory, but we don't want to do that.
 ---
 
 ## Concepts behind `git`
 
 * Text based (won't work the way you want with `docx`, `pdf`, or `xlsx` files)
+???
+So some concepts to keep in mind about git is that it's text-based, you can put DOCX files, or PDFs, or JPEGs under version control, but that's really not what it's designed to work with. It's far better for working with text files, with Markdown files, or R scripts, things like that.
 --
 
 * `git` keeps track of the changes, who made the changes, and when they were made
+???
+Git will keep track of the changes, who made the changes, and when they were made. So once something is put, or we'll say committed, into the repository, it's actually pretty hard to remove it.
 --
 
 * Once something is put (i.e. commited) into the repository, it is *very* hard to remove it
   * This is good because it's hard to really screw up
   * This is bad because if you accidently commit a large file or sensitive information it can be hard to remove
-
+???
+So this is a good thing because it's really hard to screw up then, it's really hard to permanently delete anything. It's bad because if you accidentally commit a very large file or sensitive information like, say, your password or patient health information, it can be hard to remove. And so we're going to talk about ways in the coming slides to avoid accidentally committing things that you don't really want in your repository.
 ---
 
 ## Let's check the status of our respository
@@ -327,9 +470,15 @@ nothing added to commit but untracked files present (use "git add" to track)
   * This will be our "Initial commit"
   * We have one "Untracked files"
   * We don't have anything to commit at this time
+
+???
+So let's check the status of our repository. And so we're going to learn now one of the commands that I use frequently, so I'm going to Ctrl+L to clear my screen. And if we do git status, we see the status of our repository. There's a lot of jargon here, right, so we're on the master branch, we've got our initial commit, we have untracked files, README.md is in red, it tells us that there's nothing added to commit, but we have untracked files that are present and to use git add to track that.
+
 --
 
 * Uhhh, that's a lot of jargon
+???
+So that's a lot of jargon and I don't expect you to understand it right now, but hopefully, by the end of this tutorial, this will make a lot more sense about what's going on.
 ---
 
 ## Break it down
@@ -338,15 +487,14 @@ nothing added to commit but untracked files present (use "git add" to track)
 .footnote[[Image credit: Software Carpentry](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ???
-Ask learners if they know where README.md currently resides in this schematic - it's the document to the left, outside of `.git`
-
+So let's break this down a little bit. What did it mean from that git status output? We have a document README.md, where in this schematic do you think it currently resides? So we can think of this gray rectangle .git as being our repository. That's right, the file to the left here that's outside of the repository is our README file. And so right now our repository, the silly repository repository is empty and git .git is empty.
 --
 
 * Right now, the `silly_repository` repository is empty
 * `.git` is empty
 * There is one file that `git` sees that is within the directory, but outside `.git` - `README.md`
-
-
+???
+And so this README.md file file is being seen by git, but it's not actually part of the repository and it wants it added to the repository. We did get instructions on how to add README to .git. So it tells us to git add file to include in what will be committed, that it's an untracked file.
 ---
 
 ## Break it down
@@ -371,9 +519,7 @@ git add README.md
 ```
 
 ???
-* Ask learners if they know where README.md currently resides in this schematic
-* It's in the staging area
-
+So let's go ahead and do this now. So I can do git add README, and so I'm going to run git status again. And so now we see that README.md has changed from being in red to being in green, and it says it's a new file.
 ---
 
 ## Break it down
@@ -395,6 +541,8 @@ Changes to be committed:
 
 Again it gives us instructions on what to do to commit the file or to unstage it
 
+???
+It also tells us that if we want to unstage this, then we can run git rm cached and then the name of the file. But we don't want to do that. And so committing the file now will allow us to add that file to the repository. So again, what we've done with that git add is, we've taken README from the left outside of .git.
 ---
 
 ## Break it down
@@ -404,7 +552,10 @@ Again it gives us instructions on what to do to commit the file or to unstage it
 
 * We don't want to unstage it, we want to commit it
 * Commmitting the file will add it to the repository
+???
+We ran git add and that moves README.md into the staging area. Now if we run git commit, that will put the file from the staging area into the repository. And so we can commit it by doing git commit -m and then in quotes we're going to leave a note to ourselves.
 
+So I'm going to say "add a README that any hipster would be proud of." And so it gives us the message "add README that any hipster would be proud of, one file changed, five insertions, create mode, blah, blah, a bunch of jargon.
 --
 
 ```bash
@@ -413,11 +564,10 @@ $ git commit -m "Add a README that any hipster would be proud of"
  1 file changed, 7 insertions(+)
  create mode 100644 README.md
 ```
-
 ???
-* Ask learners if they know where README.md currently resides in this schematic
-* It's in the repository
+So you might have a different number here. This 255875A, this is a marker that allows git to keep track of the commits. And so you're going to have a different number here than I do, the actual number is much longer but it's just showing us here the first seven characters of this number.
 
+It's called a hash, it's a mix of numbers and letters. Great, so we have now completed our first commit. This is similar to what we had done when we were working on the paper airplane example at the bottom of the screen where we added in a message about adding instructions to fold a paper airplane.
 ---
 
 ## Break it down
@@ -434,13 +584,15 @@ nothing to commit, working tree clean
 * This is exactly<sup>*</sup> what we did with the paper airplane example in the earlier tutorial
 
 .footnote[<sup>*</sup> except that GitHub did it all for us]
-
+???
+So we did that on the website, here we're doing it on our Amazon instance. Good job. So when I use git, 90% of the time I'm using git status, git add, or git commit, just like I've shown you now.
 ---
 
 class: center middle
 
 ![Sheep cheering]({{ site.baseurl }}/assets/images/sheep-cheering.gif)
-
+???
+So if you can handle these three commands, you'll be in great shape for 90%if not more of what you need to use git for.
 --
 
 .alert[Show some enthusiasm!<br>When I use `git`, 90% of the time I am using:<br>
@@ -458,8 +610,7 @@ class: center middle
 .footnote[[Image credit: Software Carpentry](http://swcarpentry.github.io/git-novice/04-changes/)]
 
 ???
-The center - it's in the staging area since it was previously committed, but has beene edited
-
+So let's be serious about this, this Hipster Ipsum text is a bit silly. Let's use our text editor Nano and edit the ReadMe file to make it a little bit more sensible, and save the file. So what I'd like you then to do is to run git status, and think about where we're going to be in that diagram. All right, so I made some changes, it's not really critical what the changes were, but hopefully, you were able to modify some text.
 ---
 
 ```bash
@@ -476,9 +627,14 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 * We are in the repository, but our changes have not been staged to commit.
 * As it says, we can either `git add` the file to stage it and commit the file or we can use `checkout` to discard the changes
-	* Why might we want to discard the changes?
-	* If we discard the changes will we get them back?
-	* How far back will the changes be discarded?
+  * Why might we want to discard the changes?
+  * If we discard the changes will we get them back?
+  * How far back will the changes be discarded?
+
+???
+So if we want to check the status of our repository, what do we do now? Git status. I'm going to... So again, this tells us that we're on our branch master, we don't really know what that means yet, that's fine. We have a modified file called README.md. We modified the file to edit it to make the text a little bit more meaningful.
+
+But it also tells us that our changes are not staged for commit. And so this is a little bit different than what we had up above when we created the file. It said "untracked files above" and now that we've committed it previously, it now tells us that after we made a change it says "modified README.md."
 
 ---
 
@@ -507,6 +663,10 @@ index 32edb6b..946352a 100644
 +sartorial.
 ```
 
+???
+So no changes added to commit, we need to do git add to add the file and then commit it. But before we do that what I'd like us to do is do git diff README. I'm sorry, git diff README.md. And so what you see here then is that you'll see the README text, and it will tell you in red what was removed, and in green what was added.
+
+And so you can compare these lines to see what changed. So I added an "and" between our PBR&B and tofu. Added some "make some killer music" but that's really difficult to read, it's difficult to figure out what's going on in there.
 ---
 
 ## Hmmm. Can we make this any more useful?
@@ -540,6 +700,10 @@ we'll see this:
                represented by a tilde ~ on a line of its own.
 ```
 
+???
+And so we can go back to that alias I made which was git diff word README.md.
+
+And so this alias then allows us to more easily see the changes between versions of our README file.
 ---
 
 ## Let's give that a shot...
@@ -578,6 +742,10 @@ On branch master
 nothing to commit, working tree clean
 ```
 
+???
+All right, so again, git status tells us that we need to add the README file, so I'll do git add README.md, git status, it's been modified, it's ready to be committed.
+
+I'll do git commit -m make the README content a bit more serious. And so it says one file is changed, there's five insertions, five deletions, voilà. And again, if I do git status, "on branch master, nothing to commit, working directory clean."
 ---
 
 ## We can see what we've done using the `git log` command:
@@ -599,6 +767,16 @@ Date:   Wed Feb 22 14:49:38 2017 -0500
 
 This gives a reverse chronological ordering of your commits. You can explore the `git log --help` output to see all the ways you can customize the output.
 
+???
+So we haven't gotten very far in this project but we can type git log, and this will output to us what changes have been made over the course of the project, what are the commit messages. And so these...at the bottom we've made two commits.
+
+And so the bottom commit was the original commit, and the one above it is the second commit. So you might remember that when we had that commit message earlier, it started out 255875A. Again, this is the hash, as it's called, that corresponds to this commit. You're going to have a different commit hash, but this is useful because it's a unique identifier for this commit.
+
+And so you can see that it's got my name and email address because I added those, it's got today's date as I'm recording this, and it's got my log messages, my git log messages. One area of customization that people will frequently like to work with is how this output is seen, and so you could do git log --help.
+
+And this then shows you the manual page for git log. And so, again, there's a whole bunch of different things in here and if you Google around, you might find a lot of different options for how people change the coloring, or how they change the output.
+
+But I'm going to stick with this because it's fairly easy and the projects we're going to be working on are pretty straightforward, and don't need a whole lot of sophistication in our log message format. So git diff is a very powerful tool that allows you to see how your file or files have changed over time.
 ---
 
 ## Exercise
@@ -612,6 +790,18 @@ git diff HEAD^1 README.md
 git diff 824d1786bbc8514fb260a38db63470d0fdcb6f49 README.md
 ```
 
+???
+So take a look at these and figure out what changes are happening or what the following versions of the command are doing. Now for this last one, again, this is the hash of the git commit message. Git diff README.md, nothing's changed, because if I do git status, nothing's changed.
+
+So what git diff README will show you is how your current version of README.md compares to the most recent version in the repository. Similarly if we do git diff HEAD README.md, nothing changes.
+
+So head is the top of the repository. And so the output there is the same as git diff README. If I do git diff HEAD^1 README.md. This then compares what I've currently got in the repository to one commit prior.
+
+Another approach that we could take is that we could copy this commit hash. And again, it will compare it, so we've only got two commits in our repository history.
+
+So that is the same as HEAD^1, but you can imagine if you've got 20 or 30 commits, you might not want to count all those, you might want to grab the commit hash. You might also not want to grab the full commit hash, so you could do git diff, and then if I come up here, I might just grab the first six or seven characters of that hash, do git diff the hash README.md and get the same thing.
+
+So as our project gets more mature, and we have more commit messages using the HEAD^ and then a number will get you a comparison to that many versions ago in the repository. Alternatively, you can use the full hash string or the first characters in the hash string to compare what you currently have in your directory to what was in the repository at that commit.
 ---
 
 ## [A word about commit messages](https://chris.beams.io/posts/git-commit/)<sup>*</sup>
@@ -635,9 +825,29 @@ git diff 824d1786bbc8514fb260a38db63470d0fdcb6f49 README.md
 
 ???
 
-* What we put in the quotes of `git commit -m "something clever"` is the subject.
-* I find it useful to re-read this web page frequently to assess how useful my commit messages are
+So a brief word about commit messages. This links to a very long and detailed article about commit messages. Some of the points in this website in the blog are beyond where we're currently at with the tutorial. And so it's helpful to separate the subject from body with a blank line, we'll talk about what that means in a bit.
 
+Limit the subject line to 50 characters so that when we do that git commit -m, what you put in the quotes try to keep it short, and shorter than a tweet, 50 characters, something straight and direct. Capitalize the subject line, so the first character of that commit message should be capitalized. Don't end the subject line with the period, it uses extra space.
+
+Use the imperative mood in the subject line, so be imperative. Edit text to make more clear what happened. Solved bug that caused error in colors of plot. So have a kind of declarative mood, be more kind of emphatic about what was going on.
+
+If you're writing longer commit messages, wrap the body at 72 characters and use the body to explain what and why versus how and keep it PG. People have done analyses of commit messages and found large number of F-bombs in there, and also do your best to keep your commit messages as meaningful as possible.
+
+So on this right here, you have a great XKCD comic where somebody starts off great, you know, created main loop and timing control, enabled config file, parsing, blah, blah, blah, miscellaneous bug fixes, code additions edit, more code, have more code, and it just kind of devolves, I think we've all been through this where we think we have a bug solved, but we don't.
+
+And so we keep recommitting and recommitting and eventually we're just sick of writing commit messages. So let me show you what a more sophisticated commit message might look like. If we reopen up our README... But I have their logo on a hexagon distillery copper mug.
+
+So again, it doesn't matter what you type, just type something, git status. And so we've got this modified README, I'm going to go ahead and do git add README. Now I want to do git commit but I want something longer than that -m commit message. So I'm going to type git commit, this will then open up a editor in Nano for a commit message.
+
+So I will add "add information about band swag." And then say... And so we want to use the body to explain the what and the why versus the how. So I think...
+
+And so this is a short body but it could be quite a bit longer.
+
+And so a couple things to note is that we have a short declarative imperative message, a subject line, and then we have a body. And it's the body because we put a blank line between the title and the body. But one thing that we didn't quite do is that we have a run-on line here, and this is relevant because of how it will be rendered when we do a git log or when we look at these commit messages on GitHub.
+
+So I'm going to add some breaks and that's great. So now I can do Ctrl+O, Ctrl+X takes me out. If I do git status on master branch, nothing to commit. If I do git log now, I'll see the subject line as well as the body message below that.
+
+And so again, by having this more detailed commit message I can get a better sense of the what and the why behind what happened in this commit. Sometimes you might be doing a lot of things in a commit, so you might want to put better annotation in of what was going on between that and the previous commit message.
 ---
 
 ## Exercise
@@ -650,11 +860,31 @@ git diff 824d1786bbc8514fb260a38db63470d0fdcb6f49 README.md
 * Back in the terminal, type `git pull`
 * What happened?
 
+???
+All right, so now it's your turn to do some heavy lifting. I'd like you to get ahold of the MIT license, and copy that into the silly repository, and use that to create a file called license.md. So I want you to then edit the license to add the year, and your full name, so that it's you that the license is for.
+
+Add it to the repository using our commit workflow. And then I want you to lean on some of the stuff we did in the last tutorial, to create a GitHub repository and push your silly repository to GitHub. Then on the GitHub version, add your PI's name to the license, back in the terminal type git pull and see what happened.
+
+So this might take you about 15, 20 minutes or so, so go ahead and pause the video and when we come back, I'll quickly show you what I did. So, hopefully, that exercise wasn't too hard, and when you ran git pull, what you should notice is that you got your license.md down here at the bottom, where there were two additions subtractions.
+
+So we see one file changed, one insertion, one deletion. And that no doubt was the change in the license. So if we do nano license.md, we now see that, on our Amazon instance, we have, at least in my case, Mary Smith, who is our fictitious PI, is added to my license. And so again, we can see that through this pushing as we did up here using the commands we copied from GitHub, as well as pulling, we can push content, push our repository, we can push our repository up to GitHub, and then we can use git pull to pull changes back down.
+
+So somebody might be working on our content on GitHub, but we can then pull those changes back down to our local repository. So 90%, 95% of the time, I'm not going to making changes to the GitHub site, and so I'm not so worried about pulling content down.
+
+But if I'm working with a trainee in my lab, and they are making changes to their repository, before I do anything, I'm going to do a git pull to pull down the freshest content from their repository. And again, when I'm done making commits, I can then push those changes back up to the repository. One of the things I like to avoid using is "and" in my commit messages.
 ---
 
 ## Commits: How often?
 
 * I like to avoid using "and" in my commit messages to force my commits to be about one thing
+???
+I want my commits to be about one thing. Now, don't get me wrong, I don't want it to be about changing line three of paragraph two, I want it to be perhaps I edited the abstract of the paper or edited abstract of paper to keep it declarative. I mean, this is not a big deal but it's a way also to kind of keep our changes what we might call atomic, where they really represent one thing.
+
+And if we want to go back to where did I introduce the changes to the abstract, bam, they're right there in that commit message that say "added edits to abstract." And as we already talked about, we can generate bigger commit messages by doing git commit without the -m.
+
+And we've already talked about this where we can get longer commit messages in the body. I also like to make a commit before I'm about to do anything risky, so that I have a fallback position. I liken this to when I run Word with EndNote. EndNote always seems to crash Word for me, and so I always make sure I save Word before I build a bibliography with EndNote.
+
+So similarly, if I'm about to make a big change to a plot I'm working on, I'll go ahead and commit it, because, as we'll see in the future, we can always fall back. We can get rid of all the changes we made and go back to the last commit.
 --
 
 * You can generate bigger commit messages by doing `git commit` without the `-m "Something clever"`. This will open the text editor. Type the subject of the commit on the first line. Leave a blank line and then write a fuller description of what you did. Save and close the window.
@@ -669,6 +899,8 @@ git diff 824d1786bbc8514fb260a38db63470d0fdcb6f49 README.md
 * Ideally at the end of a work session to have a back up
 * Remember to `pull` if you've changed something on GitHub (i.e. the remote) before you `push` again
 
+???
+So how often should you push? You can push your commits as often as you want. I try to do it at the end of each work session so that I have a backup. So remember to pull if you've changed something on GitHub which we'll be calling the remote before you push again. And in future tutorials, we'll talk about other ways to deal with this in a way that's a little bit safer, so multiple people aren't able to submit commits, push commits to the same repository.
 ---
 
 ## Ruh roh.
@@ -684,6 +916,8 @@ $ ls
 <br/>
 Now what?!?!?
 
+???
+Say we're trying to clean up our home directory and we do this, now what do we do? So this is not the end of the world, so let's go ahead and do it. So I'm going to do cd ~, back to the home directory. If I do rm -rf silly_repository ls, it's gone. How do I get it back? Well, this is also one of the things that's great about version control, is that if I hit refresh, it's still here, it's still on GitHub.
 --
 
 <br/>
@@ -698,12 +932,18 @@ $ ls
 <br/>
 Phew!
 
+???
+I still have a backup, and so there's a green button here, clone or download, so if I click that, I can click on this "copy to clipboard,"and then down here I can do git clone, and then that address to the repository, hit Enter.
+
+If I type ls, wow, it's there, silly repository. If I cd into silly_repository and do ls, everything is still there. If I do nano license, I see my name and my PI's name are here at the top. So one of the benefits of GitHub, is also the ability for it to provide a backup of our repository, wonderful.
 ---
 
 class: center middle
 
 ![Sheep cheering]({{ site.baseurl }}/assets/images/sheep-cheering.gif)
 
+???
+So we've really learned a lot about git and GitHub, so far, using this admittedly pretty simple repository or silly repository. So pat yourself on the back, that's great, and again, everything we've done is 90% to 95% of what I use git for. Let's return to the Kozich reanalysis now.
 ---
 
 ## Let's return to our Kozich re-analysis
@@ -731,6 +971,10 @@ Untracked files:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
+???
+And so to do that we can do a cd ~to get back home, and do cd Kozich_ ReAnalysis_AEM_2013, Enter, ls, see what's in the directory, and I already forget what we did yesterday, in the previous tutorial. So if I do git status, this shows me that we have four files, at least the way I did it, I had four README files, where I put information about getting the code, the raw data, the reference data.
+
+And now I also have a directory for code mothur. So I don't want the files from mothur included into my repository because they tend to be large and they're not going to change. So what I'd like to do is go ahead and stage these changes to then commit them. And so we could do git add README.md code/README.md data raw README.md data references README.md.
 ---
 
 ## Stage our changes
@@ -738,7 +982,10 @@ no changes added to commit (use "git add" and/or "git commit -a")
 * We don't want the `mothur` files in the repository since it's a large, bulky binary file, that we're unlikely to change
 * Stage the `README.md` files to the repository
 * Check the status
+???
+Now, I wrote these all out longhand and I would encourage you to do the same. People run into big problems when they get a little aggressive in how they add files to their repository.
 
+And this is where people then get into problems with committing password files or patient health information or gigantic data files. So I like to be explicit as I'm entering in the files that I want to commit to my repository. So I'll hit Enter and if I do git status, I now see that those four README files are now green, they're marked as modified while my code mothur directory is not being tracked.
 --
 
 ```bash
@@ -769,6 +1016,12 @@ Let's make a more detailed commit message
 ```bash
 $ git commit
 ```
+???
+So I'll go ahead and do a git commit, and I'm going to leave off the -m, and I'll do insert code into README files. Put an extra space, obtained mothur executable raw fastq.gz files and silva and RDP reference files.
+
+These are the raw materials that I will be using for my reanalysis project. And I'll, again, save this, CTRL+O, Enter, Ctrl+X brings me back out.
+
+Again, git status, I now see that everything's updated except for code mothur. If I do git log, I see that I have my initial commit as well as this new commit. One thing you might notice is that the author of our initial commit was Ubuntu, which is a login name for this instance, and so that's why it was useful for us to go ahead and do that git config global to put in our name and password.
 --
 
 Inside the text editor...
@@ -814,7 +1067,8 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 * We can keep going with our project and pretend that the `code/mothur` line isn't there whenever we run `git status`
 * Or we could ask `git` to ignore it for us!
-
+???
+So we could keep going with this project and as we do this, we could just ignore that code mothur at the bottom every time we go through. But that would get pretty tedious and more than likely I'd be very prone to accidentally add that to my repository. What we could do is ask git to ignore this for us.
 ---
 
 ## Ignoring is bliss...
@@ -822,6 +1076,9 @@ nothing added to commit but untracked files present (use "git add" to track)
 * Did you notice that there seem to be a bunch of files that `git` is already ignoring?
   * The `fastq.gz` files in `data/raw`
   * The reference files in `data/references`
+
+???
+And perhaps you've noticed this that we actually have a lot more files in here that for some reason git is not seeing. If I do ls data raw, whoa, there's a whole bunch of files there. Why isn't git seeing those? Well, with this project template that I gave you, by default, we told git to ignore certain files.
 --
 
 * On the GitHub page, did you notice a file named `.gitignore`? What do you think that does?
@@ -850,6 +1107,14 @@ mothur*logfile
 * This file tells `git` to ignore any file or directory that matches a line of this file
 * Except! It will not ignore those files/directories that start with a `!`
 
+???
+And so one of the special files that's really useful is called .gitignore. So we can do nano .gitignore. And this is a file that every line has a different type of file or directory that git is going to ignore. And so as you look at this, you might see, oh, this line here has data/*/*.
+
+So git is going to ignore anything that is in my data directory. But below that, there's a line that has data/process/*, but there's an exclamation point at the beginning of the line. So the exclamation point tells git to "don't ignore this directory." And as you look through, you will find other things that git is going to be ignoring.
+
+It will ignore your Word files, it will ignore temp files, it will ignore your mothur log files. And so the other thing then is that git is being told "do not ignore README files." So our raw data files are in data raw. Our reference files are in data references. And so from this line, git is being told to ignore the data raw and the data reference files.
+
+So what we'd like to do is to tell git to ignore code mothur, how would we do that? Well, right here we could type code/mothur/*. Again, we can do Ctrl+O, Ctrl+X.
 ---
 
 ## Will our `.gitignore` ignore these and why?
@@ -872,6 +1137,16 @@ mothur*logfile
 * `submission/my_awesome_paper.docx` - yes - *.docx
 * `README.md` - no
 
+???
+So to build upon that gitignore file I'd like you to take a look at the file and we do nano .gitignore. Given what's in your gitignore file. What I'd like you to do now is take some time and go through these seven bullet points, and ask yourself whether or not git will ignore these directories and files.
+
+So with this first one, data/process, this will not be ignored because there's the line in the gitignore file that has the !data/process. Will it ignore data/raw/README?
+
+No, it will not because the exclamation points README tells git to pay attention to any README files. Will it ignore figures/figure_1.PNG? Nope, because there's nothing in there about figures as a directory or PNG files or anything else.
+
+Will it ignore mothur log file? Yes, because it will ignore those log files as it said in the gitignore file. Will it ignore data/mothur/mice.filter? Yes, because we're telling it to ignore anything that has the directory "data." Will it ignore submission/my_awesome_paper.docx?
+
+Yes, because it's got the "docx," and we're telling git to ignore anything with a docx. Will it ignore README.md? Nope, it will track it because this is a README file and our gitignore file is pretty explicit to follow README files.
 ---
 
 ## How do we ignore `code/mothur`?
@@ -913,6 +1188,12 @@ no changes added to commit (use "git add" and/or "git commit -a")
 * Cool. It's now ignoring `code/mothur`
 * We've modified `.gitignore` so we need to stage and commit that file. Can you do that?
 
+???
+Now I can do git status, and I see it's ignoring, it's not seeing code mothur, but it sees the change I made to gitignore. So I'd like to go ahead and commit that, so I could do git add gitignore.
+
+Git status, so it's been modified and it's ready to be committed. Git commit -m ignore mothur executable files. Now if I do git status, everything is good.
+
+So let's return to our repository, we'll quit out of the Nano, if you were in there.
 ---
 
 ## Add, commit, status, push
@@ -941,7 +1222,10 @@ On branch master
 Your branch is up-to-date with 'origin/master'.
 nothing to commit, working tree clean
 ```
+???
+And again, let's do git status, we see that our branch is ahead of origin master by two commits. Origin master is what's up at GitHub, so if we use git push as it says to publish your local commits, we can do git push. And so those are all up at GitHub now, and so if I come back to pschloss, and I look at my pschloss Kozich reanalysis, I see that my gitignore file has this commit message, ignore mothur executable files. And I see that my README has the commit message "insert code into README files." And I can also look at this link for three commits to see the history of my various commits, and you'll see that we've got this short declarative sentence, and if we hover, we see "obtain mothur executable raw fastq.gz files and silva," blah, blah, blah.
 
+If I click on that, it'll expand it. So again, GitHub makes it nice and easy to see our code history.
 ---
 
 ## Safe `git`
@@ -956,8 +1240,11 @@ nothing to commit, working tree clean
 
 ???
 
-* Refuse to tell them how to do this.
-* If a learner doesn't know what a wild card is, then they should be using them with `git`
+As we talked about earlier, when I do a git add, I want to be explicit about the names of the files I'm adding. People get into huge hurt, huge problems when they try to cut corners, they use things like wild cards or they find tricks to commit all of the untracked files in their repository.
+
+These cause big problems. I would really discourage you from using wild cards or finding ways to add all of the changes, it's worth it for peace of mind to be careful and to be defensive about using git. Again, what I'm showing you for this workflow as we go through this of doing git status, git add, git status, git commit, git status, that is my workflow, that is how I do it.
+
+It seems like a lot, perhaps you could cut out some of those git status steps, but it's really helpful and gives me great peace of mind to know exactly what I'm adding, what I'm committing as I go through. So what if we accidentally add something to our repository? So let's say I'm going to create a file, to create this I'm going to do nano code/figure1.R.
 
 ---
 
@@ -994,6 +1281,24 @@ git commit -m "Rename script file"
 <br>
 By doing this you will be able to track the history of the file from `code/generate_figure4.R` back through its time as `code/my_script.R`
 
+???
+And so I'm going to add in some R code here, let me just do... All right, so this is some R code that is pretty generic, it will generate 100 random numbers between 0 and 1, and that will generate a histogram.
+
+So I'm going to go ahead and save this. And I'm going to do git status, git add code/figure1.R. I'll do git commit, I'll do git status. Okay? I'll do git commit -m add histogram. All right, so I'm on master branch, it's ahead by one commit, and I can push it to publish my local commits.
+
+So one of the things about pushing is that you want to be really sure that you want to push that change. And so if for some reason I went back and decided I don't want figure1.R to be part of my repository, then once it's been pushed, once it's been publicized, then it gets that much harder to remove it from the commit history.
+
+And so I've had second thoughts, I'd like to remove that figure1.R file, so how do I remove that file? So something you might be tempted to do is to do rm code figure1.R. So that will work but that will disrupt the history.
+
+And so what's better is to do git rm code figure1.R. And so if we run that, and now we do git status, we see this has been deleted, code figure1.R has been deleted. And then we can do a commit, so it tells us that it's ready to be committed so we can do git commit -m remove figure1 code.
+
+And if we do git status, and we then do ls code, we see that we don't have figure1.R. We've got other code in there but we don't have figure1.R. So let's go ahead and create another R file, so we'll do nano code/my_script.R. And we'll, again, do x <- runif(100) hist(x), git status, git add code/my_script git status, git commit add new histogram.
+
+Git status. Excellent, so my PI's looking at my code, looking at my repository, and PI says, "Pat, code/my_script is not a very descriptive name for your script file, why don't you give it a better name?"
+
+So I'd like to change the name of that file, and so, again, we could do mv code my_script.R to code generate figure4.R. But if we do that mv then we're going to disrupt the history that's being tracked in git.
+
+So we can go back and do git mv code my_script code generate figure4. So if we run that instead, and do git status, we now see that it's been renamed, and that it is ready to be committed. So we can then do git commit -m give histogram figure code a better filename. All right, and so it says in that commit output the commit message as well as that it renamed the code, and we can then do git status.
 ---
 
 ## Removing things from your repository
@@ -1034,3 +1339,18 @@ By doing this you will be able to track the history of the file from `code/gener
 6. git push
 7. git status
 8. git commit -m "What I did"
+
+???
+So we've done a lot today with git, and practicing that workflow of using git status, git add, git commit, git push, git pull. We also talked about git init, git diff, get log. So there's a lot in there, but like I said, the commands I use the most are git status, git add, git commit, git log, and git diff, those will serve 90% of your needs. What I'd like you to do now is to work through a series of problems, so eight bullet points here that ask you to do different tasks using git.
+
+So I don't want you to write these out at your command line, but go ahead and perhaps jot them down, piece of paper or text file, and think about how you would do each of these using git. And so you can then press P to see the answers. It's important to remember that we need to go back to our console and quit out of EC2, so I'll do exit.
+
+Exit. I'll go to EC2 Management Console, Instance State, Stop, yes, stop. Well, I really hope that you took the time to pause the video and play with the Hipster Ipsum text, and our own Kozich reanalysis pipeline.
+
+It's great that we're starting this project with version control but you know what, it's never too late to start using version control. If you have a project that you're midway through or even a project that you're almost done with, go to the root of that project and write git init. If nothing else, it will give you a backup of your work to this point in the project. As we continue through our analysis, we'll be using version control to document all of the changes that we make.
+
+Hopefully, you noticed that we aren't tracking the large files with our repository. There are options for storing large files with GitHub but I find these to be a bit clunky, and even with the extended storage options, it will quickly outstrip their capacity. So say I was to accidentally delete my AWS instance, or just the directory, what would it take to recover?
+
+I don't want to say that it would be easy but it wouldn't be the end of the world. I could clone my repository from GitHub into a new directory, a lot like we did with the silly repository example. That would get me all of the code in the smaller files, but what about those big files? Hopefully, my README files are clear enough that I could get going again. In the next tutorial, we'll see how we can automate much of that process.
+
+Actually that nightmare situation is really a good motivation for thinking about our own reproducibility. If I were to accidentally delete my project directory, how much work would it take to recover the project? I'll leave you to think about that, until we meet again in the next tutorial.

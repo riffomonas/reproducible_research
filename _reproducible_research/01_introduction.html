@@ -10,6 +10,52 @@ class: middle center
 .footnote.left.title[{{site.url}}{{site.baseurl}}{{page.permalink}}]
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
+???
+
+Hi. My name is Pat Schloss. I'm a professor at the Department of Microbiology and Immunology here at the University of Michigan. I'm really excited about a new project that I've been working on that deals with reproducibility and how we can use various tools to improve the reproducibility of our analysis.
+
+These tutorials will be available at our website as a series of slide decks. Over the next few weeks, I'll be releasing videos to have me talking you through the slides and doing demos of the tools and the practices I discuss. The tutorials that I will be presenting, I've previously taught at a variety of workshops. These workshops have gone pretty well and I've used the feedback from those sessions to remove and add content to make them better.
+
+Like I said, I'm really excited to share them with you. If you have any comments, please don't hesitate to contact me or to leave a comment on the YouTube website. Perhaps we can circle back to some of these questions and comments at a future tutorial to answer any questions people might have. The title of this project is the Riffomonas Project.
+
+The name comes from the practice of music where one musician takes a theme from themselves or others to vary it, layer things on top of it, and perhaps present it in a different context. Similarly, I hope to show that one of the benefits of focusing on making your research more reproducible is that if others can reproduce your work, they will be able to use your methods on their data, or perhaps their methods on your data to help move science forward.
+
+If you will, scientific riffing. My hope is that we can approach reproducibility from a positive perspective rather than as a negative perspective. Instead of seeing research as being in a state of crisis where it is perceived that people are doing garbage science, perhaps instead we could see reproducibility in a positive way.
+
+We can appreciate the effort that scientists go through to make their research more reproducible and fodder for our own scientific riffing. The concepts and tools that I'm going to be talking about are pretty general and can be used in a variety of types of data analysis because I'm a microbiologist whose interest in the role that bacteria play in shaping human health and disease, I'm going to use examples throughout the series that are taken from microbial ecology and the human microbiome literature in particular.
+
+But I'll also use a series of goofy examples, including folding paper airplanes, predicting people's age based on their names. There should be something here for everyone interested in making their data analysis more reproducible. Come along with me, and let me show you the project's website where you can find the slides that we'll be using in this series, and begin to introduce you to the content of…in the tutorial series that we'll be doing over the next few weeks.
+
+Wonderful. So the first part that I want to introduce you to about the Riffomonas Project is our website. And so you can get to the Riffomonas website by going to http://www.riffomonas.org. Here will be a launch pad for disseminating different instructional materials, different bits of information about how we can improve the reproducibility of our research in microbiology, and eventually, perhaps other fields as well.
+
+If you look up here at the top navigation bar, click on Training modules, you'll see currently, there are two different training modules in here. The first is a module called minimalR, and this is an R tutorial that I regularly teach from to help people to get up to speed with R, assuming that they know nothing as they start, but then also getting them going without overwhelming them with a lot of features and jargon off the bat.
+
+That it really is the minimal R, and that people find over the course of doing several of these modules within the minimalR series, that, very quickly, they get up to speed on a diverse array of features within the R programing language. But what we're here to talk about is the Reproducible Research tutorial series.
+
+And as it says here in the intro, this is a series of tutorials on improving the reproducibility of data analysis for those doing microbial ecology research. Now the data set that we're going to be working with a lot through this series is from the human microbiome research.
+
+That's really not that relevant. What's important is that we're working with microbiome data, microbial ecology data, sequence data, data, any type of data. But data, in particular, needs to be analyzed through a complex series of steps. And we're going to think about, "How could we make these analysis more reproducible?"
+
+Again, because my group developed some other software package, we're going to be using mothur. It's not a requirement that you know mothur or R, but it would certainly help as you move through these tutorials. I'm not going to be teaching you R or mothur in this series of tutorials, okay? But what we're going to learn are a series of practical tools, but also concepts and thinking about reproducibility and the factors that impede our ability to carry out reproducible research.
+
+And so we'll use tools like the bash command line, we'll use high-performance computing clusters, we'll talk about scripting languages like mothur and R, we'll use a tool called version control, specifically Git and GitHub, we'll talk about automation, using a tool called Make, and a concept that has really been a big contributor to my research group, which is literate programming and using Rmarkdown.
+
+And so, again, these are things that my lab is using, that I created these tutorials initially to onboard people coming into my research group, and so now my goal is to give them to you to help onboard you, so to speak, into the area of microbiome research and making it reproducible. And so before we launch into the initial tutorial, I want to call your attention down here to these dependencies, and that a big pain in making analysis reproducible is, "What software are we using? Do we have the right versions of software?"
+
+And we'll talk about all these things as we go along. But as we get into the computational aspects of this series, we will primarily be using Amazon web servers. The cost will be fairly minimal but you might also want to try this on your local high-performance computing facility at your institution.
+
+Here at Michigan, we've got one called Flux. You might have one at your institution. Generally, at your home institution, they're a bit cheaper than they are on Amazon. Regardless, once you get there, you're going to need certain types of software. I mean, alternatively, you could also run it on your laptop without going to one of these clusters.
+
+But I think in the long run, it's going to be worth your effort to learn how to use these other computing resources like Amazon, or your local computer cluster. And so if you're going to do it locally, or on your local high-performance computer cluster, you're going to need tools like R, Make, Git, Wget, and Atom or Nano installed.
+
+Okay? The part of my justification for using Amazon, for example, is that all these tools are generally already installed and so if you're trying to kind of bring this up on your own laptop or your own computer, there's a bit of frustration in getting going there.
+
+So let's go ahead up here to the tutorials and let's click on this first link for the Introduction. This is going to be the format of the slides I will be using in this tutorial. These are HTML-based slides, and if you want, you can go ahead and hit the F button and that will give you a full-screen.
+
+Also, as I said, down here in the lower left corner, you can press the H key to open the Help menu to help you identify how to navigate around the slides. And so one that you might find useful is hitting P, hit Esc to get out of that. And so by hitting P, it brings you to this Presenter View.
+
+And so you might be familiar with this from, say, a tool like PowerPoint where on the left side, we have the slides I'm going to talk about, and on the right side are going to be the notes. And so if you want to follow along, you can see the notes that I'm using here. But I'm going to go out of the Presenter View, and I'm going to go ahead and open this up. All right. So let's get going.
+
 ---
 
 ## Learning goals
@@ -17,6 +63,10 @@ class: middle center
 * Summarize the motivations for this tutorial series
 * Understand where this tutorial is going to take you
 * List the preliminary readings you should do before the next tutorial
+
+???
+
+So the goals of this introductory session is to be relatively light and to help orient you in where we're going to go. And so I'm going to summarize the motivations for this series, I'm going to help you to understand where the tutorial is going, and what we're going to get out of it. And then I'm going to give you some preliminary readings, there's a number of them, five or six papers, but none of them are super-long, and they're all meant to kind of provoke you into thinking about reproducibility and your own practices.
 
 ---
 
@@ -26,11 +76,15 @@ background-position: 50% 50%
 
 ???
 
-* This workshop started as an April Fool's joke - a command for the mothur software package that would write a paper for people based on inputted data.
+And so I'd like you to read these before the next tutorial. So this whole tutorial series started as an April Fools' joke for the Mothur software package and the idea was, I wanted to release a package called write.paper, because I've gotten lots of emails from people saying, basically, "Write my paper for me."
 
-* This workshop makes that joke a reality
+I should be able to give you an SFF or FASTQ file, and you should be able to pop out an analysis that does everything I needed to do. And, I think, we agree that that's kind of silly. What's really silly is that years after I posted this as an April Fools' joke, I still got emails from people asking, "Why doesn't write.paper work?"
 
-* If only it were as simple as this!
+But this was a motivation for me and sure it was a joke at the time. But, wrapped up into this was the question of, "Well, could I write a command that would take raw data, maybe even go out to the web and pull down raw data, process it automatically, and then spit out a paper?"
+
+And as much as we joked about this as an April Fools' joke and people said, "Ha-ha. Good one, Pat,"that's really the goal of this workshop, is to help you to write your own function, your own code, so that you can go to the command line and say, "write.paper," and it will pull down your raw data, it will manipulate it, it will analyze it, and it will pop out a Word file or a PDF that you can then submit to a journal or give to your PI, or do whatever.
+
+And so, again, as much as this started as an April Fools' joke, it really evolved into thinking about reproducible research. I'm not going to say it's as easy as pounding out write.paper, you still have to tell the computer exactly what to do, but by telling the computer what to do, you're really telling your colleagues and potential collaborators around the world what to do when you analyzed your data and what they can do to analyze your data.
 
 ---
 
@@ -48,6 +102,22 @@ background-position: 50% 50%
 .middle[.center[![Your PI]({{ site.baseurl }}/assets/images/boss.gif)]]
 ]
 
+???
+
+So as we go through this series of tutorials, there are going to be two reoccurring themes. First is thinking about your collaborators, and who are your collaborators? So, you, Mr. DiCaprio up here is telling you, you are the most important collaborator.
+
+And it's a special version of you. It's the version of you that exists six months from now and current you won't have email access in six months, right? I think we can all relate to that where we've had a project, we put it to the side for a few weeks or few months, maybe even a few days, we come back to it, we're just like, "Where was I? Where was I going?"
+
+So the second most important collaborator is your PI, your boss, right? That, they need to know how you have been analyzing and working with your data. Someday, you may leave the lab. You might graduate, you might get a job, you might go on to greener pastures, and your PI's going to be stuck answering all the emails that come in, and they need to understand what's going on.
+
+They need to understand how you've organized things, how you've done your analysis, why you did different things in your analysis. And so you need to make these things transparent to your PI as much as possible. And of course, the third most important collaborator is your future collaborators, right? People who will read this paper, and as I said earlier, will want a riff-off of the work you did to expand it for their own data sets or their own questions.
+
+The second theme that I want to focus on is that reproducible research is a positive thing. This is not meant to be "gotcha" science. Too much of the discussion about reproducibility has really turned into "gotcha" science, where it's, "Aha!" You know, the Superman poses. It's not reproducible.
+
+It's not real. It's garbage science. It's junk. But instead, to think about reproducible research practices as being preventative medicine, right? If we can make sure that our code is reproducible, and that we're using good practices, then we will prevent…we won't necessarily avoid future problems but we'll prevent a lot of problems down the road because it will be easier to track down those problems if they occur.
+
+Right? We'll be more transparent so others could help to improve the work we're doing. We'll have a better idea of what we're looking at months from now when we come back and scratch our heads and say, "How did I make that figure again?" Well, the tools that you're going to get out of this series of tutorials will help you to do that, and in that way, reproducible research methods are considered by many to be preventative medicine.
+
 ---
 
 ## Topics and tools we'll cover
@@ -60,7 +130,21 @@ background-position: 50% 50%
 
 ???
 
-The topics are far more important than the tools
+So as I said earlier when we were looking at the website, we'll cover a number of tools throughout this tutorial series and none of these are really specific to microbiome data. I have used these tools in a wide variety of projects I've worked on that have had nothing to do with microbiome data.
+
+And these five areas really focus on some of the bigger themes that we're going to be diving into as we think about reproducibility. So the first is documentation, and we're going to use a few tools like markdown, Rmarkdown, R, Make, Git, thinking about organization, that organization is very important because if you can't find something, then it's really hard to reproduce it.
+
+So we'll use tools like bash, we'll talk about using high-performance computer clusters, we'll also talk about using Git Version Control as a tool for helping us with organization. We'll also talk about automation. I don't know about you but whenever I get involved in manually curating steps, all sorts of weird things start happening that I perhaps can't reproduce.
+
+And so if we could automate things, then we can overcome a lot of these problems. And so to that, we'll talk about using Bash, R, and Make. Transparency is also a big issue when it comes to thinking about reproducible research. That, we need to be transparent with our external collaborators, with our PI, with ourself, with those out there in the world about how we did our work.
+
+And so tools like ORCID iDs, FigShare, other databases using Git, GitHub, open-source licensing, are all going to be really important as we think about improving the transparency of our data analysis to, hopefully, make it more collaborative. And so that other final issue of collaboration is really critical because I don't want to just do research that begins and ends with me.
+
+I want it to have an impact on others, right? I want people to think of my results as something that they can build off of. But also all the hard work I went through to process my data, to analyze my data, I want that to be valuable to others as well so that they can go off and take my tools that I have developed to analyze my data, to analyze their data.
+
+There aren't many feelings better than getting an email from somebody out of the blue that say, "Hey, thanks for making your code available online. I've been struggling with this problem and I see that you solved it or you found a way to deal with it. And so now I've used it in my code and that's really helped me out."
+
+I mean, that's what science is all about, right? Taking work from other people, riffing on it, expanding it, to advance our knowledge of the world around us. So as I mentioned earlier, we'll use a couple tools that we're not going to go super-deep on, they're important for thinking about scripting and analyzing data, but I deal with teaching these tools in other places.
 
 ---
 
@@ -71,6 +155,12 @@ The topics are far more important than the tools
 
 <br>
 .alert.center[It would help to know R and mothur, but it is not critical]
+
+???
+
+And so I already talked about R, and that we have a minimalR tutorial, that if you're not familiar with R, I'd really encourage you to go through those materials. You don't need to be an R expert to make it through this series of tutorials but it will certainly help. The second is mothur. So mothur is a software package that my lab has created and maintained for analyzing 16S rRNA gene sequences.
+
+Again, it's not critical that you know mothur. We're going to do some copying and pasting with mothur commands from the mothur MiSeq SOP. It might be worth your while to at least once go through that SOP documentation using the data that I provide in that tutorial.
 
 ---
 
@@ -83,6 +173,24 @@ The topics are far more important than the tools
 
 .alert.center[Short and important takes on where we are in science, in general, and microbiology, in particular.]
 
+???
+
+So, again, it's useful to know R and mothur, but it's not critical. So, as I mentioned earlier, there's five papers that I'd like you to take a look at. They're not very long, they're typically maybe two or three pages long. And so, the first is by Francis Collins and Tabak from NIH. Francis Collins is the director of NIH and Tabak is his deputy.
+
+And it describes their plans to enhance reproducibility. Second is an editorial by Arturo Casadevall and others which reports a framework for improving the quality of research in the biological sciences. This is an outgrowth of an American Academy for Microbiology report dealing with reproducibility in microbiology.
+
+And so it's a very relevant document for those of us in microbiology because this tells us what other microbiologists, generally senior microbiologists, are thinking about reproducibility in our field. Next is an editorial by Jacques Ravel and Eric Wommack published in Microbiome. It was published several years ago titled "All Hail Reproducibility in Microbiome Research."
+
+In here, they lay out several papers that had recently been published that were making use of reproducibility tools. And so it's a very useful paper for thinking, again, about people within our field and seeing how they're thinking about reproducibility. The fourth paper is more nuts and bolts and practical, a paper by Noble, which is "A Quick Guide to Organizing Computational Biology Projects,"it's perhaps the most boring title ever, or it sounds like the worst paper ever, but you read it and it's really rich and really gets you thinking about how we organize our projects.
+
+And these are concepts that we'll come back to later in the workshop. And finally, a paper that I think is just awesome for its humility is a paper by Garijo et al., out of the Bourne Lab. Bourne is a leader in bioinformatics. He was, I think, some type of director at NIH, and so they published a paper looking at the tuberculosis drugome several years ago.
+
+And then Bourne issued a challenge and said, "I'd love for people to come back and try to reproduce the work we did." And so this manuscript, Garijo et al., is a reporting of what happened when people went back and tried to reproduce their work. I think a lot of us cringe at the prospect of thinking of somebody coming back and reproducing our work.
+
+But, again, I tip my hat to Bourne and his colleagues for doing the experiment and seeing where the bottlenecks were. And so we'll come back and talk about all of these papers as we go through the future tutorials. And so it'd be great right now before the next tutorial to read these, to get a sense, again, of where we are in science in general, and microbiology in particular.
+
+Okay. So here's some homework for you to think about and I think these would be great discussion items for your next lab meeting or if you're interested in area of research ethics or, I mean, just your own research, and these are questions that we all grapple with, I think, is that, what about your current data analysis pipelines makes you feel uncomfortable?
+
 ---
 
 ## Questions...
@@ -90,3 +198,21 @@ The topics are far more important than the tools
 * What about your current data analysis pipelines makes you feel uncomfortable?
 * If you left your project for six months, how difficult would it be to restart?
 * How easily is your PI able to interact with your analysis?
+
+???
+
+Perhaps me talking here has maybe dusted off a few recesses of your memory that make you a little bit stressed out. Are there areas of how you do data analysis, the reproducibility of that data analysis, that make you a little bit nervous? So the second question that is, "If you left your project for six months, how difficult would it be to restart?"
+
+I have a lot of friends in ecology and they commonly go off for fieldwork for maybe months at a time and they're in remote areas where they can't work on a computer, and they come back. How do they get going again? How difficult would that be for you? How difficult would it be for you if you go to a conference for a week and come back and need to get going again?
+
+And finally, how easily is your PI able to interact with your analysis? Are they truly a collaborator or are they a receiver of the analysis and the text you give them?
+
+Is there an interaction? And is it possible for them to interact with you? Maybe you don't want them to, but still the question needs to be asked of, "How easily is your PI able to interact with your analysis?" And there's no good or right answers to these questions. They're questions to motivate your thinking and get you to start to grapple with issues that we're going to be encountering as it comes to working with data and thinking about how we can make our data more reproducible and hopefully, more robust.
+
+Well, thanks again for hanging out with me as I introduced the Riffomonas Project in this Reproducible Research tutorial series. Like I said, it's a project I'm really excited to share with you and to be able to show you how my lab and I strive to make our data analysis more reproducible. It will seem like a lot of content over the next few weeks. What I want to impress upon you, however, is that it's important and okay to take incremental steps to making your work gradually more reproducible.
+
+I think it's unreasonable to expect you to incorporate everything we talk about over these next series of tutorials into your first project or that you should somehow go back and retrofit current or previous projects. Instead, I'll be giving you tools that you can gradually bring to your projects to improve your overall practices over multiple projects.
+
+The next tutorial will define reproducibility and replicability and explore the factors that impede reproducibility and replicability of research. The content of the next tutorial won't be too technical. My goal is to ease us into the more sophisticated and technical aspects of how we make our research more reproducible. A lot of the problems we face with reproducibility, frankly, are human problems where our own behaviors and practices get in the way of our progress.
+
+I think you and the rest of your lab, including your PI, will get a lot out of the next tutorial, even if they aren't actively doing data analysis. So, so long, and I hope you'll join me next time as we dive deeper into this series of tutorials on making our data analysis more reproducible. ♪ [music] ♪

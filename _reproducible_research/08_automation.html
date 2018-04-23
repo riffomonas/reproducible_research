@@ -10,12 +10,23 @@ class: middle center
 .footnote.left.title[{{site.url}}{{site.baseurl}}{{page.permalink}}]
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
+???
+Welcome back to the Riffomonas Reproducible Research Tutorial Series. I hope you're able to make it through the last tutorial, in which we used the Git to document the evolution of our data analysis. As I mentioned in that tutorial, we'll continue to use Git as we proceed with the development of our analysis.
+
+I think it's worth emphasizing that to get the most benefit from Git, you really need to regularly commit your changes. There's a little point resolving to use Git but only committing at the end, that kind of misses the point. In today's tutorial, we're going to follow up with a question that I asked at the end of the last tutorial.
+
+If I were to accidentally nuke my project directory, how difficult would it be to get back to where I was before the disaster? I could use version control to get back all of the code but it might be a bit difficult to pull together all the pieces unless I'd already planned for such a calamity. Today we're going to be discussing how we can use Bash scripts to automate our analyses. This will minimize our involvement in running individual steps.
+
+At the end, I'll intentionally delete my directory and show you how we can get back up to speed. Remember that our primary motivation is to be a better collaborator to our future selves, so if we can pull off the feat of nuking our directory and then regenerating the analysis, then we can be pretty confident that our analysis is close to being reproducible by ourselves as well as others. In today's tutorial, we'll make use of some of the mothur scripts that are built into the new project template.
+
+You don't need to know how to use mothur for this tutorial but it's a great program that you should definitely be familiar with if you're doing any type of 16S rRNA gene sequence analysis. Now join me in opening the slides for today's tutorial which you can find within the Reproducible Research Tutorial Series at the riffomonas.org website.
 ---
 
 ## Exercise
 
 You've made a few changes to README.md to update the versions of the software packages you are using in your analysis. What are the commands that you would enter to commit and push those changes?
-
+???
+Before we get going on today's tutorial and talking about automation, I want to remind you of what we talked about in the last tutorial on using version control. And so here's a little exercise that I'd like you to think about with me for a couple of moments. So let's assume we've made a few changes to our README.md file to update the versions of the software packages that we're using in our analysis. What are the commands that you would enter to commit and push those changes? So go ahead and hit pause and think about what those commands would be and perhaps even write them out.
 --
 
 ```bash
@@ -27,11 +38,18 @@ $ git status
 $ git push
 ```
 
+???
+So how difficult was this for you to remember? Again, by repeated practice of writing these commands in actual projects that you're working on, it'll become something like second nature. And so, here is what I would recommend doing.
+
+So again, we start with git status as the goal being to see what files have changed, git add README to add it to the repository to add those changes. Another git status to make sure that we're getting ready to commit exactly what we want to commit, and then we're going to write git commit -m with the message "Update versions of software packages."
+
+Again, we want a pithy, declarative, imperative statement about what has happened. Finally, we want to do git status to make sure that our commit went through like we'd hoped, and then we can do a git push.
 --
 
 <br/>
 If you want to be super careful, you might also want to run `git pull` before the first `git status`
-
+???
+You should also note that if you want to be super careful, you might also want to run git pull before the first git status. This will make sure that you don't have any conflicts if perhaps you'd changed something on the GitHub website before you'd made the changes to you readme file. I always forget that I make these types of changes and so it's a good practice step to put that git pull in first. It doesn't really cost you anything and it saves you problems down the road.
 ---
 
 ## Learning goals
@@ -41,6 +59,8 @@ If you want to be super careful, you might also want to run `git pull` before th
 * Differentiate between absolute and relative paths
 * Identify the limitations of having a driver script
 
+???
+So for today's tutorial, we have several learning goals. The first is to appreciate the value of automating your analyses, I've already talked about that a bit in the introduction earlier. We're going to build executable scripts that contain analysis pipelines, we're going to differentiate between absolute and relative paths and which one you should be using, and then finally, we're going to identify the limitations of having a driver script like this, which will point forward to a few tutorials from now when we talk about other approaches that we can use for automating this type of work.
 ---
 
 ## Driver script: Refresher from Noble
@@ -55,15 +75,20 @@ If you want to be super careful, you might also want to run `git pull` before th
 .footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
 
 ???
-
-* Much of this is driven by automation
-* There are many ways to automate these types of analyses, but in this session, we'll focus on using tools within the terminal (i.e. `bash`) to do what we want
-
+So hopefully, you remember the Noble manuscript that we read a few tutorials back and in there, he talked about a driver script and we kind of put that to the side at the moment while we were talked about project organization. Some of the points that he made as you might remember would to be to record every operation that you perform, comment generously, don't edit intermediate files by hand, use a driver script to centralize all processing and analysis, use relative paths, and make the script restartable. All of these elements relate to what we're going to talk about today of having a driver script.
 ---
 
 ## "Record every operation that you perform"
 
 * Any analysis you are likely to perform once, you'll probably perform twice
+???
+So when we think about recording every operation that we perform, it's important to keep in mind that any analysis you're likely to perform once, you'll probably actually perform twice or three times or four times or five times. And so by having these steps recorded and perhaps made to be automated, that'll make it that much easier in the future.
+
+Your mental model, as we do this, should be that someone is going to download your repository and try to rerun your analyses. So something to think about would be someone, perhaps you, nuke the contents of your data directories. How would they regenerate figure 1? What steps would they have to take to go from nothing back up to being able to generate figure 1?
+
+Keep in mind, that's likely to be you more than it's likely to be someone else. Alternatively, if you were to go home for the night, can you keep the analysis working without having to be at the computer? It's really nice if the analysis is automated so that you can fire up your AWS Instance, use tmux, start your driver script, and walk away and come back in the morning and hopefully, your analysis has been completed without you having to do anything more.
+
+So if this isn't possible because say, you're using a GUI like I talked about earlier, using the ARB software, you really have to take explicit notes that are available for others and, again, including yourself. Comment generously. In bash and many other scripting languages, you can use comments where you put a pound sign before the comment.
 --
 
 * Your mental model should be that someone is going to download your repository and try to rerun your analyes
@@ -85,11 +110,15 @@ If you want to be super careful, you might also want to run `git pull` before th
 * Recall the previous discussion about making your code readable and self documenting
 * At a minimum, each script or section of a script should have a header that indicates the inputs and outputs
 
+???
+That pound sign will tell bash or R or whatever language to ignore everything that follows. We want to make all our code readable and self-documenting as much as possible. And at a minimum, each script or section of a script should have a header that indicates the inputs and outputs and what's going on in this script.
 ---
 
 ## "~~Avoid~~[DO NOT] editing intermediate files by hand"
 
 * If you start from raw files or files that are downloaded, your script provides the provenance for each derivative data file
+???
+Do not edit intermediate files by hand. Again, we want to keep our raw files raw. And so, if we start from raw files or files that are downloaded, your script is going to provide the provenance of each derivative data file that by scripting it, we're automating that analysis and we're not going to write over earlier files. Going back to that paper airplane example, imagine how much more uniform, reproducible, and fast the construction would be if it could be programmed.
 --
 
 * Going back to the paper airplane example, imagine how much more uniform, reproducbile, and fast their construction would be if it could be programmed
@@ -101,8 +130,9 @@ If you want to be super careful, you might also want to run `git pull` before th
 <iframe width="560" height="315" src="https://www.youtube.com/embed/pfAlCSSfzJg" frameborder="0" allowfullscreen></iframe>
 ]
 
+???
+I just love these videos of automated paper airplane folding. Again, this is what we're going for as we think about our data analysis pipeline. We're not so interested in folding paper airplanes perhaps but we are interested in folding our data analysis, right? We're interested in starting with a blank directory with some code in it, launching that code, and coming back and finding that the code's been run and we've got data directories that are full of raw data and processed data and eventually, perhaps a written manuscript, and so we'll get there eventually.
 ---
-
 
 ## "Use relative pathways"
 
@@ -115,11 +145,17 @@ If you want to be super careful, you might also want to run `git pull` before th
 .center.alert[Why *relative paths*?]
 
 ???
+Use relative paths. This first example is what's called an absolute path and so you know it's an absolute path because it starts with a forward slash. This forward slash at the beginning indicates the root directory. And so this entire path tells the computer how to get to the README.md file that's in my data raw directory of my project relative to the root.
 
-* What happens if *you* were to look for a file in the path for example 1? It would crash because you are unlikely to have `/User/pschloss`
-* Option 2 is the best option because as long as someone has the Kozich_Re
-* Option 3 works, but it assumes that you have used `cd` to get to the correct directory. This is a big assumption, especially if someone else is using your code
+And so if it's relative to the root, that's what we call an absolute path. The second example is what we call a relative path, and so assuming that we're in the root of my directory for my project, say, Kozich_ReAnalysis_AEM_2013, this tells me...tells the computer where the README.md file is that I'm interested in.
 
+It's relative to the root of my project directory. This README.md then is a file and we'll assume that it's within data raw. So why are we interested in relative paths, which I would say is this second example? Well, if I were to clone this repository to my local laptop, I will not have a home directory called Ubuntu.
+
+I have a home/pschloss, but not home/ubuntu. And so, my computer will throw an error when it tries to find this readme file using this absolute path. However, if I clone the repository and then cd into the directory of Kozich_ReAnalysis_AEM_2013 and then I say, data/raw/README.md, my computer will find that because it's relative to the root of my project directory.
+
+However, if I say readme from the root of my project directory, it's going to give me the readme for the overall project, not the one in data raw. You could assume that somebody's going to cd into data raw or you might provide a code to cd into data raw but that's dangerous because if there's an error at some point and that cd command doesn't get run, then it's going to, again, be looking at the readme in your project directory.
+
+So it's always best to run your commands and assume your files are in a location relative to the root of your project, not relative to the root of your computer or that the user or you are moving around using cd commands within your project directory structure. So, use relative paths.
 ---
 
 ## "Make the script restartable"
@@ -127,6 +163,8 @@ If you want to be super careful, you might also want to run `git pull` before th
 * We'll save this for later when we learn about `make`
 * The idea is that if we only change the script to plot the ordination data, we shouldn't have to re-download a bunch of files and start over
 
+???
+Make the script restartable. So we'll save this for later when we learn about Make, but the idea is that if we only change the script to plot the ordination data, we shouldn't have to also then redownload all the raw data. The automation is smart and it knows where we are and it can keep track of the dependencies.
 ---
 
 ## Reality
@@ -135,11 +173,20 @@ If you want to be super careful, you might also want to run `git pull` before th
 * You probably do not want to run big analyses on your laptop; need to run on a computer cluster
 * Few clusters will let you run programs interactively. You will submit "jobs", which are special scripts
 
+???
+Unfortunately, the reality is that most bioinformatics tools, things like mothur, QIIME, velvet, are run from the command line and they're not meant to be interactive. By interactive, I mean things like Microsoft Excel or ARB, where you're going in and you're manipulating data and you're adding code, you're selecting different sequences let's say.
+
+They're not really meant to be interactive on that scale, they're meant to take in commands, the program then runs the command and it spits out output. The other reality is that you probably also don't want to run big analyses on your laptop, you need to run them on a computer cluster which is why we're using the Amazon EC2 service. Also, few computer clusters will let you run your programs interactively, you'll end up submitting jobs, as they're called, which then requires special scripts.
 ---
 
 ## `bash` scripts
 
 * These can be very straight forward or very complex. Let's keep them straight forward
+
+???
+Again, think of that motivation I mentioned earlier where you want to fire up your analysis, say, at 5:00 on a Friday afternoon and come back on a Monday morning and find that your analysis is completed. And so, to do that, we're going to be needing to use special scripts to run our analysis, these driver scripts as Noble called them.
+
+So Bash scripts can be very straightforward or very complicated. We want to keep them fairly straightforward. It's a script file...it's a text file that contains commands that you would otherwise run from the command prompt. It's nothing magical, it's a text file that you could copy in all of your commands to then tell as instructions to the computer for what it needs to run.
 --
 
 * A script file is a text file that contains commands you would otherwise run from the command prompt
@@ -185,8 +232,21 @@ rm Trainset14_032015.pds.tgz
 * Notice that the `mv` move the data using relative paths (e.g. `data/references/`)
 
 ???
-* To make this a proper `bash` script we need to add the "shebang" line at the top of the script
+We're going to return now to the Kozich ReAnalysis and add the download scripts to a new driver script to start building up our driver script and as we do this, we're going to be sure to add comments. Of course, we're also going to be using the Amazon EC2 Instances that we've been working with on previous steps of this project.
 
+So I'm going to log in to my instance here. This should, hopefully, be becoming second nature to you. And I will open up my terminal. And copy the IP address here. And I'll go into my Kozich_ReAnalysis directory. If I ls that, the instructions for downloading my raw data are in my data raw readme file. And so I can do nano data/raw/README, and the lines that I'm interested in are these wget, tar, rm, and I'm going to go ahead and highlight and copy these lines.
+
+And I'll do Copy and I'll quit out and now I'll do a nano analysis_driver.bash, and this opens up a new directory...I'm sorry, opens up a new file and I'll do Paste. And so this is a Markdown and I'd like to convert this into comments for my Bash file, my new analysis driver Bash file.
+
+And so I'm going to put a pound sign ahead of these lines and I can get rid of that and that. And just to make it look a little bit nicer, I'll put some spaces in there. And I've noticed that I've called it analysis_drive.bash, so I'll rename it, analysis_drive.bash to analysis_driver.bash.
+
+And so let's go ahead and also get the reference files for the Silva and the RDP training sets, and those are stored in my data references readme file. And so, again, I can highlight these lines, copy, and nano analysis_driver.bash, and then I'll come down here and I'll fix my commenting and I put a comment there.
+
+And to get rid of this line...to delete an entire line in nano, you can do Ctrl+L...I'm sorry, Ctrl+K. And Ctrl+K. And it looks like some weird stuff happened here, this should be taxon=Bacteria in the mothur code and down here then I can put a pound sign there.
+
+Again, Ctrl+K to get rid of that bash and get rid of those three backtics, okay? So again, what I've done is I've copied the text from my readme files into this file, analysis_driver.bash, and all of the instructions are here, there is code now for these. Again, if you're using the exact code I am, it should look like this.
+
+You might have the code that you used when you created your readme files in the previous tutorial. So I'm going to go ahead and save this and exit out.
 ---
 
 ```bash
@@ -228,11 +288,22 @@ We can run this from the project root (maybe not now?)...
 ```bash
 bash analysis_driver.bash
 ```
+???
+So one other subtle thing that we need to add to our Bash script here is at the top, a line called the shebang, the whole shebang, and that is #!/usr/bin/env bash.
 
+When we run this file, this will then tell the Linux system what to be running and that we're running bash to get this, okay? And so we can save that, you can see we get some special coloring because we tell it it's in bash and we exit out.
+
+And now I can run this as bash analysis_driver.bash, and if I run that, you'll see that it downloads and runs everything. So I'm going to speed this up a bit because it looks like it's going to take it a little while. Great, so it finally finished, took a few minutes to run through and download and move things around to where I wanted them.
+
+I can type ls to make sure that everything looks clear there. If I do ls data/raw, I see that I've got my raw files here, everything looks on the up-and-up. If I do ls data/references, again, I see my files here as well and looks like everything is where it's supposed to be.
 ---
 
 ## Now what?
 
+???
+So now what do we do? If you said we need to commit, you are right. So let's go ahead and do git status, git add analysis_driver.bash, git status, git commit -m, and I will say, "Add code to obtain raw and reference data"git status, okay?
+
+And so, we're good to go. It looks like previously I forgot to push this, we'll save a push later but you might want to push at the end of every day that you're working on your project or every couple of hours, again, just as a backup for what you're working on.
 --
 
 .center.alert[ Commit! ]
@@ -269,6 +340,9 @@ get_error.batch   get_shared_otus.batch   test
 <br>
 * The three `*.batch` files are `mothur` scripts.
 * If you aren't familiar with `mothur` or what's going on in the following scripts, please see the [MiSeq SOP](https://mothur.org/wiki/MiSeq_SOP) wiki page
+
+???
+All right, so the next thing we want to do is we want to start analyzing this data using mothur. You may have noticed this already but if you look in ls code/, you'll see a number of batch files in there for running mothur commands. And if we do nano code/get_good_seqs.batch, you'll see some mothur commands in here.
 ---
 
 ## `get_good_seqs.batch`
@@ -296,8 +370,13 @@ remove.lineage(fasta=current, count=current, taxonomy=current, taxon=Chloroplast
 
 ???
 
-We don't have a `data/references/silva.v4.align` file yet
+And so let me make my window a little bit bigger, you'll see that some of the commands take up multiple lines but these are all mothur commands that we can run by typing...that we can run by doing mothur code/get_good_seqs.batch.
 
+I'm not going to run this right now but this would be how we could run it for mothur. I'm going to hit Ctrl+C to get off of that line because I'm going to put this into my analysis_driver.batch file. So let's look at our get_good_seqs.batch file again and just to point out a couple of things.
+
+If you're using this for your own data, one thing that you would want to change in here would be that we have in make.file, the prefix stability, okay? And so the data relates to a stability analysis of marine gut microbiota. And so, say you're doing something related to soil, you might want to change this to "soil" or "antibiotic treatment," you might change this to "antibiotics," whatever you want to give a prefix to the files that will be generated by mothur.
+
+Another thing that we should note when we look at this is that we are using relative paths, the input directory is data/raw, the output directory is data/mothur, right? And so we're using relative path throughout here. One other thing that we want to double check is that we have all the files, we know that...we have seen that our data/raw files are there.
 ---
 
 ## Let's add some code
@@ -312,7 +391,32 @@ mv data/references/silva.seed.pcr.align data/references/silva.v4.align
 
 * Copy/paste these lines into your terminal and into `analysis_driver.bash` and let them run
 * When you do this for "real" you'll probably want to get to the end of building the file and re-run the entire document to make sure it all works
+???
+One file we might want to check is to make sure this silva.v4.align file is there. And then we also want to make sure that our data/references/trainset file is there, as well as the pds.fasta and taxonomy files for that. So let's Ctrl+X out of that, and do ls data/references, and we see the trainset files here, the Fasta and the Tax but we don't see a SILVA v4 file.
 
+And so to do that, to generate that file, we need to run some mothur code. So let's go ahead and we will do nano analysis_driver.bash and I'm going to come down to the bottom of that file and I'll create a comment that says, "Generate a customized version of the SILVA V4 reference data set."
+
+And to do that, we'll do code/mothur/mothur pcr.seqs. Oh, I need a pound sign, this is a command line version of running mothur where you don't have to go into mothur but you can run commands from the command line with mothur.
+
+And we'll do (fasta=data/reference/silva.seed.align, start=11894, end=25319, we'll do, keepdots=F, and processors=8). Okay?
+
+And then we'll close that with a closing parenthesis and a quote and we'll also then do mv data/references. Reference? References. Which reminds me...I'm getting scatterbrained here that I have a "reference" here instead of "references," so I'll fix that.
+
+data/references/silva.seed.pcr.align and we're going to move that to data/references/silva.v4.align, okay? And so, again, this is some inside baseball if you will about running mothur but we can generate a version of silva.seed.align which is in our data references directory that targets the v4 region.
+
+And so if we save that and exit out, I just want to briefly show you, if you come...I'll generate a new tab and we go to mothur.org/wiki main page that there's a link here for the MiSeq SOP and what we're following in this code is all embedded in this wiki page.
+
+And so, somewhere in here, further down. Ah, right here, we have the pcr.seqs command that we just put into mothur as well as renaming the file, okay? So we could have used rename.file but we did that with an mv, and so that should work pretty well.
+
+And so if you're wondering where all the commands come from in those batch files that I've given you, they're all listed here. So what we could do is we could have, again, do bash analysis_driver.bash but that's going to download everything again and so this is one of the problems with our analysis_driver.bash file as we currently have it.
+
+So I'm going to do Ctrl+C and one of the things that we can do is, again, do nano analysis_driver.bash and I'm going to come down to the bottom of this file and I'm going to highlight these lines, copy them, quit out, and then paste the lines into the command prompt and it will then run my mothur code.
+
+It's running the pcr.seqs command. Well, look at that. And so it runs through. Aha, and it says, "cannot stat," which means it can't find data/references/silva.seed.pcr.align, "No such file or directory." Did you see what I did wrong? I misspelled the references. So let's go back into nano analysis_driver.bash and let's fix the spelling of references.
+
+Save that, again, copy and paste these lines, paste them back in, and hopefully, we run this and we don't get any error messages. So that works great. Again, if we do ls data/references, we see that we have the silva.v4.align file, okay? Great, so what do we want to do? Let's commit it.
+
+So we'll do git add analysis_driver.bash, git status, git commit -m "Add code..." or we'll just say, "Generate silva.v4.align file." All right?
 ---
 
 ## Run the script through `mothur`
@@ -326,6 +430,16 @@ code/mothur/mothur code/get_good_seqs.batch
 
 * Again, go ahead and copy and paste this line into your terminal and let it run
 
+???
+Great. Now we want to add in some more of those mothur commands, so we'll do nano analysis_driver.bash, we come to the end of the file and we want to run mothur through the data curation steps. And so to run that, we'll do code/mothur/mothur, make sure we spell it right, and then code/get.good.seqs.batch.
+
+And so we'll go ahead and save this. And just to prove to you...you'll notice in this nano file that we're running code/mothur/mothur, that the path to mothur is in code and the... the mothur directory within code.
+
+And so if we do ls code/, we see there is a directory for mothur, ls code/mothur, we see that there's various executables, and so if we do code/mothur/mothur, we see that we open up mothur, okay? And so, again, this proves to ourselves that mothur is where we think it is, we can type "quit ls" and we can get back to where we were.
+
+So, again, if we go back to that analysis_driver file, we can highlight this line of code, copy it, and then run it in our terminal window, okay? And so, again, what I did was I pasted that line in and now, mothur is going to run this and it's going to take a bit of time, and so I'll try to speed up the output here.
+
+So, great, the analysis finally finished. As I said, I sped it up here. One thing you might notice is that I lived on the edge here and did not use tmux to run the analysis.
 ---
 
 ## Next script: `get_error.batch`
@@ -340,6 +454,12 @@ seq.error(fasta=current, count=current, reference=data/references/HMP_MOCK.v4.fa
 
 Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
 
+???
+So running tmux probably would have been a bit safer because if, for some reason, my internet would have gone down, the analysis would have kept running even though I would have been logged out of EC2. All right, so the next thing we'd like to do is to run the next batch in our analysis workflow. So if we do ls code/, we'll see that the next is...and the pipeline is get_error.batch, so I'll do nano code/get_error.batch.
+
+And looking here at what happens, this uses the mock community data in here to run the command seq.error but one reference file it needs is HMP_MOCK.v4.fasta, so let's double check that we have that in our reference file. So if we do ls references, oh, ls data/references, I do, in fact, have an HMP_MOCK.v4.fasta file, so we should be good for that.
+
+So let's go to our analysis_driver.bash file, and again, scroll down to the bottom and "Run mock community data through seq.error to get sequencing error rate." Okay, great. So we'll do code/mothur/mothur code/get_seq.error...  I'm sorry, get_error.batch.
 --
 
 <br>
@@ -383,7 +503,14 @@ classify.otu(list=current, count=current, taxonomy=current, label=0.03)
 ```
 
 Everything looks good. Of course we'd need to change *stability* to whatever we used a prefix in `make.files`
+???
+And again, we don't want to run the whole script right now because it's going to take forever, we'll come back and we'll do that at the very end, so we'll copy this and paste it in. So the next step in our mothur pipeline is to run get_shared_otus.batch, so let's open that up and see what it looks like.
 
+And so we see that we're going to remove our mock community samples, we'll run it through clustering. We'll then make a shared file and we'll run classify.otu. So the other thing that to keep in mind is that if you...way back when we ran make.contigs, we use the prefix of stability.
+
+So if you change stability there, you're going to have to change it in all of these batch files but that's the only place you would change it is in the first command from stability to something else. So we'll get out of that and do nano analysis_driver.bash. And we'll say something like, "Run processed data through clustering and making a shared file."
+
+We'll do code/mothur/mothur, code/get_shared_otus.batch, and again, we'll copy that and we'll do...we'll paste it.
 --
 
 <br>
@@ -405,7 +532,8 @@ Again, go ahead and copy and paste this line into your terminal and let it run
 * We still need to...
   * rarefy the data to get OTU number
   * calculate distances between communities and generate NMDS data
-
+???
+So now we've run everything through mothur and we've gotten our shared file which if you're familiar with mothur, you'll know the shared file is the file that we use for all the downstream analysis of looking at things like alpha and beta diversity.
 ---
 
 ## Let's go ahead and commit our work so far....
@@ -425,7 +553,14 @@ no changes added to commit (use "git add" and/or "git commit -a")
 $ git add analysis_driver.bash
 $ git commit -m "Load pre-baked mothur batch scripts to driver script"
 ```
+???
+We also have our error rate data. So a couple things that we still need to do include generating an ordination for that figure that we want to be able to put into... for that figure that associated with the paragraph that we pulled out of the manuscript and we also need to verify the data to get the number of OTUs that we are seeing in our samples. Let's go ahead and commit what we've done so far.
 
+We'll do git status, where we've modified our analysis_driver.bash file, so we'll do, git add analysis_driver.bash, git status, git commit -m "Load pre-baked mothur batch scripts to driver script", git status.
+
+All right, so we're all up to date. So the next thing we'd like to do is to build an ordination diagram and to do that, we're going to be using our shared file. And the mothur file names, as you may know, can get pretty long, and so let's go ahead and find that file.
+
+So if we do ls data/mothur, and it ends in shared, so we'll do *shared and we see this long file name. So if we copy this, it'll make it a lot easier to enter the command.
 ---
 
 ## Build NMDS data file
@@ -437,7 +572,18 @@ set.current(inputdir=data/mothur, outputdir=data/mothur, seed=19760620)
 dist.shared(shared=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.unique_list.shared, calc=thetayc, subsample=3000, iters=100, processors=4)
 nmds(phylip=current, maxdim=2)
 ```
+???
+So let's make a new file, so we'll do nano code/get_nmds_data.batch. And so what we're going to do in this script is we're going to run the mothur commands to generate the file that has the NMDS data that we'll eventually plot using R in the next tutorial.
 
+So we'll do set.current(inputdir=data/mothur, outputdir=data/mothur, and we'll do seed=19760620). And then we'll do dist.shared and we'll then add our shared file name, so "shared=" and I'm going to paste it in that.
+
+And then we will say, calc=thetayc, subsample=1000, I'm sorry, 3000. And I'll do iters=100 and processors=4. Okay? So if you don't know what this all means, don't worry about it.
+
+This isn't a tutorial to teach you mothur but showing you rather how you can use mothur commands within a batch script. And so if you're interested in learning more about this, go back to that MiSeq SOP page and a lot of this will make sense after you look at that. Finally, we can do nmds(phylip=current, maxdim=2). Okay?
+
+So we'll save this and quit out and let's go ahead and test it by doing code/mothur/mothur code/get_nmds. So if we run this. [inaudible] ran it through generating the distance matrix for Thetayc Beta Diversity Calculator and then used that to generate NMDS data and we'll play with that NMDS data in a subsequent tutorial when we go ahead and plot that using R.
+
+So we need to add that to our analysis_driver file, and so I'm going to up arrow to get the previous command and I'll highlight that. I'll hit Ctrl+C to get off that line, I'll do nano analysis_driver.bash and I'll come down to the bottom to then say, "Generate data to plot NMDS ordination."
 --
 
 <br>
@@ -478,6 +624,10 @@ $ git commit -m "Add code to generate NMDS axes file"
  create mode 100644 code/get_nmds_data.batch
 ```
 
+???
+All right. So we need to commit this change, so we'll do git status, and so we want to do git add code/get_nmds.batch.
+
+We also want to add the analysis_driver.bash file, git status. Both of those have been staged, we can now do git commit -m "Generate NMDS ordination data."
 ---
 
 ## Exercise
@@ -485,11 +635,46 @@ $ git commit -m "Add code to generate NMDS axes file"
 * Make the necessary changes to rarefy the shared file to generate the number of observed OTUs from each sample
 * Rerun the driver script (i.e. `bash analysis_driver.bash`) and make sure everything works as intended
 
+???
+Excellent. So again, I need to get that long shared file name, so if I again do ls data/mothur/*shared, I get this long beast of a name that I'm going to highlight and copy and then I will do nano code/get_sobs_data.batch. In mothur, sobs is our shorthand for the number of observed species or OTUs or Taxa.
+
+And again, we'll do set.current(inputdir=data/mothur, outputdir=data/mothur, seed=19760620), and then we'll do summary.single shared=that beast.
+
+I'll do calc=nseqs-sobs, so this will tell us the number of sequences that it was referred to and the number of observed OTUs. And then we'll say a subsample of 3,000 again, and this will verify the data to get us 3,000 sequences per sample.
+
+We can save that and then we can do mothur...I'm sorry, code/mothur/mothur code/get_sobs_data.batch. Excellent, so that ran also, so we're going to now copy this code that we ran into our driver file.
+
+And we can go ahead and commit that as well. Great.
+
+So let's go ahead and look at the history of our commits and we can do git log and we will see that we are keeping pretty good track of where we are in our data analysis pipeline.
+
+And so if we wanted to go back to any point in our code history, we could perhaps roll back a repository to a previous commit but we're pretty happy with where we are and this is looking really good. So to get out of this view of the log, you can type Q and this brings us back to the command prompt.
+
+So we've been doing a lot of copying and pasting into and out of our analysis driver batch file. What we'd like to do is to make sure it all works but I'm going to, like, up the game a little bit more. I'm going to delete my directory and see if it all works but I need to do one thing before we do that.
+
+So I'll do git status and it says that my branch is ahead of origin/master, which is the GitHub version, by nine commits, so use "git push" to publish your local commits. So I'm going to go ahead and push it, so I'll do git push, enter my credentials. Okay. There we go. And so then if we come over to our GitHub page, I'm going to find my Kozich ReAnalysis repository.
+
+Just make sure everything has been updated and sure enough, my analysis_driver.bash file is here. If I click on that, I see all my code here which looks great. And I'm going to go back to my directory here and just give it one last look, I'm a little bit nervous about doing this.
+
+I'll do cd ~ ls, and I'm going to do rm –rf Kozich. Three, two, one, delete. ls. Oh no, it's gone. What do I do? Hopefully you remember from last time, there's a command in Git called clone.
+
+We can do git clone and I can come back to my repository here and I can click on this green button, copy the link, paste that in, and then I can do cd Kozich, ls, and I see everything is there.
+
+But if I do ls data/raw, nothing is there, right? So we need to regenerate all the data, all the analysis. So I'm going to go to lunch, so I'm going to run this in tmux. So we can do tmux and we're here.
+
+And then we can do bash analysis_driver.bash, hit Enter, and away it goes. So remember, we can get out of this by doing Ctrl+B and D and we're back here. Then I can exit out and here we go and I'll come back maybe in an hour or so and see where things are.
+
+Note that for now, we do not, we do not want to stop this from running because it's running. So while the script was running, I realized that we never added instructions to the analysis driver script for how to get a copy of mothur. And so, what I did was to go into nano mothur, sorry, nano code/README, and copy, and then open up the analysis_driver.batch and paste it into the top of the file here.
+
+So because we are getting error messages that it couldn't find a copy of mothur, we now have to rerun everything again. So this is exactly why we do these types of scripts because we want it to be reproducible. If you were to download this and it didn't have the mothur code installed, well, you'll be in a world of hurt. It's great that we reran it, it's great that we saw that we were assuming some dependency was present being mothur and it wasn't, so we need to now go ahead and run it again.
+
+I've already committed it, let's go ahead and run bash analysis_driver.bash. Run it and we'll come back in another hour. All right, so let's try that again. So we'll do tmux a, and we see that it's getting to the end, I think it's in the rarefaction step so we'll just sit with it here for a minute, it looks like everything is working well.
+
+And voila, it is done. Great. Isn't it awesome that we can automate our analysis? This is looking pretty darn close to my April Fool's joke of a mothur command called write.paper. You might think it's funny but in two more tutorials, we'll actually write something that looks a lot like write.paper.
 --
 
 <br>
 .alert.center[Be sure to commit your changes and push to GitHub if everything works]
-
 
 ---
 
@@ -497,3 +682,10 @@ $ git commit -m "Add code to generate NMDS axes file"
 
 * We have the raw data to attempt to regenerate the figure
 * We are finding it is tedious to rerun our entire pipeline when making changes in later steps
+
+???
+Look at the project that you're currently working on in your lab. How automated is the analysis? Do you have a single file that describes the workflow? Even if it isn't full of Bash commands, it would be great to have a document that lists the steps and the commands that one would need to follow to go from raw to processed data.
+
+One thing you might notice about this approach is that it doesn't leave a lot of room for tools with a graphical user interface like Microsoft Excel. Those tools are fine and I don't mean to cast a shade at them, but hopefully, you can see by now their limitation for doing a reproducible analysis. It's really hard to document all of those mouse motions and the toggles that need to be set to repeat an analysis in that environment.
+
+In the next tutorial, we'll see how we can use scripting languages like R to further automate our analysis.
