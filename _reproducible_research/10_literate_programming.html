@@ -12,6 +12,19 @@ class: middle center
 
 ---
 
+## Pop quiz
+
+How do you run a function (e.g. ) from R script (e.g. `plot_nmds.R`) at the bash shell prompt?
+
+<br>
+--
+
+```bash
+R -e "source('code/plot_nmds.R'); plot_nmds('data/mothur/stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.pick.opti_mcc.unique_list.thetayc.0.03.lt.ave.nmds.axes')"
+```
+
+---
+
 ## Learning goals
 * Express how a manuscript is an extension of programmatic analyis
 * Define literate programming
@@ -184,6 +197,7 @@ class: middle, center
 
 ## Returning to Kozich
 
+* Log in to AWS instance and start FileZilla
 * In the tutorial on organization you copied the "Scaling up" paragraph and the figure legend into your project's README.md file
 * Move this text into a new file `submission/practice.Rmd`
 
