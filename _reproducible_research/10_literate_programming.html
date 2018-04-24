@@ -433,7 +433,7 @@ shared_file <- read.table(file=shared_file_name, header=T, stringsAsFactors=F)
 sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
 
 million_sequence_counts <- sum(sequence_counts)/1e6
-average_seqeunce_counts <- mean(sequence_counts)
+average_sequence_counts <- mean(sequence_counts)
 percentile_sequence_counts <- quantile(sequence_counts, prob=0.05)
 ``````
 
@@ -446,7 +446,7 @@ Inline code...
 <snip>
 mock community. We generated `r million_sequence_counts` million pairs of
 sequence reads from the 16S rRNA gene with an average coverage of
-`r average_seqeunce_counts` pairs of reads per sample (95% of the samples
+`r average_sequence_counts` pairs of reads per sample (95% of the samples
 had more than `r percentile_sequence_counts` pairs of sequences) using a new
 <snip>
 ```
@@ -496,7 +496,7 @@ shared_file <- read.table(file=shared_file_name, header=T, stringsAsFactors=F)
 sequence_counts <- rowSums(shared_file[,-c(1,2,3)])
 
 million_sequence_counts <- sum(sequence_counts)/1e6
-average_seqeunce_counts <- mean(sequence_counts)
+average_sequence_counts <- mean(sequence_counts)
 percentile_sequence_counts <- quantile(sequence_counts, prob=0.05)
 ``````
 
@@ -539,7 +539,7 @@ class: middle center
 <snip>
 mock community. We generated `r format(round(million_sequence_counts, 1), nsmall=1L)`
 million pairs of sequence reads from the 16S rRNA gene with an average coverage of
-`r format(round(average_seqeunce_counts, 1), nsmall=1L)` pairs of reads per sample
+`r format(round(average_sequence_counts, 1), nsmall=1L)` pairs of reads per sample
 (95% of the samples had more than
 `r format(round(percentile_sequence_counts, 1), nsmall=1L)` pairs of sequences) using a new
 <snip>
@@ -599,7 +599,7 @@ This would be a good place to put `library(xxxxx)` calls
 ```bash
 <snip>
 mock community. We generated `r million_sequence_counts` million pairs of sequence
-reads from the 16S rRNA gene with an average coverage of `r average_seqeunce_counts`
+reads from the 16S rRNA gene with an average coverage of `r average_sequence_counts`
 pairs of reads per sample (95% of the samples had more than `r percentile_sequence_counts`
 pairs of sequences) using a new
 <snip>
