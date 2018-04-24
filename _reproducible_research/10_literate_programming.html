@@ -668,7 +668,7 @@ The ../results is because of the screwy way that knitr works :(
 
 ```
 ```{r, result="asis"}
-days <- as.numeric(gsub(".*D(\\d*)_.*", "\\1", shared_file$Group))
+days <- as.numeric(gsub(".*D(\\d*)", "\\1", shared_file$Group))
 
 n_samples_per_day <- numeric()
 mean_seqs_per_day_per_sample <- numeric()
