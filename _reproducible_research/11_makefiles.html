@@ -656,23 +656,6 @@ family_report.html : family_report.Rmd\
 
 ---
 
-## PHONY Rules
-
-```bash
-.PHONY: clean
-clean :
-	rm -f $(RAW)/*txt
-	rm -f $(RAW)/*pdf
-	rm -f $(RAW)/*zip
-	rm -f data/processed/*.csv
-	rm -f family_report.html
-```
-
-* There's no target named "clean" - this is a phony rule
-* What happens if you run `make clean`?
-
----
-
 ## We can attempt to make the code DRY with variables
 
 ```bash
@@ -749,6 +732,23 @@ data/raw/yob1911.txt data/raw/yob1912.txt...
 
 <br>
 Having this rule in my Makefile is helpful when I'm doing complex things like build `YOBTXT`
+
+---
+
+## PHONY Rules
+
+```bash
+.PHONY: clean
+clean :
+	rm -f $(RAW)/*txt
+	rm -f $(RAW)/*pdf
+	rm -f $(RAW)/*zip
+	rm -f data/processed/*.csv
+	rm -f family_report.html
+```
+
+* There's no target named "clean" - this is a phony rule
+* What happens if you run `make clean`?
 
 ---
 
