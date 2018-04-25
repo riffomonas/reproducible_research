@@ -12,6 +12,22 @@ class: middle center
 
 ---
 
+## Pop quiz
+
+Noble's paper on organization of computational biology projects discusses far more than organization. How many of the principles that he mentioned can you remember?
+
+.footnote[[Noble 2009 *PLoS Comp Biol*](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424)]
+--
+
+* "Record every operation that you perform"
+* "Comment generously"
+* "~~Avoid~~[DO NOT] editing intermediate files by hand"
+* Use a driver script to centralize all processing and analysis
+* "Use relative pathways [relative to the project root]"
+* "Make the script restartable"
+
+---
+
 ## Learning goals
 * Automate analyses with Makefiles
 * Differentiate between rules, targets, and dependencies when building a Makefile
@@ -742,7 +758,7 @@ Having this rule in my Makefile is helpful when I'm doing complex things like bu
 * `make -d target`: What dependencies need to be fulfilled to build the target?
 * `make –j N target`: Use N processors to build target
 * `make`: Build first rule in Makefile
-* `make –f my_makefile`: Use my_makefile in place of Makefile
+* `make –f my_makefile`: Use `my_makefile` in place of Makefile
 
 ???
 
