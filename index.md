@@ -66,10 +66,27 @@ title: Reproducible Research
 					<a href="https://youtu.be/AKvUqJ98zwI"><i class="fab fa-youtube"></i></a>
 				</li>
 
-				<li><a href="make">Automation with makefiles</a></li>
-				<li><a href="collaboration_with_yourself">How to collaborate with yourself</a></li>
-				<li><a href="collaboration_with_others">How to collaborate with others</a></li>
-				<li><a href="open_science">Doing open science</a></li>
+
+				<li>
+					<a href="make">Automation with makefiles</a>
+					<a href="https://youtu.be/eWHE2RIGrWo"><i class="fab fa-youtube"></i></a>
+				</li>
+
+
+				<li>
+					<a href="collaboration_with_yourself">How to collaborate with yourself</a>
+				</li>
+
+
+				<li>
+					<a href="collaboration_with_others">How to collaborate with others</a>
+				</li>
+
+
+				<li>
+					<a href="open_science">Doing open science</a>
+				</li>
+
 			</ol>
 		</div>
 
