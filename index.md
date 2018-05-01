@@ -75,6 +75,7 @@ title: Reproducible Research
 
 				<li>
 					<a href="collaboration_with_yourself">How to collaborate with yourself</a>
+					<a href="https://youtu.be/wE5AYmIoWBk"><i class="fab fa-youtube"></i></a>
 				</li>
 
 
