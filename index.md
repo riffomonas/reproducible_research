@@ -81,6 +81,7 @@ title: Reproducible Research
 
 				<li>
 					<a href="collaboration_with_others">How to collaborate with others</a>
+					<a href="https://youtu.be/c4fkCtHWCEo"><i class="fab fa-youtube"></i></a>
 				</li>
 
 
