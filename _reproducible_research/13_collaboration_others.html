@@ -11,11 +11,43 @@ class: middle center
 .footnote.left.title[{{site.url}}{{site.baseurl}}{{page.permalink}}]
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
+???
+
+Hi there, and welcome back. I hope you enjoyed learning about Gitflow as a way to blend version control and documentation to help us to collaborate with ourselves in a more reproducible manner. I admit Gitflow is a bit of an advanced move, but if you feel like you've got git pretty well under control, I really would encourage you to try to use Gitflow as part of your process.
+
+If nothing else, you could use it as a checklist to go through as you address comments that are made by collaborators or reviewers. I've also found that using its "Outline the Steps" that I needed to take to develop a project can also be pretty useful. I really like how we can use branches in the issue tracker to reflect the bush-like aspects of doing science. Too often we portray science as this linear process, we get to the end of a beautiful paper, but we don't see all the convoluted paths that we know happened along the way.
+
+At some point though, we'll want to move from collaborating with ourselves to collaborating with others. Today's lesson, will discuss how we can use additional tools from our reproducible research toolbox to foster that collaboration with others. Baked into our discussion is an attempt to improve the reproducibility by improving the quality of our code. We'll discuss how we can use GitHub's collaborative tools to foster review of our code by others and also solicit the contributions from others.
+
+Again, this is another advanced move that you may want to ease into. Join me now in opening the slides for today's tutorial which you can find within the Reproducible Research tutorial series on the riffomonas.org website.
+
 ---
 
 ## Pop quiz
 
 In the last lesson we used Gitflow as a more systematic way to make changes to our project. Our first issue was to correct the axis labels that had PCoA instead of NMDS. Later, we noticed that the figure legend said PCoA instead of NMDS. Use Gitflow to fix this typo.
+
+???
+
+In the last lesson, we used Gitflow as a more systematic way for making changes to our project. Our first issue that we dealt with was simulating our PI noticing that our axis labels on our NMDS ordination plot still had PCoA. Later, when we were looking at the output of our rendered manuscript document, we perhaps noticed that the figure legend said PCoA instead of NMDS.
+
+So as today's pop quiz, what I'd like you to do is use Gitflow to fix this typo. Go ahead and pause the video now, and go work on it on your own, and then, once you start the video again, I'll show you how I did it.
+
+I need to file an issue. All right, so this is issue five. So we're going to go to our directory and we can do git checkout -b issue_005.
+
+And we can open up our submission/manuscript.Rmd file, and I'm going to search for PCoA.
+
+So I'll do non-metric dimensional scaling ordination of ThetaYC values relating the community structure, blah, blah, blah.
+
+Yup, that's great. And so we'll save back out, git status that had changed. We can do make -n write.paper. All right, make write.paper. And I'm going to go into FileZilla and log in to my instance.
+
+And I just want to make sure that my PDF file looks right. And sure enough, if I see that non-metric dimensional scaling, blah, blah...
+
+Great, so, that's all good. So I will go back to my terminal and I'll do git status, git add submission/manuscript.*, git status, git commit -m "Correct figure legend, closes #"...
+
+Just want to double check that is issue five, yup, it's five, " Issue closes #5", git status, great. Do git checkout master, git merge master. Yup, sorry, git merge issue_005. That merge is in, and I can git status, and I can now do git push.
+
+Very good, and I see that I've closed my issue and we're good to go. So hopefully that was a good review of what we did in the last tutorial.
 
 ---
 
@@ -25,6 +57,14 @@ In the last lesson we used Gitflow as a more systematic way to make changes to o
 * Make a pull request to incorporate new code
 * Integrate an external review of your code into Gitflow workflow
 * Apply many of the principles that we've been working on throughout series of tutorials
+
+???
+
+And again, as you see, we're slowly building to our toolbox, reusing a lot of what we've used previously whether it's documentation, organization, version control. These are all great tools that we're building on to again, improve the reproducibility of our projects. In today's tutorial, we're going to expand further…in today's tutorial, we're going to expand again to use Gitflow for working in a team.
+
+We're going to use ourselves perhaps as our team for today just to try things out or with an actual team. We're going to make a pull request. This is a new jargon related to version control to incorporate new code. We're going to integrate an external review of our code into the Gitflow workflow. And then, we're going to apply many of the principles that we've been working on throughout the series of these tutorials.
+
+We're going to continue to expand our skill set.
 
 ---
 
@@ -37,6 +77,10 @@ In the last lesson we used Gitflow as a more systematic way to make changes to o
 * You: Make a pull request and I'll think about it
 ]
 
+???
+
+So, we have this annoying postdoc in the lab, and they think they have this great idea. Postdoc says, "You're using R's base graphics?You should be using the tidyverse!" You reply, "Eh. You know, I have a plot. It says what I want, it works, it's very functional." "But it'd be really easy. You should totally change your code." You reply, "Make a pull request and I'll think about it."
+
 --
 
 .right-column[
@@ -44,12 +88,20 @@ In the last lesson we used Gitflow as a more systematic way to make changes to o
 .center[![Drop the mic by telling someone to file a pul request]({{site.baseurl}}/assets/images/obama.gif)]
 ]
 
+???
+
+So telling somebody to make a pull request is, kind of, a good way to get a conversation to end. It's, kind of, the way that you can bioinformatically drop the mic, and get them to shut up, and get them to do the work for you. So what is a pull request?
+
 ---
 
 ## Pull requests
 
 * Pull requests (PRs) are a mechanism that allow others to contribute to your project, but that give you (or someone you designate) the power to accept or reject the contribution
 * The PR can be discussed between you and the contributor and allow the contributor to make changes before you accept the contribution
+
+???
+
+Pull requests are a mechanism that allow others to contribute to your project, but that give you or someone you designate the power to accept or reject the contribution. The pull request can then be discussed between you and the contributor and allow the contributor to make changes before you finally accept or reject the contribution. So how do we think about this with Gitflow?
 
 ---
 
@@ -60,6 +112,10 @@ In the last lesson we used Gitflow as a more systematic way to make changes to o
 * Don't want all contributors to have the ability to merge to the `master` branch
 * Even on a projet with a single developer, you may not want to be able to merge changes to `master` without someone seeing your code
 
+???
+
+Well, as a project gets bigger or more public, more people might want to contribute, and so, we can delegate issues to different contributors. So remember, one of those steps was to take ownership of the issue so that others aren't going to be working on top of what you're doing. We don't want all contributors to have the ability to merge to the master branch, and so a pull request then gives you the authority to designate who can make those merges to the master branch of the project. Also, even on a project with a single developer, you may not want to be able to merge your changes to master without someone seeing your code first.
+
 ---
 
 ## New concepts that we'll discuss before we're done
@@ -68,6 +124,10 @@ In the last lesson we used Gitflow as a more systematic way to make changes to o
 * Upstream
 * Pull request
 * Code review
+
+???
+
+And so some of the concepts that we'll be discussing before we're done with this is the idea of a fork, an upstream repository, a pull request, and code review.
 
 ---
 
@@ -81,6 +141,16 @@ In the last lesson we used Gitflow as a more systematic way to make changes to o
 6. Push your copy up to your GitHub account
 7. File a pull request
 8. Repeat steps 4-7 until developers accept your PR
+
+???
+
+And so again, thinking about this as an extension of Gitflow, what you would do is to fork a repository into our own GitHub account, claim the issue from the primary copy of the project's repository.
+
+Alternatively, we will file an issue and ask the developer whether they'd be interested in a pull request on this issue. And so again, if it's a big project and it's not somebody you know, you might want to file a pull…you might want to ask the lead developer first whether or not they would even accept a pull request before you go do a bunch of work.
+
+Within your own repository, your own copy of the repository, you'll create a branch, you'll make the changes, you'll commit those changes. You'll then merge the upstream copy back into your local copy to resolve the differences, and then we'll push our copy to our GitHub account, and then file a pull request to the original version of the repository. And then, we can repeat these steps four through seven until the developers accept or reject your pull request.
+
+So again, this workflow has a lot of jargon in it that we're not familiar with yet, and so, as we go through today's tutorial, these will hopefully make a lot more sense.
 
 ---
 
@@ -105,7 +175,17 @@ class: middle
 
 ???
 
-For now, don't worry about inviting members to your Organization, but you can if you'd like to
+So, if you don't already have an account for your lab, go ahead and create one. So my group already has one that we use to support each of our manuscripts, and so that way, we have this organization SchlossLab, and so any manuscript that's written and has a repository, the final repository is stored within the SchlossLab account.
+
+If you're at an academic institution, you can tell GitHub that you're an academic or at a non-profit and they will give you unlimited free repositories. Just be sure you make them public when you finally submit your papers. So how do you sign up for a new organization? Well, let me go ahead and get out of the slides, and go over to GitHub and show you how we do this.
+
+All right, so up here in the plus sign there's an option for new organization. You can click on that. You can then click your organization name, and again, mine is SchlossLab. That's already taken because that's me. We can put our email address in here. So even if you're an academic and you're going to have a free account, you could put it in here.
+
+And so I could then say, you know, pschloss@-blah-blah-blah.edu, right. And then, we could choose our plan. So again, being an academic, click on the free option and then create your organization. So it's really that simple to create an organization. I would encourage you to talk with your PI or if you're the PI, about setting up an organization and make sure that you have their go-ahead before you do this.
+
+But I would really encourage your lab to have its own organizational account. I always get nervous when I see manuscripts with repositories under the postdoc or student's name because that person may not stay in academia. And of course, the PI may not stay in academia either, but there's a greater chance that the PI is going to persist in academia rather than the student or postdoc.
+
+So it's nice to have, kind of, a corporate account to hold all of the projects from your research group.
 
 ---
 
@@ -120,6 +200,14 @@ class: middle, center
 ![Click Transfer button]({{site.baseurl}}/assets/images/transfer_ownership_button.png)
 
 .left.footnote.alert[this is at the bottom of the settings page]
+
+???
+
+And what we're going to do is we're going to transfer the ownership of this repository to SchlossLab or whatever lab you are in. And we're going to scroll down to the bottom, to the danger zone, and we're going to transfer our ownership. Click transfer, and we need to type in the name of our repository which is, sorry, Kozich_ReAnalysis_AEM_2013, and the username or organization that we want to transfer to, SchlossLab.
+
+So I understand, transfer this repository. And I am going to click the green transfer button to make that transfer happen. And so, we're moving SchlossLab, we're moving the repository to SchlossLab Kozich_ReAnalysis_AEM_2013.
+
+It might take a few minutes.
 
 ---
 
@@ -148,6 +236,10 @@ class: middle, center
 
 ![Eventually the transfer completes and it's done]({{site.baseurl}}/assets/images/transfer_pending_update.png)
 
+???
+
+So I'm going to go look for my SchlossLab repository. View SchlossLab, and so we see now that Kozich_ReAnalysis_AEM_2013 is here. And I'm going to, similarly now, go back to my profile, look at my repositories, and now see that my Kozich_ReAnalysis is no longer here.
+
 ---
 
 class: middle, center
@@ -156,6 +248,10 @@ class: middle, center
 
 .alert[If you look back at your account, you should no longer see this repository]
 
+???
+
+So I'll go back to my SchlossLab version, and there we are. So what we've done is we've created an organization for our research group. Again, if you already had one, that's great. If not, well, now you do. We've transferred ownership from our personal account of this Kozich_ReAnalysis to ownership in SchlossLab, and so it has been moved. It's no longer in our thing, and like I was saying before, I think it's a good idea to have the lab account hold on to the ownership of the repository.
+
 ---
 
 ## Phew...
@@ -163,22 +259,38 @@ class: middle, center
 * Let's recap what we've just done...
   * Created an organization for our research group
   * Transfered ownership from our personal account to our lab (A Good Idea&trade;)
---
-
 * This may seem like a bit much for a project where you are the only researcher, but...
   * Sets up a layer of organization that can reduce errors
   * Creates a structure where others in your group (e.g. annoying postdoc, awesome PI, etc) can review your code
   * Reinforces best practices for contributing to other projects
+
+???
+
+So this might seem like a bit much for projects, again, where you're the only researcher, but as I was saying earlier, it does create a structure where others in your group, that annoying postdoc, the awesome PI, others can reinforce your code.
+
+It will also will help us to reinforce best practices for contributing to other projects. So what we're going to end up doing here is what's called a fork of this repository to make a new copy in our private account, our personal account.
+
 --
 
-<br/>
 ## .center.alert[Next, we need to make our own copy - FORK!]
+
+???
+
+And so, to make our own copy, we're going to do what's called a fork.
 
 ---
 
 class: middle, center
 
 ![Press the fork button in the top right corner of the page]({{site.baseurl}}/assets/images/press_fork_button.png)
+
+???
+
+And so, you'll see this button, you'll see this button in the upper right corner, we can click fork. And I'm going to fork the repository to pschloss. And so this takes a bit, and it doesn't take too long, and eventually, it shows up.
+
+So now if we look in the upper left corner we see we're in pschloss which is my personal account in the repository Kozich_ReAnalysis_AEM_2013. And it said that this is forked from SchlossLab Kozich_ReAnalysis_AEM_2013. So congratulations, you've forked your first repository. This is pretty cool. Again, what you have is a copy of the repository in the SchlossLab project folder.
+
+The copy now is in your own personal account.
 
 ---
 
@@ -209,6 +321,17 @@ class: middle, center
 ## Getting a local copy - two options
 
 1. Your local repository is already looking for the remote (i.e. GitHub) repository in your account
+
+???
+
+And so we're going to be able to make changes in our personal account, and we're going to hopefully then ask SchlossLab to pull those changes into SchlossLab. So we need to get a local copy onto AWS. So first, our local repository is already looking for the remote GitHub repository in our account, right, because we had started this in pschloss.
+
+We deleted it on GitHub and then moved it. As we deleted it, we moved it to Schloss, but we still have that. And then, we forked it back to pschloss, but we still have… Our AWS repository is still looking for it in pschloss. So it doesn't know any of this has really happened.
+
+So that's cool. Alternatively, and probably the better way would be to delete our Kozich_ReAnalysis directory on AWS to clone it from pschloss Kozich, and then rerender the data. So we've done this a few times, we know it works, we know it takes probably about 45 minutes to an hour to run all this.
+
+I'm going to skip this for now, and for this project, we're going to use our local repository that's already looking for the remote. The remote is again GitHub that we've got our local repository on AWS or on your laptop perhaps, and our remote is what's being stored at GitHub.
+
 --
 
 1. Alternatively (and perhaps better), you could *clone* the repository into your local directory
@@ -226,11 +349,6 @@ git clone https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 make write.paper
 ```
 
-???
-* Option 2 is the preferred approach because it makes sure that you're off to a fresh start.
-* Option 1 is probably fine for this case
-* Option 2 is what you would do if you were to collaborate on someone else's project
-
 ---
 
 ## What is the `remote`?
@@ -238,6 +356,10 @@ make write.paper
 * You have been working on your *local* version of the repository on AWS
 * The *remote* version is what is on GitHub and is under your account (e.g. pschloss)
 * We need a second remote, *upstream*, that tells git what the version upstream or the parent of our repository
+
+???
+
+So what is the remote? As I said, we've been looking on our local version of the repository on AWS. The remote is what's on GitHub and is under your account now. We need a second remote though which we're going to call upstream that tells git what the version upstream of the parent or the parent of our repository is. So we have a remote, and then we, kind of, have a remote to the remote.
 
 ---
 
@@ -248,6 +370,10 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git remote -v
 origin	https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git (fetch)
 origin	https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git (push)
 ```
+
+???
+
+If you will, that we'll call upstream, and the upstream repository you can think of as like the official copy, and that's the copy in SchlossLab. We can look at the remotes by doing git remote -v. We see that our remote is pschloss/Kozich_ReAnalysis_AEM_2013, that's what we'd expect. And the name of that remote is origin.
 
 --
 <br/>
@@ -262,6 +388,12 @@ upstream	https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013.git (fetch)
 upstream	https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013.git (push)
 ```
 
+???
+
+So you might not remember this, but way back when we did our first push, we did git push origin. We were pushing to our origin which is our repository copy on GitHub under pschloss, but we need to set our upstream remote. So to do that, we're going to do git remote add, and we're going to say upstream as the name of our upstream remote.
+
+And we can go back to click on this link that we forked from and we can get a copy of the address to this repository by clicking on the green cloner download button, and then clicking on the copy button. Coming back to the terminal and pasting that in, hit enter, and then we can do git remote -v, and we see now that we have our origins and our upstreams.
+
 ---
 
 ## Fetching and pulling
@@ -270,11 +402,23 @@ upstream	https://github.com/SchlossLab/Kozich_ReAnalysis_AEM_2013.git (push)
   * A `fetch` brings down a the commits from the remote branch that are not in your current branch and stores them locally
   * A `merge` will integrate the commits from the remote branch into your local branch
   * Allows you to manage potential conflicts
+
+???
+
+So one of these has to fetch which is, kind of, to pull stuff down from GitHub and the other is to push which is to put things up. And we have a fetch and a push both for origin as well as for upstream. So you'll notice that we have a fetch and a push for our origin and our remote.
+
+And so, we've talked about push already where we take what's in our current repository and we push it up to GitHub. Fetch brings down the commits from the remote branch that are not in our current branch and stores them locally. A merge then will bring the stuff we've just pulled…we've just fetched and it merges it into the branch that we're on.
+
 --
 
 * Doing it in one step...
   * A `pull` will both fetch and merge the remote commits
   * If you aren't keeping track of things closely, a `pull` may result in numerous conflicts
+
+???
+
+So we can do that in one step with a pull. So when we do git pull, we're both fetching and merging at the same time. And so that's why we see fetch rather than pull because it's breaking it down into those two steps. If you're not careful as you're doing your pulls, you might run into conflicts, and so that's why sometimes people prefer to do a git fetch and then a git merge rather than a git pull.
+
 --
 
 * In the original version control tutorial we used `pull` since we were the only one working on the remote version - this would still be the case with the version in your account, but may not be the case with your upstream branch
@@ -293,6 +437,16 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git merge upstream/master
 Already up-to-date.
 ```
 
+???
+
+And so when we're working with our upstream, we will do git fetch, git merge. So what does this look like? In practice, we can do git pull origin which is already up-to-date. And then we can do git fetch upstream. So git pull origin is pulling it down from pschloss, git fetch upstream is pulling it down from SchlossLab.
+
+And so this now tells us that there are two branches, issue four and master that it's brought down and we can then do git merge upstream/master. So this is telling git that we want to merge the master branch from upstream which is right here into the master branch that we're on in our thing.
+
+But before I do that, let me just make sure which branch I'm on because I don't know that I moved back. Yup, I did. So we are on masters. That's a good thing to always double check. So I'm going to do git merge upstream/master. And, of course, it says we're already up-to-date. You could imagine though that if we had forked it and maybe sat on it for a day or two and someone else had pushed something into the SchlossLab version that our version on our repository might be different than the upstream version.
+
+And so, it's good to always merge our origin version back into our local version to make sure that we're working on the most recent version of the code.
+
 --
 ### Note that instead of the git `pull command`, you could also do
 
@@ -307,16 +461,26 @@ Already up-to-date.
 ## Issue 4
 
 1\. Create the issue in GitHub on the upstream repository (e.g. the one in SchlossLab)
---
+
 
 .center[![:scale Create the issue in GitHub on the upstream repository, 75%]({{site.baseurl}}/assets/images/issue_004.png)]
+
+???
+
+So what we'd like to do now is to create an issue in GitHub in the SchlossLab, the upstream version of the repository. So we'll go issues, new issue, and we will say, "Convert NMDS plot to use tidyverse packages." And we'll leave a comment to say, "The postdoc thinks we should convert 'plot_ndms.R' from using base R functions to instead use functions," yeah, "functions from the 'tidyverse' packages 'dplyr' and 'ggplot2'."
+
+And so we might submit that issue and we might let it sit, right. And we go away and we think about it some more, and we say, "You know, if we were to use dplyr and ggplot, there's a lot of code in that plot_nmds that's just, kind of, doing funky things. If you look at that code there's all sorts of little things in there that the more I think about I just don't like and that it would be good to refactor that code to make it a bit more elegant, a bit easier to maintain."
+
+So I'm going to take on this issue, so I'm going to assign it to myself and I'm going to add a comment. I'm going to say, "The more I think about it, I agree with the postdoc.I agree because I think it will help to make the code easier to maintain." And so I'll comment here.
+
+And again, we can use assignees, we can use labels, we can add these to different things. We can add people on to the discussion to get their feedback. We can have a dialog here. All right, so I have claimed this, so I have claimed this issue for myself.
 
 ---
 
 ## Issue 4
 
 2\. Create a branch in your local repository for the issue
---
+
 
 ```
 ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
@@ -327,10 +491,20 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout -b issue_004
 Switched to a new branch 'issue_004'
 ```
 
+???
+
+I am now going to go back to AWS and I'm going to create a branch in my local repository for the issue. I will do git status just to make sure I'm on the right branch.
+
+I'm on branch master. I can do git checkout -b, and I will then call it issue_005. Just double check that's the issue…oop, no, I'm sorry, it's issue six. Git status, we're on issue six.
+
 --
 
 <br/>
 3\. Edit `code/plot_nmds.R`
+
+???
+
+And now we want to edit our code. So we can then do nano code/plot_nmds.R, and this is our R file.
 
 ---
 
@@ -374,6 +548,20 @@ plot_nmds <- function (axes_file){
 }
 ```
 
+???
+
+And again, because this isn't an R tutorial, I'm going to do some copying and pasting from the slides. I apologize for that. Again, it's in the slide deck if you want to take a look at it in greater detail, but we're going to use dplyr and ggplot with our mutate commands, and ggplot to build the plot.
+
+The inputs are the same, the output is still that ggsave. The function name is still plot_nmds. All right, so the dependencies and the output are the same. So I will save this and quit, git status, make -n write.paper. That looks right.
+
+So we'll do make write.paper. And I will now go into FileZilla and I will look at my manuscript.pdf to make sure that all looks right and we see our plot or ordination for the ordination, right, using tidyverse, using the ggplot, and so we see that, and so that all looks good.
+
+Maybe our legend could be shifted over a bit. Maybe I'll go ahead and do that. And let's see, where do I have that? So legend position 0.15, 0.15 is… I think that's right there. So maybe I'll put it to 0.5 on the X-axis, make write.paper.
+
+And open this up again. I think what it's doing is it's putting it halfway across not at the actual X coordinate.
+
+So I will edit that again to maybe make it 0.75. Make write.paper one more time, and this, we should be good. Great, so our legend's out of the way now. Okay, so that looks great. I think we're ready to ship this back and commit it and make our pull request.
+
 ---
 
 ## Confirm that we're on the issue branch
@@ -389,6 +577,10 @@ Changes not staged for commit:
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
+
+???
+
+Git status, I'm going to move this up. For some reason it's made Rplots.pdf. I don't want that so I'm going to do rm Rplots.pdf. This is not being tracked so I don't need the git rm. So it's not tracked so we can delete it.
 --
 
 ## Confirm that `make write.paper` works
@@ -408,6 +600,10 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git status
 On branch issue_004
 nothing to commit, working directory clean
 ```
+
+???
+
+Git status, git add code/plots_nmds.R results/figures/nmds_figure.png submission/manuscript.pdf. Git status, great. Git commit -m "Refactor code to use tidyverse, addresses #6," git status, great. So we're on our branch issue six, we've made our change, we've made our commit, we now want to push our branch.
 
 ---
 
@@ -439,11 +635,27 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
  * [new branch]      issue_004 -> issue_004
 ```
 
+???
+
+And so we saw this yesterday that we can do git push, but before we push, we want to double check that nothing's changed on the upstream repository. So I'm going to do git fetch, git merge upstream/master. And we see we're already up-to-date, so good.
+
+So now we can push. So we do git push origin, so we're going to push to our version in our account under pschloss or under your version wherever that is, origin issue_006. You may have to enter your credentials, I don't know.
+
 ---
 
 ## Use GitHub interface to create pull request
 
 .center[![:scale Confirm that new branch exists on GitHub and create pull request, 85%]({{site.baseurl}}/assets/images/new_github_branch.png)]
+
+???
+
+And so now we see that it's pushed it up, there's a new branch. We come back to me and go to my profile and my repositories, and I see that I recently pushed up a branch issue six. All right, and so I would like to compare and make a pull request.
+
+And so this creates a form to open a pull request that is going to use as our base fork, what we're comparing it to, what we're trying to…we're requesting that SchlossLab pull our version from pschloss. And so it says, "Able to merge." These branches can be automatically merged because we did that git fetch, git merge upstream.
+
+???
+
+And so I can now leave a message in here. I can say, "I've refactored the code to use 'dplyr' and 'ggplot2' functions.I feel better about the ability to maintain this code. I think I like this version a bit more than the original using the base graphics functions."
 
 ---
 
@@ -451,17 +663,29 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 
 .center[![:scale Fill in information to tell the developer what has been done in the pull request, 60%]({{site.baseurl}}/assets/images/issue_04_create_pr.png)]
 
+???
+
+Okay, great. So we've entered a comment to the maintainer of the SchlossLab version. I can then click Create pull request.
+
 ---
 
 ## Wait for someone to review your PR
 
 .center[![:scale At this stage someone else can look at your modifications and either accept the changes or make suggestions, 60%]({{site.baseurl}}/assets/images/issue_04_pr_iteration_1.png)]
 
+???
+
+And it thinks for a minute. It sees that there was a comment there that I added, a commit that's here. And so it then says that this pull request could be merged. So I'm the owner of SchlossLab which is why we see it gives me this nice green button. So don't push on that yet.
+
 ---
 
 ## Get critique from someone
 
 .center[![:scale At this stage someone else can look at your modifications and either accept the changes or make suggestions, 50%]({{site.baseurl}}/assets/images/issue_04_pr_feedback_iteration_1.png)]
+
+???
+
+So what we're going to do is we're going to ask someone to critique it. And so I'm going to again simulate this by saying, "Thanks for the contribution, this looks great! Before we accept the PR, the pull request, could you indicate in the README.md file that the user needs to have 'dplyr' and 'ggplot2' packages."
 
 ---
 
@@ -486,6 +710,11 @@ class: middle
 #### Running analysis
 ...
 ```
+
+???
+
+So we've gotten this feedback and now what we want to do is we want to go back into our Kozich_ReAnalysis. I'll do git status to make sure I'm still on issue six as a branch, and I will open up README.md, and I will scroll down here where I had dependencies and locations and I will add dplyr and ggplot2.
+
 ---
 
 class: middle
@@ -518,11 +747,23 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
    f593581..9371170  issue_004 -> issue_004
 ```
 
+???
+
+And that's saved. I'll then come back and do git status. It's been modified. Git add README.md, git commit -m. I'll say "Add dependencies to README, addresses #6."
+
+And then I will again do my git fetch upstream, git merge upstream/master. It's all good. And so now we can do git push origin issue_006.
+
+It pushes that up. And now we come back to our pull request and then we see, "Added dependencies to README, addresses #6," right.
+
 ---
 
 ## Round 2
 
 .center[![:scale At this stage someone else can look at your modifications and either accept the changes or make suggestions, 50%]({{site.baseurl}}/assets/images/issue_04_pr_iteration_2.png)]
+
+???
+
+And so we've got that commit is automatically added into our pull request. So then the developer or the owner of the repository writes back, "These changes look great. Thanks for your contribution."
 
 ---
 
@@ -530,6 +771,9 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 
 .center[![:scale The developer gives positive feedback, 50%]({{site.baseurl}}/assets/images/issue_04_pr_feedback_iteration_2.png)]
 
+???
+
+I'll do fireworks, bam. Okay. And so then we will comment. We will then merge the pull request, and we will confirm the merge, and so our pull request has successfully been merged and closed. You're all set. The pschloss issue six branch can be safely deleted.
 
 ---
 
@@ -548,6 +792,10 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 ## Pull request accepted
 
 .center[![:scale Your pull request gets merged into codebase, 50%]({{site.baseurl}}/assets/images/issue_04_pr_branch_deleted.png)]
+
+???
+
+And so, if I click delete branch it deletes that branch, and we can then come back to our issue and we can then say, "Close issue." Great, and so it adds to the transcript of this issue that the issue was addressed by the merge pull request from pschloss issue six.
 
 ---
 
@@ -587,6 +835,11 @@ Fast-forward
  submission/manuscript.pdf       | Bin 51920 -> 187424 bytes
  4 files changed, 24 insertions(+), 21 deletions(-)
 ```
+
+???
+
+So we want to update our local repository, and we will get back to master. So we'll do git checkout master, and we can then do git fetch upstream, git merge upstream/master, and that's been brought in. Again, if we git status we see that our branch is ahead of origin master by three commits.
+
 ---
 
 ## Update your local repository
@@ -610,6 +863,10 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
    24abf18..269a650  master -> master
 ```
 
+???
+
+So our personal version of the repository is three commits behind of the upstream as well as our local. So we want to fix that by doing git push, and we can also reminding our branches to git branch. We could do git branch -d issue_006, or we could keep it, or whatever. So I'm going to go ahead and log out now. And we'll do exit, exit. And I'm going to stop my instance.
+
 ---
 
 ## Set guidelines for making contributions
@@ -626,11 +883,27 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
   * Indicate what issue this contribution addresses
   * Summarize and annotate changes
 
+???
+
+???
+
+So GitHub allows us to set guidelines to potential contributors for how they make those contributions. So we can state explicitly our community and behavioral expectations that there's no name calling, no snark, no being jerks. We can provide links to external documentation, mailing lists, or a code of conduct in terms of how we set those expectations.
+
+We can also, beyond expectations of behavior, we can describe what our expectations are for creating good issues or pull requests. And so Mozilla at this link has a great checklist for you to think about. So, for example, a pull request should really focus on one thing and so our maximum submission should be a maximum lengths of perhaps 400 lines of code, maximum function length of about 50 lines.
+
+Our code must be able to be automatically merged in as we saw, and we were able to achieve that by doing the git fetch, git merge. If there'd been a problem with merging, we would have had to resolve those merges before we then push to our origin, and then did the pull request to the upstream repository. If you have tests, kind of, like of our make write.paper, they must all pass.
+
+Functions should be tested, functions should be documented, they should respect the style guide, and indicate what issue the contribution addresses. And then finally in the pull request to summarize and annotate the changes. So we can, kind of, stipulate these requirements or these steps for making good issues and good pull requests.
+
 ---
 
 ## This will render as a link when filing a new issue
 
 .center[![:scale Contributions link, 80%]({{site.baseurl}}/assets/images/new_issue_contribution.png)]
+
+???
+
+When we look at our issue tracker, we'll see a link either up here or down to the side for how to make good contributions to the repository. Again, if we go into GitHub and say, "I want to file a new issue," you may notice that down here in the lower right corner, there's a link for helpful resources.
 
 ---
 
@@ -639,6 +912,10 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 .center[![:scale Contributions link, 80%]({{site.baseurl}}/assets/images/contributing_md.png)]
 
 .footnote.alert[See the [Software Carpentry page](https://github.com/swcarpentry/website/blob/gh-pages/CONTRIBUTING.md) for a more developed version]
+
+???
+
+And so here you see all those things that I had just mentioned. And so where does this come from? Well, this is coming from our CONTRIBUTING.md file. Another good resource that I have in the slide notes as you'll see is a link to the Software Carpentry page for their CONTRIBUTING.md file for what they expect from people to make contributions to their repositories.
 
 ---
 
@@ -651,6 +928,20 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 * Do it [early and often](https://arxiv.org/pdf/1407.5648v2.pdf) to prevent code backlog to get the best feedback
 * Keep it [under 500 lines of code](https://smartbear.com/learn/code-review/best-practices-for-peer-code-review/)
 * Review can be live (i.e. in a lab meeting) or asynchronus (more like peer review for a paper)
+
+???
+
+A big part of making these pull requests is having someone else look at our code. Just like we stimulated someone saying, "Hey, it'd be really nice if the README included 'dplyr' and 'ggplot2' as packages that need to be installed." We need others to look over our code and make sure that we've dotted all the Is and crossed all the Ts.
+
+You need to get over the quality of your code. That's purpose of having a review. You know, if you don't want people to look at your code, that's a bigger problem, right. And so we need to get used to people looking at our code, making suggestions, and that's really the only way we're going to get better. I know that my writing of narrative has gotten better because of peer reviewers looking at manuscripts I've submitted.
+
+And I know having people look at my code will only make me a better programmer. Think about what you want to get out of your code review. What is your goal? You know, do you want to make sure that you're writing code that people understand, that works, that is readable, all of the above, right? So think about that, and think about that as, you know, you ask someone to review your code.
+
+You can solicit reviews from your PI, collaborators, colleagues, random strangers, people on Twitter, wherever. Do it early and often to prevent code backlog to get the best feedback. So really there have been studies that have shown that you've got to keep it under 500 lines of code or it just gets to be too much for somebody to look at.
+
+And if you have to give someone a thousand lines of code then that might indicate that there's probably a problem with your code, that it needs to be broken up into more modular segments. And also just the psychology of getting these reams of paper or reams of code is not going to get a lot of enthusiasm from potential reviewers. So your review can be live like in a lab meeting.
+
+So in our lab meetings periodically we'll have somebody put a few lines and, you know, maybe 150, maybe 50 lines of code on the projection and we will go through it line by line and comment on the code. It could also be asynchronous. So this, perhaps, would be more like peer review for a paper where you ask someone to look at your repository and perhaps a specific file in your repository and ask them to review that code for you.
 
 ---
 
@@ -669,6 +960,14 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 
 .footnote[[ Questions taken directly from Mozilla's guide](https://mozillascience.github.io/codeReview/intro.html)]
 
+???
+
+If you're reviewing someone else's contribution, Mozilla has a really nice guide for thinking about code review. And so these are some of the questions that were taken from that guide, and so they break it down into intrinsic examination as well as extrinsic examination. So are the functions as simple as possible? Is the code efficient? Is the usage of each function clear?
+
+Is there documentation on how you use that? Have edge cases been considered? So kind of like things where, you know, dividing by zero. I think we talked about that when calculating Shannon diversity when we were doing R coding. Have those edge cases been considered in the function? Extrinsic examination, does the new code reinvent any wheels? Are there wheels that could have been used instead that are already pretty well developed, and tested, and robust?
+
+Does the new code successfully address the needs of the project? And does the new code respect the structure of the project? Right, these pull requests should not be totally revamping the whole code base of a project. That does not respect the structure of the project, but it should instead work within what the goals in the structure of the existing project.
+
 ---
 
 ## Exercise
@@ -676,6 +975,12 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 * Based on what you've learned in this series of tutorials, why should the "final" version of your repository be in your group's organization account and not just your private account?
 * Looking around the GitHub version of your lab's copy of the repositoryl, How would you add someone from your lab to review your code?
 * Who could provide a review of your code?
+
+???
+
+I'd like to leave you with a few questions to think about. So based on what you've learned in this series of tutorials why should the "final" version of your repository be in your group's organization and not just your own private account? I think there's a few reasons for that. Look around the GitHub version of your lab's copy of the repository.
+
+How would you add someone from your lab to review your code? So noodle around on those pages and see if you can figure out how you would add someone to be an approved manager or someone that can approve pull requests to your lab's code. And finally, ask yourself, who could provide a review of your code? Are there people within your local community, within your lab, or that you know through social media or, you know, through meeting people at conferences that would provide a review of your code?
 
 ---
 
@@ -687,7 +992,29 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
   * Create a local copy of the repository
   * Add a file that is named `your_github_id.yml` (e.g. `pschloss.yml`) that is a copy of `_honor_roll/_template.yml` to `_honor_roll` directory
   * Complete the needed information
-	* Add your picture (needs to be 300 pixels by 300 pixels) as `your_github_id.jpg` to `_honor_roll` directory
+  * Add your picture (needs to be 300 pixels by 300 pixels) as `your_github_id.jpg` to `_honor_roll` directory
   * Add the changes to your copy of the respository
   * Create pull request
   * After it has been accepted you will see your information on the [honor roll](../honor_roll/) page
+
+???
+
+The final thing I want to leave you with is a opportunity to get a "virtual" badge for completing these tutorials. And so on the homepage of the Reproducible Research Tutorial series, you'll notice that there's an "Honor Roll."
+
+So you and your picture and your information can be added to the honor roll as an indicator that you completed this training by filing a pull request. And so to do this, you need to fork a repository of this repository that has all these slides for this tutorial series. You're going to, like as we did in this tutorial, create a local copy of the repository, you're going to add a file that's called…that has your_github_id.yml, whatever it is.
+
+So mine is pschloss.yml. There's a copy or a template of what you need to use in the directory honor roll that's called template.yml. And so you're going to add that file to honor roll, and you're going to complete the needed information, you're going to add your picture and the picture needs to be 300 pixels by 300 pixels.
+
+And that needs to be named, again, your_github_id.jpeg, and this needs to be also added to the honor roll directory. You're then going to add the changes to your copy of the repository, create a pull request, and then we might go through an iteration or two to make sure everything's in row. And then, we will then merge your pull request into the honor roll page and that will then get your image to show up on the honor roll and will allow you to say that you completed this training in Reproducible Research Practices.
+
+I really hope that you take me up on the offer of filing a pull request to receive a badge for completing the materials within this tutorial series. This activity really serves as a capstone for the entire series, but hang on for one more tutorial after today's to finish the series. Have you ever had anyone review your code? We're used to having our science reviewed in committee meetings, seminars, posters, papers, and grant proposals.
+
+We're reviewed constantly, but have you ever asked anyone to take a look at your code? Have you ever looked at someone else's code? My research group does this on a regular basis as part of our lab meetings, and while we still could do a lot more with it, it's really been helpful to get people to learn to code better and to identify potential problems. Some groups have varying policies on who can accept pull requests and what steps have to be taken to approve those pull requests.
+
+At the minimum, people will push directly to the master branch without code review. Others require that the contributor cannot accept the pull request themselves. Still others require one, or two, or more people review the code before accepting that pull request. These requirements can get, kind of, onerous if you're the only one working on your project or if no one else in your group is familiar with programming.
+
+If this level of rigor interests you though, I'd really encourage you to use your social media or your network of friends to reach out and ask someone to review your code to help you out. Similarly, you can also make the same offer to review other's people's code. I think you'll learn a lot by looking at other's people's code and comparing it to your practices as well. I have to admit that I use the tools we have been talking about in this series long before I started thinking about code review, and branches, and pull requests.
+
+Now I think of a fork as a bit of a firewall between what seems like a good idea to me and what is a truly a good idea for the project. You can think of it as an added level of security for ensuring the replicability of your work. In the next tutorial, we'll finish this series by discussing the value of openness, and transparency, and reproducibility.
+
+We'll talk to you soon.

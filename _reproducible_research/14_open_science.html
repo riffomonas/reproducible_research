@@ -12,6 +12,18 @@ class: middle center
 .footnote.left.title[{{site.url}}{{site.baseurl}}{{page.permalink}}]
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
+???
+
+Hi, there. And welcome back for the final lesson in the Reproducible Research Tutorial Series. I hope you enjoyed the last two lessons on how to use the tools we've been discussing in this series, to improve the documentation of how you collaborate with yourself and with others.
+
+If you haven't already filed your poll request, I'd love to see yours so that we can add you to the Reproducible Research Honor Roll. As we've discussed throughout the series, documentation is critical tool to maintaining the reproducibility of our analysis. We saw this in discussing project organization. The use of version control to map the history and development of your project. The use of README files to provide information to people interested in our project.
+
+And literate programing tools that allow us to blend code with narrative documentation. The theme of transparency is right there along the way in our discussions with documentation. Sure, you can provide documentation for yourself and current and future members of your research group, but what about people outside your collaborative network who want to see what you've done? Today, as we finish this series, we'll talk about the importance of openness in doing science.
+
+This theme of transparency will impact how widely our research and the work that went into our paper is spread. If we operate in a close manner, then the work will be unlikely to spread as far, as if we operate in an open manner. This idea of openness touches on everything, from making our data and code accessible to publishing in journals that anyone can access.
+
+Do you want to clutch your data like someone might clutch their pearls? Probably not. Or do you want to release your data and code for others to incorporate into their own analysis or to riff upon? Hopefully, by now, you can anticipate what position I would take. Join me, now, in opening the slides for today's tutorial, which you can find within the Reproducible Research Tutorial Series on the riffamonas.org website.
+
 ---
 
 ## Pop quiz
@@ -19,13 +31,27 @@ class: middle center
 * Why is it called a pull request rather than a push request?
 
 ???
-We are asking the developer to pull our code into their code
+
+Before we start talking about open science, we're going to do one of our pop quizzes. And so recalling the last lesson, can you recall why it's called a pull request rather than a push request? Why is it even called a pull request at all?
+
+Well, if you might remember, what we're doing is we're asking another developer to bring our code into their code. And so we're asking them to pull from our repository into theirs. And so that's why its called a pull request. And, again, remember the nice thing about GitHub is that we can work in the open.
+
+We can develop. And we can solicit feedback from other people. But we can limit who can directly contribute to our repository. And so if somebody doesn't have permissions to contribute to our repository then they need to file a pull request. And also, we might work in a way where we don't let ourselves push to the repository either. We might require ourselves to file a pull request.
+
+And, again, in some research groups, they might require you to have another pair of eyes look at the code before that pull request is accepted.
+
 --
 
 * We're done with our Kozich re-analysis project. Now what do we do with the data and the instance?
 
 ???
-If you want to keep the data, remember to copy it somewhere. Before terminating the instance, be sure to push it back to GitHub and then terminate
+
+Second question, so we're at the end of the series. We're not going to be going back into our Kozich re-analysis or logging into the Amazon image today. So what do we need to do now? Well, if you recall from what we've been doing is that we've...when we're done with a day's work, we'll use stop to stop the instance.
+
+And stop maintains the hard drive, so to speak, so all the files are there when we do stop. If we do terminate, then that deletes the entire instance. And so that's perhaps where we are at now. And we could, of course, use FileZilla to download all of our files from Amazon to our local hard drive. There are other services at Amazon, things like S3, or Glacier, or other ways to store data.
+
+You might decide to transfer your data to one of those services. And once you're done that, be sure to do a final push of all your repositories up to GitHub so that you've got your code backed up. And then you can literally bring the whole thing down, as we've been saying, using the terminate instance option in the EC2 dashboard.
+
 ---
 
 ## Learning goals
@@ -33,17 +59,33 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
 * Justify the value of doing open science
 * Identify the steps you can take to maximize the discoverability of your work
 
+???
+
+So for today, we're going to talk about the value of doing open science. And we're going to identify the steps that you can take to maximize the discoverability and, ultimately, riffablility, so to speak, of your work.
+
 ---
 
 ## Case study: Leeuwenhoek's 'Concerning Little Animals'
 
 * Revolutionized microbiology because of his microscope and precise grinding of lenses
+
+???
+
+So as a case study, if you saw the Google doodle from the title slide of this talk, there's a case study involving Antonie van Leeuwenhoek and his paper concerning little animals.
+
 --
 
 * His descriptions of little animals aroused suspicion
   * Wrote in low Dutch, which had to be translated to English and was heavily edited
   * Refused to give any description of his methods
   * Actively discouraged teaching people his methods of grinding lenses
+
+???
+
+And so this is a really seminal paper in microbiology. Because he developed a microscope and precise methods of grinding the lenses to see things that nobody had seen before. But his description of these "little animals" aroused a lot of suspicion. People didn't totally buy the idea on the animalcules.
+
+And why was this? Well, he wrote in Low Dutch, which had to be translated to English, and it was heavily edited by someone else. And so, you know, it's, kind of, like the game of telephone where information is lost along the way. He also refused to give any descriptions of his methods. He didn't have very good method sections. And he didn't want to teach people his methods of grinding lenses, and so no one did.
+
 --
 
 * Hooke, Huygens, others were initially unable to reproduce his work
@@ -52,6 +94,15 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
   * Leeuwenhoek's microscopes that were possibly better than Hooke's were forgotten
 
 .footnote[[Lane 2015. Phil Trans R Soc B](http://rstb.royalsocietypublishing.org/content/370/1666/20140344)]
+
+???
+
+And so you could imagine that this would be hard to reproduce his work, if the author isn't providing information about how the work was done. So after he submitted this, Hooke, and Huygens, and others were unable to reproduce his work.
+
+It would be considered not reproducible. Eventually, Hooke was able to validate the results using a compound microscope. And because he made his methods open, he then popularize the compound microscope, which were probably not as good as Leeuwenhoek's microscopes, just the resolution and the quality of the lenses were inferior to what Leeuwenhoek made.
+
+But again, because Leeuwenhoek didn't make things open, they were forgotten because no one could replicate what he did, no one could reproduce what he had done. And so here are images of the two microscopes, on the left is the Leeuwenhoek microscope then on the right is the compound Hooke microscope, which lives with us even till today.
+
 ---
 
 ## Team Leeuwenhoek or Team Hooke?
@@ -71,6 +122,12 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
 
 ]
 
+???
+
+And I think we want to ask ourselves, do we want to be on team Leeuwenhoek or team Hooke? You know, both of them are fantastic scientists, leading minds of all of scientific history, really. Both of them did rigorous and strong science. But Leeuwenhoek's just wasn't reproducible, not because it was wrong but because he wasn't transparent.
+
+Because he wasn't open whereas Hooke was, and he made his methods accessible. And so his method took over, even if the method perhaps isn't as good as what Leeuwenhoek's microscope was.
+
 ---
 
 ## Science done in the open has a bigger impact
@@ -78,6 +135,10 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
 * These papers are better cited
 * Easier for others to build off your work
 * Builds transparency - a critical component of reproducible research
+
+???
+
+So the punchline here is that science done in the open has a bigger impact. There are studies showing that open papers are better cited. They are easier for others to build upon. And it builds transparency, which we've said is a critical component of reproducible research.
 
 ---
 
@@ -97,6 +158,14 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
 * Preprints
 * Publish in Open Access journals
 
+???
+
+So we have a variety of tools to maximize the openness of our work, things like licenses and copyrights. And so sometimes we think of license and copyrights as restricting things instead of opening things.
+
+But we'll talk about how they open things. We can use public versus private repositories on GitHub. We can use files on our repository like a citation or a contributing file. We can make our repository more discoverable by advertising them on our papers or by giving them tags that allows other people of GitHub to see them.
+
+We can post our manuscripts as preprints. And we can publish in open access journals. So I'm going to go through each of these bullets and briefly discuss how we can use these tools to maximize the openness and, hopefully, reproducibility of our work.
+
 ---
 
 ## Licenses and Copyrights
@@ -104,11 +173,19 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
 * If a license or copyright are not provided with code or text, it is presumed to be closed source with all rights remaining with the author (i.e. not open)
 * Do not write a license from scratch unless you are a lawyer (even then, why?)
 * Numerous options are availble and this can be confusing
-	* https://choosealicense.com
-	* https://creativecommons.org/share-your-work/
+  * https://choosealicense.com
+  * https://creativecommons.org/share-your-work/
   * https://opensource.org/licenses
   * https://www.gnu.org/licenses/license-list.html
   * https://opensource.guide/legal/
+
+???
+
+So licenses and copyrights, this often times get very confusing. I am not a lawyer. I am not trying to provide legal advice. I'm trying to distill what I've read from a number of different sources and what my own research group does. So if a license or copyright are not provided with a code or text, it's presumed to be a closed source with all rights remaining to the author. So it is not open. So if you don't see a license in somebody's repository, that is closed source.
+
+It is not open for others to use no matter if it is a public repository. So it's important to have a license and to have...to state your copyright limitations or provisions so that it's explicit what you intend. So don't write a license from scratch unless you're a lawyer.
+
+But even then, why? There are numerous options available, admittedly, this can get very confusing. Again, these are some of the resources in these links that I have consulted as I think about licensing and what I'm trying to do with our academic contributions.
 
 ---
 
@@ -116,6 +193,12 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
 
 * Copyright declares and proves who owns the intellectual property (the code, text, etc.) and exists without you asserting it
 * Licensing describes the terms under which people are allowed to use the copyrighted material and you have to grant it to others
+
+???
+
+Some legalese to get some definitions in here. A copyright declares and proves who owns the intellectual property, so whether it's a code, a text, whatever, and this exists without you actually asserting it. So if you write a blog post or you write a paper, the copyright is yours. Usually, when you write a paper, if you lose the copyright, it's because you sign those copyright privileges over to, say, the journal or to someone else.
+
+But if you produce something, you own the copyright. You don't have to assert it, but still it's good to assert it explicitly. Licensing on the other hand, describes the terms under which people are allowed to use the copyrighted material and you have to grant it to others. And so, again, if you haven't granted it to others, then they don't have it, then it's close, then it's yours.
 
 ---
 
@@ -125,6 +208,18 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
 * You are highly unlikely to make any money off of your code
 * A closed or restrictive license is more likely to reduce the number of citations than a more open license
 * Creative Commons licenses (e.g. CC-BY) [do not cover source code](https://opensource.stackexchange.com/questions/1717/why-is-cc-by-sa-discouraged-for-code)
+
+???
+
+So some important points, if you use other people's code in your code and it has the General Public License or the GPL, which is very common, then your code must be licensed with the GPL as well. That's one of the provisions of the GPL. Often times people say, "Well, I should maintain all my rights.And I shouldn't allow... I shouldn't have a permissive license on my repository because I could get money off of it."
+
+That is wrong. You are highly unlikely to make any money off of your code or most of your academic production. I'm sorry to be the bearer of bad news. You know, Mothur is a highly-cited, highly-used software package. But even that, I think I would have had significantly fewer citations if I would have charged people for it.
+
+And I've gotten far more in grant funding to support Mothur than I would have gotten in commercial income. So, and that being said, a closed or restricted license is more likely to reduce the number of citations than a more open license. So the more freedom and flexibility you give people, the more they're going to use.
+
+A common license that people use for text and for other creative materials is the Creative Commons license, sometimes you'll see it as CC-BY. This does not cover source code, but if you look at manuscripts or papers, a lot of papers that would say open access like you might find in the journal, <i>mBio</i>, are licensed under CC-BY, which means that it's a Creative Commons license and BY means that it's by attribution and that people can use it to do whatever they want, but they have to say that they got the material from you.
+
+So they have to provide attribution. But, again, it does not cover source code. So we could not license Mothur or the code for our last paper using CC-BY because it doesn't cover source code.
 
 ---
 
@@ -137,6 +232,20 @@ If you want to keep the data, remember to copy it somewhere. Before terminating 
   * Require attribution
   * Allows others to do whatever they want with the material
 
+???
+
+So for code, we generally use or try to use the MIT license. It requires that all copies of the licensed software include a copy of the license and the copyright notice.
+
+Again, we still retain the copyrights. But it's fairly permissive and allows people to do whatever they want with it. But, again, they have to include my copyright information about the code in anything they do. Papers and preprints will generally use the CC-BY license.
+
+These require attribution and it allows others to do whatever they want with the material. So they could take a figure from your last paper and put it into their paper or their book, or they could make a big poster and they could sell copies of it and make money. So those are all allowed by the CC-BY license.
+
+There are more stringent or restrictive CC-BY license is that, say, for bid commercial use or things like that. But, again, in general, I find that it's far more rewarding and beneficial to the original author to be as permissive as possible. You will still receive attribution if you put it under one of these licenses.
+
+I think often times people say all rights reserved is the preferred license but, again, that limits what other people can do with it. Because that basically says, "No, you can't use my work to do derivative products, say, to take a plot and to refashion it or repackage it."
+
+And it restricts what people can ultimately do. So CC-BY or one of the CC-BY type license is really the way to go for papers, preprints, and other textual type research products that you might make. MIT or, say, GPL are the license to generally be using for your code.
+
 ---
 
 class: center,middle
@@ -145,7 +254,9 @@ class: center,middle
 
 ???
 
-GitHub helps you to add a license to your project
+And so, if you look at our repository for the Kozich re-analysis paper, you'll notice that there is a LICENSE.md file in it. And this is what the text says. This is the MIT license. This is the entire license. And so it says, "The above copyright notice on this permission notice shall be included on all copies or substantial portions of the software."
+
+And so this is the license. If you wanted to edit the license to, say, add your PI, add other names of coauthors, change the copyright year, you could click on the pencil to do that.
 
 ---
 
@@ -153,11 +264,19 @@ class: center,middle
 
 ![:scale You can edit your license to either change the license or change the copyright information]({{site.baseurl}}/assets/images/edit_license.png)
 
+???
+
+You can also change the actual license. Again, this is the MD file. You can, of course, do this, you know, we could have done this in our Amazon instance as well, but GitHub makes it nice. Because you could also choose a different license template by clicking on this button. Doing that then brings you to a list of a large number of different licenses you want. They also have information about what types of licenses to be using. Again, what I mentioned were the GNU, General Public License version 3 or the MIT license.
+
 ---
 
 class: center,middle
 
 ![:scale You can change the license]({{site.baseurl}}/assets/images/select_license.png)
+
+???
+
+And so, again, you could pick one of these licenses and it will update the license in your repository. And if you change that, then be sure you do a Git pull, to pull the most recent version of the license down to your local version of the repository. So on the issue of repositories, we've been working in public.
 
 ---
 
@@ -170,8 +289,15 @@ class: center,middle
 
 ???
 
-* I typically work in public, but much of my lab prefers to work in private
-* All of mothur development is done publicly
+If you are an academic user and you contact GitHub through this link, GitHub will give you unlimited number of private repositories. But, again, the private repositories allow you to restrict who can see your work, including...you could restrict it so that only you can see your work. And so it's okay to work with a private repository, but you need to eventually make it public before you submit it.
+
+I think these practices might vary by research group and even within a research group. So I'm totally fine with my repositories all being public from the day I start to the day I, you know, publish the paper. Other people in my research group want them to be private until we submit. I'm fine with that, that's their choice. I think that's fine. Also, all the Mothur development is on GitHub and that's also all worked on in public.
+
+So you could get the bleeding edge of Mothur by going to our repository, downloading it, and compiling it yourself. You can see all the changes we're making in real time. I generally think people don't...I generally think people have better things to do than to spy, or snoop, or just be entertained by watching my projects developed on GitHub. So I think the odds of anyone scooping you, if you work in public, are very low.
+
+It's probably more likely that you'll get unsolicited help. I was working on a paper once where I got a pull request to edit some of my manuscript and I was, kind of, blown away that anyone cared. But also, it's, kind of, funny because I wasn't even through with the first draft of the manuscript.
+
+So that was cool that somebody did that. And that's fine, I think, to get that unsolicited help. I just told them that, "Thanks for the input.I'm still working through it. But I'll be sure to incorporate their comments as I go through this."
 
 ---
 
@@ -202,6 +328,12 @@ sequence data on the MiSeq Illumina sequencing platform. Appl Environ Microbiol.
 }
 ```
 
+???
+
+Another thing that we can use is a citation file that we put in the root of our GitHub repository. This will then tell people how to cite our work. And so we can...for example, for the Kozich one, we could say, you know, if you...to reference this paper in publications please type the following. This would be one way to cite this. And then this would be the BibTeX format that we talked about when we were talking about literate programing tools that they could copy and paste this into their reference.bib file, and then they could cite Kozich 2013 in their paper.
+
+Again, it's another way to tell people how they can cite your material. You're bring proactive in telling people how you want your work to be recognized.
+
 ---
 
 ## `CONTRIBUTING.md` file
@@ -209,6 +341,14 @@ sequence data on the MiSeq Illumina sequencing platform. Appl Environ Microbiol.
 * We have already discussed the value of a `CONTRIBUTING.md` file in the previous tutorial
 * Helps to direct community members to the standards that you expect them to follow in terms of behavior and coding
 * Signals that you are looking for people to contribute to your project
+
+???
+
+We talked about this a bit in a previous tutorial. But you can also put in a contributing file into your GitHub repository. This will put a link in to your issues page as well as for pull requests, telling people the standards that you expect them to follow in terms of behavior and coding. It also signals that you're looking for people to contribute to your code. So if you don't want people to contribute to your code, get rid of this file or put something in there and say, "Hey, you know, I'm excited that people would want to contribute to this but for the time being, let me finish the project.
+
+And if you're interested, you know, email me or something before you go through the effort of making some type of contribution. But, again, it's a proactive way of telling people you're interested in engaging the community to make your work better. This is not required like I said, it was our own work.
+
+We rarely get any feedback from anybody before we submit the paper. Even though we tend to work in the open or I tend to work in the open. But, again, it's a signal. It's like the bat signal. It says, "Hey, we need help. We're looking for help.We'd love to have you contribute to what we're doing here."
 
 ---
 
@@ -221,11 +361,25 @@ sequence data on the MiSeq Illumina sequencing platform. Appl Environ Microbiol.
   - The repository, not just the paper, becomes citable and those citations can be tracked
 * Tagging your repository
 
+???
+
+In your manuscripts, you can put the URL to the GitHub page. And this will point people to the actual reproducible version of your manuscript. You could obtain a DOI, a digital object identifier, for your repository. Zenodo is a service that will do this. It will interact with GitHub to create a permanent link to your repository.
+
+This limits the risk of link rot, as we talked about in one of the first tutorials. You can version your DOIs so people can link to a specific instance of your repository. So say you are working on this overtime and I want to cite your work. I could cite one version of the repository with a specific DOI even though you continue to work on it, putting out new versions of the repository or of the project under different DOIs.
+
+So then the repository and not just the paper becomes citable and those citations can be tracked. So, again, we see the repository as, kind of, the continuation of the paper as well as the source of the paper, right? And so we have this, kind of, living project that continues on. But, again, having that citation file will help people to know how you want to be cited.
+
+Do you want us to cite the paper? Do you want us to cite the repository? Do you want us to cite both? Finally, a way that we also talked about making your repository discoverable in an earlier lesson was to tag your repository. And to do this, if you look at the top of your page, you can click add topics, and you can type in reproducible-paper.
+
+And this will create a tag that then is linked to your paper, and so that becomes that. And you could add other tags. You know, I could add a tag from MiSeq. I could add a tag for 16S rRNA gene sequences, whatever. It's a way that people can now click on reproducible paper, and they could find other repositories that people have created where they are trying to be reproducible in their methods and using methods a lot like what we've been talking about in this tutorial series.
+
 ---
 
 class: middle, center
 
 ![:scale Click on the topics link]({{site.baseurl}}/assets/images/topics_add.png)
+
+???
 
 ---
 
@@ -233,17 +387,23 @@ class: middle, center
 
 ![:scale Enter reproducible-paper]({{site.baseurl}}/assets/images/topics_reproducible_paper.png)
 
+???
+
 ---
 
 class: middle, center
 
 ![:scale Once you hit enter, click on the new link]({{site.baseurl}}/assets/images/topics_link.png)
 
+???
+
 ---
 
 class: middle, center
 
 ![:scale See the other papers with that topic]({{site.baseurl}}/assets/images/topics_list.png)
+
+???
 
 ---
 
@@ -265,6 +425,42 @@ class: middle, center
   * Immediate
 * [Learn more about preprints!](http://mbio.asm.org/content/8/3/e00438-17.full)
 
+???
+
+So moving from the code to talking about how we disseminate our resources. One recent tool that's come online in the last few years that's really been growing in popularity is the area of preprints. So in the traditional peer review process, your work is seen by maybe two reviewers and an editor.
+
+And so they might spend a couple hours each on your manuscript. And they're not really, you know, the process tends to be more adversarial than helpful. They're going to tell you a laundry list of things that are wrong with your paper and very few things that are good about your paper. It also tends to be quite secretive.
+
+You generally don't know who your reviewers are and sometimes you don't really know who the editor is, unless your paper is finally accepted and published. And so it's very adversarial, very secretive. And it can be quite slow, right? That you submit this paper to a journal, and even though they tell reviewers you have two weeks to review it. It might take two months to get the reviews back.
+
+And meanwhile, you've got students or post docs who want to, kind of, get on with their careers. And they're trying to find jobs. And they need these papers to indicate that they've been productive while they've been in a research group. And so it's, kind of, slow. Alternatively, preprints provide a supplement to peer review.
+
+They're open for anyone to see. They foster high engagement. So, you know, if they're out there, I post my preprint, anyone can see it. I can adverstise it on Twitter, on Facebook, wherever. I can email it to friends or people that my network of science. And I can engage people.
+
+There's a discussion forum for each paper where you can leave comments, and then the authors can come back and rebut or followup on your comments. I've left comments on a number of papers and although I always fear that the authors are going to be mad that I've commented on their manuscript.
+
+In general, they're all very happy to see that someone cared enough to provide a review, and that they all, at least the feedback that I've gotten is that I have helped to make their papers better. This then becomes collaborative, right? So instead of being adversarial, we're trying to break things down. It's collaborative because I'm really trying to help their paper. And because I'm doing it and I'm also doing it in a public way, and so perhaps the level of snark or vindictiveness that goes into a typical peer-reviewed review is much less because it's going to be public.
+
+You can see all my reviews on bioRxiv. It's also immediate. You know, I post a paper to bioRxiv and it's up within 24 hours. You post a comment, I'm going to see it within 24 hours. There is some curation that's done to make sure that people aren't posting garbage and that people aren't posting poor reviews. But it's a very immediate process.
+
+And I really have to emphasize the collaborative nature and much more forward looking nature of preprints than the traditional approach. The traditional approach, you're responding to what people said so that you can get the paper accepted, whereas the preprints is much more forward looking and you're trying to make the papers better. My research group, when we've done journal clubs, have occasionally picked a preprint. And we'll assemble all our comments, and then someone will take the job of making sure that the comments flow together in a good review.
+
+I'll generally work with that person to, kind of, help them learn about how peer review works. And then, I'll post them under my name in case people are worried about retribution. And, again, I have not seen any cases of retribution for comments left on preprints. And I think that's really one of the benefits of preprints, is that people are posting their science in a preliminary form perhaps, you know, weeks before or maybe at the same time as submitting it to, I mean, to a journal.
+
+And we can give substantial and meaningful help and feedback to those authors about what we thought. And it's always exciting to see new preprints come out. Because it's very much bleeding edge of science. And so, in 2017, I wrote a paper that was published in the <i>mBio</i> called "Preprinting Microbiology."
+
+And I went through and looked at the types of papers that has been submitted and posted to bioRxiv. And you can see that the rate here is growing, in the last year it's grown even more so. I need to update this slide a bit. If we look at the altmetric impact scores for papers published in <i>mBio</i> to those posted on bioRxiv.
+
+We see that papers posted to bioRxiv are having a higher altmetric impact score than those in the red, here, for <i>mBio</i>. The altmetric impact score is quantifying non-citation related metrics or data. So if like, how many people have blogged about it?
+
+How many times has it shown up on social media? Has it shown up on Wikipedia? These types of things. And also, is it being picked up by the media? And so, things in bioRxiv, you could argue at least by this score or having a bigger splash than things published in <i>mBio</i>over this similar period of time. So if we looked at the papers in 2014 and 2015 that were posted to bioRxiv or published in <i>mBio</i>, and so there are about 155 papers that were posted to bioRxiv and then published in 2014 and '15, to the 851 that were published in <i>mBio</i>.
+
+The bioRxiv papers actually get a few more citations on average than the <i>mBio</i> papers, which is intriguing. I mean, I wouldn't read too much into that. But I would hope that these data would indicate that preprints on bioRxiv can really hold their own and that these are solid pieces of scholarship that are contributing and having an impact on the field.
+
+I have a colleague here at Michigan who has a paper that has been cited several times. It's a preprint that's been cited several times. And they're still struggling to get the damn thing published, right? And so, if you feel like there's something wrong with our publication model, that it's closed, that it's adversarial, that it's slow, well, think about preprints.
+
+Again, it's a way to improve your transparency, to put your work out there in a still somewhat preliminary state before it's gone through peer review, to get feedback from people on what works, what doesn't work, what could be improved, ideas for other analysis that people might add. And this is very powerful.
+
 ---
 
 ## Publish in Open Access journals!
@@ -275,6 +471,18 @@ class: middle, center
 * You retain copyright
 * Can be expensive ([PeerJ: $1,095](https://peerj.com/pricing/); [ASM Journals: $2,300](http://msphere.asm.org/content/publication-fees); [Nature Communications: $5,200](http://www.nature.com/openresearch/publishing-with-npg/nature-journals/))
 
+???
+
+Finally, we can publish in open access journals. It's been shown that papers published with an open access model have higher accessibility, citation, likelihood of being built upon by others. If your paper is in a journal that I can't get access to. Well, I'm sorry but I'm not going to cite it because I can't read it.
+
+Not everybody has a library that's flushed with funding, many libraries are really under the screws in terms of their budgets being cut. And so they are cutting subscriptions to these very expensive journals. And so the model is then flipped in an open access model whereas traditionally we ask the readers to pay for the paper under the open access model, we ask the authors to pay for the publication.
+
+If you receive NIH funding and funding from a variety of other sources, there must be an open access version posted. And so it's either by publishing in an open access journal or with NIH, you publish to PubMed Central, where they keep, like, a PDF version of either the original manuscript you submitted or the published version of the manuscript.
+
+There's also a variety of models that journals are using to make their work open access. So there are journals that are entirely open access. So a journal in microbiology like <i>mBio</i> or <i>mSphere</i> are open access through and through, everything they publish is open access. Americans Society for Microbiology also has journals like <i>Applied Environmental</i><i>Microbiology</i> or <i>Infection and Immunity</i> that are on a subscription model but you can pay extra to have your paper be published as open access.
+
+Under this open access, you retain the copyright. The journal does not own the copyrights. But you have to keep in mind this can also be quite expensive. So if you publish an open access in an <i>ASM</i> journal, it's going to cost you about $2,300 if you're a member. If you want to publish in <i>Nature Communications</i>, it can be $5,200, right?
+
 ---
 
 class: middle, center
@@ -282,7 +490,16 @@ class: middle, center
 ![Watson and Crick didn't have open access options]({{site.baseurl}}/assets/images/watson_crick.png)
 
 
+???
+
+So as an illustration of how silly the non-open access model has gotten, here is the Nature page for the classic Watson and Crick paper describing the structure of DNA, published in 1953. If you want to buy it...if you want to read it, you're going to have to pay 20 bucks to see it.
+
+Okay, this is a paper that's 65 years old. And they're still charging people 20 bucks to read this paper. Again, under an open access model, this would not be a thing, right? That Watson and Crick would have paid some amount of money back in 1953 and people in perpetuity could read their paper.
+
+Now, this is obviously a topic on a paper that had earth-shattering ramifications. But if you have a paper that you want people to read and you're afraid they're not going to read it, well, making them pay for it is not going to encourage them to read your paper. And getting it out there under an open access model as much as possible is really going to help the spread of your ideas.
+
 ---
+
 ## Exercises
 
 * Who owns the copyright of the last three papers published in your lab?
@@ -290,3 +507,31 @@ class: middle, center
 * Have a discussion with your PI and the rest of your lab regarding which software license you think best fits your projects
 * Do your PI and research group have a preference for whether to publish your research under an open source license?
 * Read and discuss the ideas put forth in "[Preprinting Microbiology](http://mbio.asm.org/content/8/3/e00438-17.full)" at one of your research group's lab meetings. What would it take to submit your next paper as a preprint? If you have already posted a preprint, what was your experience?
+
+???
+
+So finally, I have a series of questions and exercises that I'd like you to think about. I'm not going to provide answers to you. So you're going to have to come up with answers on these on your own and some of them don't really have perfect answers either.
+
+So, within your research group, if you look at the last three papers, who own the copyright? So go find the papers, what was the copyright? Who owns the copyright? Is it you? Is it the publisher? Was it a CC-BY? Was it some other copyright that the journal owns?
+
+I want you to go out and find the licenses used for R, Mothur, and QIIME and compare and contrast those different licenses. It would be great to have a discussion with your PI and the rest of your lab regarding which software license you think best fits your projects.
+
+Should you be using the MIT? Should you be using the GPL? Is there a reason why you think you shouldn't have a license? Do your PI and your research group have a preference whether to publish your research on an open access, open source license or under a closed license?
+
+What is the reasoning behind that? Is it purely economic or is there something deeper, something else? I'd like you to also read and discuss the ideas put fort in my paper, "Preprinting Microbiology," at one of your research group's lab meetings. So what would it take to submit your next paper as a preprint?
+
+If your group isn't already doing that. And if you've already posted a preprint, what was your experience like? How can you improve that experience? How could you perhaps get more people engaged in reading and commenting on your preprint? Throughout this tutorial series, we've talked a lot about principles and tools that we can rely upon to make our research more reproducible.
+
+Today's material is far more about setting a tone in our scientific culture that fosters openness. I know that it's easy for many people who advocate for open science to take on a bit of a self righteous tone. That tone can be very off putting for most people. We need to keep in mind that it's a very real fact that publishing in open access journals is more expensive than publishing in journals that depend on subscription fees for the revenue.
+
+Also, a lot of these concepts that I've discussed, things like data and code release preprints, require researchers to break from a traditional model where our data and our code were our property and we must protect ourselves and the data from being scooped. What I'm encouraging you to do instead is to be transparent so that others can stand on your shoulders to see further.
+
+In my experience, I have benefited far more for being open than I've benefited by being protective or paranoid. Of course, you might be working in someone else's lab and you don't get to set the policies for the research group. Your PI or your collaborators may not be open to the level of transparency that I'm advocating for. Unfortunately, that's just something you're going to have to navigate.
+
+As I said in the first lessons of this series, don't feel like the material in this series is an all or nothing proposition. It's okay to go slow and to add one or two elements that we've talked about with each study. This will hopefully be a strategy that your PI and collaborators can also support. That's also the message that I want to leave you with. There's been a lot baked into this series of lessons.
+
+Don't feel like you have to do it all at once, pick off a few things that you could do on the project you're working on right now. Then with the next project, pick off a few more things. Before you know it, you'll be right where you want to be. Finally, I really appreciate you sticking with this series all the way to the end. There has been a lot of content here. I have really have a lot of fun developing these materials and rolling them out to you as videos and slide dex.
+
+Feel free to let me know what you liked and what you could use more off. I hope to create a few other video series that show how I use these ideas and perhaps spotlight new tools that we can use to implement the ideas I've covered in this series. Tools facilitating reproducibilty are coming at us rather quickly.
+
+And they always strive to make our lives easier while fostering reproducibility. Be sure to get me those pull requests. And I'll talk to you soon.

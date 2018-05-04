@@ -12,11 +12,31 @@ class: middle center
 .footnote.left.title[{{site.url}}{{site.baseurl}}{{page.permalink}}]
 .footnote.left.gray[Press 'h' to open the help menu for interacting with the slides]
 
+???
+
+Hi there, and welcome back. Hopefully, you've been able to recover from the last tutorial on using Make to automate our workflows, it was a lot of work. I really was serious when I said that Make is a central tool for me to make my analyses automated and more reproducible.
+
+By the end of the last tutorial, we had effectively written a program to generate a paper from a pretty minimalist directory that we had pulled down from GitHub. We still have few things in those exercises. First, even though I've done my best to make things reproducible, there were still weird things that happened that had a subtle effect on downstream files that weren't perfectly reproducible.
+
+The things were pretty close, but they weren't dead on. We saw this in the effects of using the random number generator in our chimera checking. Second, the mentality of make clean Make is very powerful and is a great check to ensure that our work is reproducible and that we have all of our dependencies accounted for. We saw this when we were able to find a few bugs in our Make code that we thought had been addressed before we torched our project.
+
+Finally, and looking at the 538 data, we saw value in reproducing others' analysis and then going a step beyond to answer our own questions. I'm still pretty surprised by the recent rise in the number of assignments in the United States. I can also see now that the ability to predict one's age from a name is pretty limited. These are all insights that I would not have gotten from the original article.
+
+For the rest of the day my head was swimming with all sorts of ways that I could riff on the analysis in the original 538 article. Today, we'll be discussing an approach to file away all those ideas and methodically work through them. The approach is called GitFlow and it's commonly used by software developers to add features to programs. Like Git and Make, we'll adapt GitFlow to work for a data analysis approach.
+
+I find it to be tremendously useful for documenting decisions that I've made along the development of my analysis plan and for organizing my approach to developing these workflows. The topic of today's tutorial is how we can use GitFlow to collaborate with ourselves. We'll find this approach is also useful in the next tutorial when we discuss how to use reproducibility tools to collaborate with others.
+
+Join me now in opening the slides for today's tutorial which you can find within the Reproducible Research Tutorial series at the riffomonas.org website.
+
 ---
 
 ## Pop quiz
 
 What is the `make` command to compile our entire project? Would we always want to run that command?
+
+???
+
+As we've done with each of these tutorials, I'm going to start with a brief pop quiz to see if you can remember some of the things we had talked about in previous tutorials. So a question I have is, what is the Make command that we would enter to compile the entire project that we were working on from the Kozich analysis? Follow up then is, would we always want to run that command when we're working on that project? So think about it for a minute or two. Press Pause and then we'll come back and I'll give you my thoughts.
 
 --
 
@@ -27,6 +47,16 @@ make write.paper
 * It may be prefered to run `make <target>` if you are only interested in generating one of the intermediary files
 * Recall that it is useful to use `make -n <target>` to see what commands are going to be run to generate your target
 
+???
+
+So the command is "make write.paper". That was the final rule that pulls together all the PDFs and all the figures and everything and makes sure that all of our manuscript files are generated that we might want to use to share with collaborators or for submission to a journal. But it might be preferred to run Make on another target if you're only interested in generating one of those intermediary files. So sometimes I'll do this, you know, as I'm kind of building my analysis. Right? So like I said at the end of the last tutorial, I generally don't have a "write.paper" rule until the very end. I suppose I could have that earlier but usually, I'm building my Make file more organically one rule at a time.
+
+Alternatively, if we get to the end and there's some special visualization that I want to make for not including in a paper, but perhaps something different to have on a website or to have on a PowerPoint deck, I'll make that image separate and there'll be a separate rule that might not be part of write.paper, and so I want to make that and build that target. Also, recall that it's useful to use make -n on the target to see what commands are going to be run to generate your target.
+
+This helps identify a lot of problems that might come up as we saw yesterday to help identify a circular dependencies. It'll help us to see whether or not we accidentally bumped something in our code that's going to have us start from the beginning again that we might want to deal with that.
+
+So these are really useful tools, and again, Make is just a great tool for automating our analyses and really making them reproducible. So the goals for today are to learn how to traverse through repository's history and the history of a specific file.
+
 ---
 
 ## Learning goals
@@ -36,6 +66,12 @@ make write.paper
 * Integrate GitHub's issue tracker to direct the flow of a project
 * Experience how to create, work on, and merge branches
 * Handle conflicts that arise when a file is modified on two different branches
+
+???
+
+We're going to learn about something I talked about in my introductory remarks of GitFlow and how we can use the GitFlow workflow to manage a project. And we're going to use this by integrating with GitHub's issue tracker to direct the flow of a project and then we're going to experience how to create, work on, and merge branches, which is, again, part of GitFlow. And whenever you deal with branches, invariably you're going to run into conflicts where two branches don't play well with each other when you have to merge them and so you have to then resolve those conflicts.
+
+You can think of a conflict as kind of being like when you're working on one manuscript draft and a collaborator is working on another manuscript draft and you then try to bring them together. Right? You can imagine there might be one sentence that you each modify in a different way. That's a conflict.
 
 ---
 
@@ -59,14 +95,24 @@ make write.paper
 ]
 ???
 
-The image file is results/figures/nmds_figure.png
-The code file is code/plot_nmds.R
+So you're working on your project and you give your manuscript to your PI with your figures. They look at it and they notice a small, but pretty important bug that you might recall that this image we generated is an NMDS figure yet our access labels say PCoA and so they would like you to fix that to be NMDS Axis 1 and NMDS Axis 2. So we might ask, "Which file contains this image and what file has the R code to generate that image?"
+
+So, so far we've only generated one image file that nmds_plot.png, I think, and I think we also had a plot...a file that was like build_NMDS.r. So I'm going to leave the slide deck here and we're going to go ahead and log into Amazon. We're into Amazon and I'm going to cd into Kozich. And I don't remember the specific names of my files, but if I go "ls code", I see that I have in here plot_nmds.R.
+
+That's not generate_figure4. I'm not sure what that is. So I'm going to open that up. "nano code,/generate_figure4". It seems to be nothing, so I'm going to remove that through "git rm code/generate_figure4.R.
+
+You may or may not have that in yours. This might be something I was just messing around with.
 
 ---
 
 ## Has this bug always been there?
 
 * We've already seen `git log`, which tells us the history of all of our commits.
+
+???
+
+And I'll do "git status", "git commit -r Remove mysterious file".All right, "git status", "ls code". So I'd like to look at the history of plot_nmds.R. I can do this in my GitHub repository, but I can also do it from the command line here. So we've already seen a command called "git log" which tells us the history of all of our commits. So we can say "git log" and we see the history of our entire repository, but this doesn't tell us the history of an individual file.
+
 --
 
 * We can see the history of specific files as well
@@ -82,11 +128,19 @@ Date:   Fri Nov 10 18:05:56 2017 +0000
 
 * We only have one commit for this file, so the bug has always been there
 
+???
+
+To get the history of the individual file, we can type "git log code/plot_nmds.R. And we see that there was one commit. So this bug has always been there at least when I was making it. I created it on March 19th. So again, that bug has always been with us.
+
 ---
 
 ## Exercises
 
 What would you do to fix this problem? (don't actually do these steps, we're going to learn a different approach)
+
+???
+
+How would we go about fixing this?
 
 --
 
@@ -95,6 +149,10 @@ What would you do to fix this problem? (don't actually do these steps, we're goi
 * git add
 * git commit
 * git push
+
+???
+
+I don't want you to fix it, but what would we do? You can imagine that we could edit and save code/plot_nmds.R, we could rerun make write.paper, git add, git commit, git push. And so that's kind of the way that we've already developed. And so this is where we're going to deviate slightly and use this as an example to talk about GitFlow.
 
 ---
 
@@ -112,6 +170,20 @@ What would you do to fix this problem? (don't actually do these steps, we're goi
 .middle.center[![Linear versus forked analysis]({{site.baseurl}}/assets/images/analysis_paths.png)]
 ]
 
+???
+
+So, this way of going in, editing the file, changing it, saving it, running make write.paper, and then committing those changes, that works in pretty simple cases. But perhaps we want to try something out and we're not totally clear whether it will work out. You know, I meet with my trainees, postdocs, and students, and I frequently give them harebrained ideas that I just say, "Just humor me. Give it a shot."
+
+So I don't want them necessarily to have that be part of the center or the central thread of the repository. I want them to kind of go off on a branch, go off on a wild goose chase so to speak and try something out. And if that works, then we'll merge it back in. And so the approach we've been taking assumes that our analyses are a linear process.
+
+Right? We start with data and we end with paper. And that is a line. There's no deviation from there. And so that's what we have... That's we have in this blue line here, this series of arrows where it's kind of, you're marching towards a manuscript, but in reality what we have is something a little bit more like this or perhaps even a little more convoluted than this, where we try something out, we pursue it, at the same time we try something else in parallel, but that might end up in a dead end.
+
+And many times there are forks where we go in different directions, different paths, different branches. I've heard science described not so much as a linear process, but much more bush-like where there might be branches that we cut off because it just isn't progressing anywhere. And so GitFlow works really nicely with the way that science really is, which is bush-like.
+
+For example, there are two sets of FASTQ files that we could have started this analysis with. We could create a branch, so to speak, but we haven't talked about how we do that yet. But we could create a branch using one set versus another, and then we could compare the branches and then we decided which set of files we wanted to use, we could use that branch and merge that into our master branch and then just leave the other one there to sit.
+
+Alternatively, we could have chosen to use PCoA rather than NMDS to generate our ordination diagram. That could be another branch. And then comparing the results of PCoA and NMDS, you could compare those. And because we have the branches and we have the commit histories, we would have a record of how that experiment went and why we decided to use one over the other.
+
 ---
 
 ## The Gitflow workflow
@@ -120,11 +192,21 @@ What would you do to fix this problem? (don't actually do these steps, we're goi
 * Gitflow was developed for software engineering where many members of a team are working to develop different features for a future version and they want to control how the different features are folded back into the next version
 * This isn't exactly what we're doing with our bush-like analyses, but it's pretty close
 
+???
+
+So the GitFlow workflow is a way, like I've been saying, to incorporate this bush-type of structure that we see in our analyses. And again, like I said in my introductory remarks, GitFlow is developed for software engineering where many members of a team are working to develop different features for a future version of the software and they want to control how the different features are folded back into the next version.
+
+So you can imagine if you've got a team of five people working on a program, they're not all working on the same parts but they may be working on five different parts, and so they each have a different branch as I've been saying. And then what GitFlow allows them to do is to merge those branches back in in a more coordinated way. So this isn't exactly what we're doing with our bush-like analysis, but it's pretty close.
+
 ---
 
 ## Exercise
 
 * By making the analogy between software development and data analysis, can you think of some examples where it would be advantageous to use the gitflow workflow?
+
+???
+
+So, by making an analogy between software development and data analysis, can you think of some examples where it'd be advantageous to use the GitFlow workflow?
 
 --
 
@@ -132,6 +214,14 @@ What would you do to fix this problem? (don't actually do these steps, we're goi
   * Collaborator is editing the manuscript while you work on further analysis
   * You and a colleague are working in parallel on the same project
   * Experimentig with different data analysis paths
+
+???
+
+So, some possible examples that I can think of are, again, as I mentioned, if you've got collaborators that are editing the manuscript with you while you work on future further analysis, right? You don't want to just stop your momentum, you want to perhaps give a manuscript or give images to a collaborator to look at and give you feedback on, perhaps somebody else is developing code, and you're going to merge those back together into the main branch, the master branch. Alternatively, like I was saying, you and a colleague might be working in parallel on the same project.
+
+You might be working on, say, 16S sequence analysis, they might be working on a culturing component and you want to have two branches that you're eventually going to merge together. And as I've been saying, we might want to experiment with different data analysis paths. Do I use PCoA or nMDS? Do I use a parametric or nonparametric test? Do I try this new method of looking for correlations between different taxa?
+
+And, you know, the list is limitless.
 
 ---
 
@@ -146,21 +236,47 @@ What would you do to fix this problem? (don't actually do these steps, we're goi
 1. Commit changes to the branch
 1. Merge branch into master branch
 ]
+
+???
+
+So the general GitFlow approach, to get a bit more specific than we've already been, is to create an issue in GitHub to then claim that issue so others know you are working on it. Obviously, if you're the only one working on it, it's yours. To create a branch separate from the master, to then move to that new branch, to make the modifications needed to resolve the issue, commit changes to the branch and then merge that branch back into the master branch.
+
 --
 .right-column[
 .alert.center.middle[There's a lot of jargon here and things you haven't seen before, we'll get to that right now!]
 ]
+
+???
+
+So there's a lot of jargon here. And there's things in this list that you haven't seen before, but that's what we're going to be doing right now.
+
 ---
 
 ## Let's start by filing an issue on GitHub
 
 .middle.center[![Go to the issues tab in repository]({{site.baseurl}}/assets/images/goto_issues_repo.png)]
 
+???
+
+We're going to work through these different steps of how we can use GitFlow to make this relatively simple change of modifying our access labels. I'm going to go to our GitHub repository. So GitHub, mine's at pschloss Kozich ReAnalysis. Let me make this window a bit bigger. And what you'll notice across the top here is that there's a button right next to Code for Issues.
+
 ---
 
 ## Let's start by filing an issue on GitHub
 
 .middle.center[![Go to the issues tab in repository]({{site.baseurl}}/assets/images/create_new_issue.png)]
+
+???
+
+At this point, we don't have any issues. So I'm going to go ahead and click the green button for new issue. I'm going to then add a title to my issue which I'm going to say, "Access labels on ordination are incorrect," and then I can come down and leave a comment and I can say, "We noticed that the labels on the NMDS file have PCoA rather than NMDS. We confirmed that the data really are from running NMDS in Mothur and are not PCoA data."
+
+Okay. So again, the nice thing about this issue tracker and GitHub is that I can add Markdown to represent that as a command so that way then, submit the new issue, it's rendered in Markdown and so we can now see my comment is here.
+
+And again, if this was something more significant, there are ways to tag other people to say, "Hey, PI," or, "Hey, students, come check out this issue tracker and give me some feedback." So the next step when we talk about claiming it, we can then claim it by assigning people, so I can click on this gear and I can add me, and so now it's assigned to me.
+
+And we also see that the issue tracker has been updated to say that P. Schloss self-assigned this just now. We can also assign different labels or projects or milestones, again, to add documentation to this issue. If there's perhaps 10 different issues, you know, we might not want to have to worry about all those issues at once.
+
+We might create different milestones, we might have a different deadlines, or I want to get these figures done before the Microbe conference, I want to get these things done for this milestone of my committee meeting, and so forth. So this is Issue 1 as you can see by the 1 there.
 
 ---
 
@@ -181,6 +297,11 @@ What would you do to fix this problem? (don't actually do these steps, we're goi
 * What to call the branch?
   * Can call it `issue_001` or `fix_ordination_label`
   * Advantage of `issue_001` is that you can look at github and easily see what the issue was
+
+???
+
+And so we're going to go now back to Amazon, clear that screen, and we're going to create a branch. We could call the branch many things. One option would be to call it, say, the branch is issue 1 or we could call the branch Fixed Ordination Label. We can see the existing branches by doing "git branch". And we see that there's one branch which is master and the star indicates that we are currently on that branch.
+
 --
 
 * What branch are we currently on?
@@ -192,6 +313,9 @@ Your branch is up-to-date with 'origin/master'.
 nothing to commit, working directory clean
 ```
 
+???
+
+Also, when we do "git status", it tells us on branch Master.
 
 --
 * Create a new branch
@@ -200,9 +324,19 @@ nothing to commit, working directory clean
 ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git checkout -b issue_001
 Switched to a new branch 'issue_001'
 ```
+
+???
+
+We're going to create a new branch by doing "git checkout -b issue_001". The reason I like to use the issue number is because I can more easily link it back to my issue tracker on GitHub.
+
+If I were to call it "fixed ordination label", I don't know what issue that is. That would be hard to track down. So the downside, though, is that Issue 1, it's not very descriptive. It tells us now that we switched to a new branch, issue_001, if we do git... If we do...
+
 --
 * Now which branch are we on?
 
+???
+
+If we do "git branch", we see now that there are two branches, issue_001 and master and that issue_001 is in green with a star, indicating that we're on that branch. Similarly, if we do "git status", we see that we're on branch issue_001, nothing to commit, working directory clean.
 
 ---
 
@@ -248,8 +382,9 @@ plot_nmds <- function(axes_file){
 ```
 ???
 
-* Note:
-  - We changed the xlab and ylab values to contain NMDS rather than PCoA
+So now we want to go in and we want to edit our NMDS R script. So we do "nano code/plot_nmds.R".And I'm going to scroll down here and I see that I have PCoA Axis 1. I'm going to change that to NMDS Axis 1 and I'm going to change this to NMDS Axis 2.
+
+Save and quit out.
 
 ---
 
@@ -267,7 +402,11 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ make write.paper
 ```
 ???
 
-Note that we did the make -n write.paper to see what commands it would run. Want to double check that our Makefile is set up right. Sometimes it may want to start over and we would need to figure out why.
+I do "git status" and I see that I've got one modified file. But those changes haven't been incorporated. So I'm going to do "make write.paper" and I'm not... I'm going to do "make -n write.paper" just to make sure I see that it's going to run the code to generate the plot and then it's also going to generate the manuscript output files.
+
+So I'm going to do "make write.paper", it runs the R code, it runs the rendering to generate the manuscript files. And it's done. So I should go into FileZilla and make sure that the changes took. So I need to get my IP address from over here.
+
+And I'll connect. And I see the output now has NMDS Axis 2, NMDS Axis 1.
 
 ---
 
@@ -292,6 +431,10 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git add code/plot_nmds.R re
 <br>
 Note that when we commit our changes, we will want to reference Issue 1 so that our commit is linked in the issue. GitHub's integration tools [allow us to do this](https://github.com/blog/1386-closing-issues-via-commit-messages) fairly simply
 
+???
+
+So our changes have taken. So now we're ready to commit our changes. If we do "git status", we see that our R code has been modified, our manuscript and our figure file have been modified and we will now do "git add code plot_nmds.R results figures NMDS submission manuscript.pdf", "git status".Those are the good.
+
 ---
 
 ## Referencing the issue in our commit
@@ -308,6 +451,13 @@ Correct axis labels in ordination diagram
 
 This fix replaces PCoA with NMDS on the axis lables, closes #1
 ```
+
+???
+
+And so I'm now going to do something a little bit different from what we've been doing. I'm going to do "git commit" and it's going to open up... It's going to open up my text editor because I'm going to give it a more sophisticated commit message. I'm going to give it the subject of "correct access labels in ordination diagram." And then I'm going to insert an extra space after the subject, and I'm going to say, "This fix Replaces PCoA with NMDS on the axis labels."
+
+And then I'll say, "Closes number 1." So with the really nice integrations with GitHub, putting "closes number 1" or referencing number 1 in my commit message when this is finally pushed up to GitHub, will integrate across to my issue tracker.
+
 ---
 
 ## Let's see where we're at
@@ -339,7 +489,8 @@ Date:   Sat Nov 11 12:05:53 2017 +0000
 ```
 
 ???
-Note that we're still on the branch_001 and that our log history has our latest commit as well as all of the previous commits from the master branch to the point where we created the branch
+
+So I'm going to save this and block out, "git status", life is good. Nothing to commit. Working directory clean. So let's see where we're at. If I do "git log", I see that I've got the commit message we just made as well as the commit I made back on master when I removed that mysterious file as well as the previous things we did from our make file.
 
 ---
 
@@ -365,14 +516,13 @@ Date:   Sat Nov 11 12:05:53 2017 +0000
 
 ???
 
-Note that master doesn't know what happened on issue_001, it doesn't have our newest commit
+So the next thing we want to do is we want to merge these changes to our master branch. And so we're going to now want to check out our master branch. So we'll do "git checkout master", and it says, "Switch to branch master. Your branch is ahead of origin master by one commit."
 
 ---
 
 ## Merging branches
 
 * We're happy with how our correction works so now we want to fold these edits into the main branch
---
 
 * What if you forget what branch you were working on (or what branches are out there)
 
@@ -381,6 +531,11 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git branch
   issue_001
 * master
 ```
+
+???
+
+So that is the origin master is the branch, if you will, that's on GitHub. If we do "git branch", we see that there's still two branches, issue_001 and Master and that we are on issue master.
+
 --
 
 * Merge `issue_001` into `master`
@@ -393,6 +548,10 @@ Fast-forward
  results/figures/nmds_figure.png | Bin 14521 -> 14675 bytes
  2 files changed, 2 insertions(+), 2 deletions(-)
 ```
+
+???
+
+And if I want to fold this branch issue_001 into Master, I can now do "git merge issue_001", the name of the branch I want to merge into the branch I'm currently on. I hit Enter, and I see that it's bringing over my changes to plot_nmds.R, my PNG file, and my PDF.
 
 ---
 
@@ -423,7 +582,7 @@ Date:   Sat Nov 11 12:05:53 2017 +0000
 ```
 ???
 
-Note that now the git log on master has the commit message from when we were on the issue_001 branch
+And again, I'm on branch master, and if I do "git log", I see that it has brought in that commit that I made.
 
 ---
 
@@ -447,12 +606,25 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
 <br/>
 We can delete the old branch (or you could keep it) and then we want to push the changes to GitHub
 
+???
+
+I'm not interested in keeping around that issue_001 branch because I don't need it. It was pretty small. But again, it was nice to have that branch because if something had gone horribly wrong or if it was something bigger that was going to take more time, then I'm not committed to having those changes on my master branch. I can decide to move them in whenever if ever I decide to.
+
+So if, again, I do "git branch", I'm going to clear the screen and move that up, I see I have issue_001 and that I'm on Master. I can do "git branch -d issue_001". And you might imagine that that -d means delete, so we're going to delete that branch.
+
+And if we do again "git branch", we see that we have our master branch. Finally, we can do "git push", enter our credentials, pushing those up, and if we then go to our issue tracker, we see that it was automatically updated. "pschloss closed this in" this which is the commit message just now.
+
+And so if we click on that, we can see the edits that I just made. Pretty cool.
 
 ---
 
 class: middle, center
 
 ![Show how the GitHub issue page is changed]({{site.baseurl}}/assets/images/close_issue.png)
+
+???
+
+So if we come back, we now look at...click on our Issues tab, we now see that we have zero open issues and we have one closed issue. So this is pretty cool.
 
 ---
 
@@ -472,6 +644,16 @@ class: middle, center
 .alert.center.middle[There's a lot of jargon here ... it should be starting to make sense]
 ]
 
+???
+
+We can use these issues, not only to solve bugs or to make edits after the fact, but we could also use these issues to lay out kind of the path that we want to take on our project.
+
+Perhaps we need to add code to download the raw files. Perhaps we need to download the code for Mothur. Right? Each of these little steps, we can define as an issue. And that way, then we can make branches for individual issues and do those off of the master branch and then once things are to a point where we like them, we can then fold those back into the master branch.
+
+Again, it allows us to work on multiple things at the same time, and it also gives us greater organization for how we're working through our project. So again, this was the general GitFlow workflow that we just went through. We created an issue in GitHub, issue 1, we claimed that issue so others knew we were working on it. Again, I'm the only one working on this, but I can still assign it to myself.
+
+Back in Git on AWS, we created a branch, so that issue_001. We then checked out that branch, we made modifications on the branch, we committed our changes to the branch, and then we merged that branch into the master branch, and then we finally pushed that up to GitHub.
+
 ---
 
 ## Rinse, repeat
@@ -481,6 +663,16 @@ class: middle, center
 * Could also think of comments from your PI or reviewers as each being a different issue that you create and work through
 * Low barrier method to get your PI and collaborators to interact with your repository (or you can do it for them)
 
+???
+
+Rinse, repeat. Kind of keep repeating this, as I was saying, to work through an analysis. So some people will, like I was saying, develop their entire project this way. So each session of this tutorial over the past 11 or 12 tutorials could have been a different branch that was merged back into master. Of course, I didn't teach you git until maybe, I don't know, session five or six. So it would have been difficult pedagogically to introduce that back on lesson one or two.
+
+Also, the issue tracker serves as a nice to-do list that you can check off as you go through your analysis. Related to this, sometimes your PI or collaborators might not understand what you're doing on Git or with these great reproducible research tools. They can give you a list of comments or even they could be trained to go into the issue tracker and file a bunch of issues.
+
+Something that I've seen others do is you get your reviewer comments back on a manuscript and you make each comment a issue on GitHub. And that way, then you can document your response to each reviewer comment as well as the changes you made for each of those reviewer comments. Again, this is a low barrier using these issue trackers to get your PI and collaborators to interact with your repository.
+
+Alternatively, like I said, you can do it for them, but we'll talk more about some of those issues in the next tutorial.
+
 ---
 
 ## More issues!
@@ -489,9 +681,17 @@ class: middle, center
   * Change the color of the points in the ordination from black and white to orange and blue
   * Change the shape of the points to be squares instead of circles
 
+???
+
+The PI wants us to change the color of the points and the ordination from black and white to orange and blue. We might also want to change the shape of the points to be squares instead of circles.
+
 --
 * Use GitHub issues to create two separate issues to address these requests
 * Create two branches, `issue_002` and `issue_003`, to address these issues separately
+
+???
+
+So we're going to use GitHub Issues to create two separate issues to address these, and we'll create two branches, issue 2 and issue 3 to address the issues separately.
 
 ---
 
@@ -500,7 +700,11 @@ class: middle
 .center[![Show how the GitHub issue page is changed with the new issues]({{site.baseurl}}/assets/images/new_issues.png)]
 
 ???
-Note that our old issue (#1 is now closed and is indicated as such)
+
+I'm going to create a new issue and I'm going to say, "Change color of points on ordination." So, "Change from..." So, "PI wants points to be orange and blue instead of white and black." So we'll submit that new issue and we'll create another new issue to change shape of points in NMDS, and we will say, "PI wants us to use squares instead of circles in ordination."
+
+And we'll submit that as an issue. And so again, I can assign myself, and if I look at my other issue, I can assign that to myself. Great. So now we have these two issues, issues number 2 and 3.
+
 ---
 
 ## Issue 2
@@ -531,6 +735,26 @@ Switched to a new branch 'issue_002'
 }
 ```
 
+???
+
+I'm going to return to git. So I want to create issue 2. So something to note is that previously we did "git checkout -b issue_00" whatever, right? So something else we could do would be "git branch issue_002" "git status". It says I'm still on Master, but if I do "git branch", I see I have two branches.
+
+So I haven't moved to issue 2 yet. So when we do that "git checkout", it both creates the branch and moves us there. So we can do "git checkout -b" or I can do "git checkout issue_002". That -b would create the branch for us. So now we're on issue 2.
+
+And so here we want to change from white and black to orange and blue. So I will now do "nano code plot NMDS".And down here, I will add... Let's see.
+
+I need to add here colors, there's a vector, and my colors, for plot early, I'm going to make those orange colors.
+
+For plot late, I'm going to make those blue. And so then in here in my plot, I can do "colors=col and legend..." I'm going to do "col=c blue". We quit out of that.
+
+We can then do "make write.paper".And I introduce some error. I think I forgot a parentheses somewhere, so I do "nano code/plotnmds.R". Let's see.
+
+Oh, yeah, I forgot an extra parentheses here. I'll do "make write.paper". That runs through. Life is good. I'll go to my NMDS figure, open that. I see my legend got updated, but my plot didn't.
+
+So let's see. "nano code/plotnmds.R". Let's see. Ah, I should have "col=colors". I do "make write.paper" and I return to FileZilla, open this up, and I see I've got my orange and my blue points.
+
+Okay. So again, it was important to run "make write.paper"to update things and make sure that I got things rendered properly. Great. I'm going to close that.
+
 ---
 
 ## Git'ing Issue 2
@@ -557,8 +781,13 @@ Your branch is up-to-date with 'origin/master'.
 * The next thing we'll do is to create a branch for `issue_003`. Note that a new branch forms off of the branch where we run `git checkout -b issue_003`
 * For these issues, it would make sense to perhaps have a single issue or to make `issue_003` branch from `issue_002`, but I'm tryint to make a pedagogical point
 
----
+???
 
+And I will now do "git status" "git add code", "plot NMDS results figures NMDS figure submission manuscript.pdf", "git commit", "git status", "git commit". And I will do "change colors of plotting symbols". Now I will say "changed from black and white to orange and blue", "closes number 2". Save that and back out.
+
+And then I will do "git checkout master". Right? So as we did before, we would now merge things in, but I want to show what happens with a conflict.
+
+---
 
 ## Issue 3
 
@@ -587,6 +816,14 @@ nothing to commit, working directory clean
 }
 ```
 
+???
+
+So I'm going to go ahead and create a branch for issue 3. So I will now do "git checkout -b issue_003", "git status". I'm on issue 3. I'll do "nano code/plot_nmds.R". So here I want to change my plotting symbol from circles to squares.
+
+And so I'm going to change these values here from 21 to 15 and I'll make 0 this here. And so I also need to change my PCH to be 0 and 15. I'll save that and back out. I'll then do "make write.paper".This goes through.
+
+I'll check with FileZilla to see what the file looks like. And sure enough, I now have my squares. Great. So that worked. I will now do "git status", "git add code/plot results figures NMDS figures submission manuscript".
+
 ---
 
 ## Git'ing Issue 3
@@ -606,6 +843,12 @@ ubuntu@ip-172-30-0-164:~/Kozich_ReAnalysis_AEM_2013$ git commit -m "Change plott
 [issue_003 a542e56] Change plotting symbols, close #3
  1 file changed, 3 insertions(+), 3 deletions(-)
 ```
+
+???
+
+Now do "git status", "git commit", and I can now do "change plotting symbol to squares, closes number 3".So before, we did this as a subject and a body, but also know that we can get that integration with the issue tracker even if it's on the subject line.
+
+If it says, "closes number 3," that will work. So we can quit, "git status".
 
 ---
 
@@ -628,6 +871,10 @@ Fast-forward
  1 file changed, 6 insertions(+), 2 deletions(-)
 ```
 
+???
+
+We're on issue 3, we're going to "git checkout master" to get back onto the master branch. We can then do "git merge issue_002". This will fold back in issue 2.
+
 --
 
 <br>
@@ -639,6 +886,10 @@ Automatic merge failed; fix conflicts and then commit the result.
 ```
 
 Ruh. Roh.
+
+???
+
+We can then go ahead and do "git merge issue_003".And it's complaining.
 
 ---
 
@@ -676,6 +927,10 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 We need to look at `code/plot_nmds.R` and resolve the differences manually to resolve the conflict
 
+???
+
+So it's saying that there's a conflict in our PDF, our PNG, and our plot_nmds.R file. So, "Automatic merge failed.Fix conflicts and then commit the result." So we need to open up "code/plot_nmds.R"and resolve the conflicts.
+
 ---
 
 ```
@@ -710,6 +965,12 @@ We need to look at `code/plot_nmds.R` and resolve the differences manually to re
 * `HEAD` indicates the changes following merging `issue_002` into `master`
 * `issue_003` indicates the changes from the branch
 
+???
+
+So do "nano code/plot_nmds.R".And if we scroll down through our text, we see some funky text here. So we see here that the series of < characters followed by head, our text that we've just added or part of the text that we added where we had our color from issue 2, and then we have equal signs, and then we have > signs and saying, "Issue 3."
+
+So head refers to the text and the code that's on Master, whereas the stuff underneath the equal signs is the stuff that's in the issue 3 branch that we're trying to bring in. And so what we want is we want orange and blue squares. So we could imagine that we want to replace these two lines with these.
+
 ---
 
 ## After making the edits...
@@ -733,6 +994,12 @@ We need to look at `code/plot_nmds.R` and resolve the differences manually to re
   dev.off()
 }
 ```
+
+???
+
+So what we're going to do is we're going to remove that head and if you hit Ctrl+K twice, will delete both of those lines and we can scroll up, enter a line. And if you do Ctrl+U, you'll uncut those, and so then I'm going to get rid of these two lines. And then we can get rid of these equal signs and greater-than signs like we did get rid of the head.
+
+And if we come down here we see that we also have a conflict, whereas, again, head is what's on the master branch, issue is what's on the branch that we're trying to merge in which was the 0 and the 15. And so we can resolve this conflict by changing this 21 and 19 into a 0 and 15.
 
 ---
 
@@ -766,6 +1033,18 @@ To https://github.com/pschloss/Kozich_ReAnalysis_AEM_2013.git
    d6b7e3c..1490965  master -> master
 ```
 
+???
+
+And we can get rid of all this stuff from the conflict. We'll get rid of that, we save it, we quit out. We can then do "make write.paper". We then look in FileZilla at the new version of the file, and voilà, we have orange and blue squares.
+
+So we need to commit these changes. And it says we have unmerged paths. So we're in the process of doing a merge. So both branches have a modified version of "code/plot_nmds.R" results and submission file. So we're going to git add these.
+
+"git add code plot_nmds.R", "results figures NMDS submission manuscript". "git status", we see that all conflicts are fixed, but you're still merging, so "git commit" to conclude the merge. Changes to be committed, these are the modified ones.
+
+So we'll then do "git commit -m resolve merge". Close quote. Bring that in. If we look at "git log", we see that we had our final commit of resolved merge, changing our plotting symbols to squares, changing our plot colors of our plotting symbols.
+
+Finally, we can git push. And if I refresh this, I now see I have three closed commits. And so I changed the point in NMDS. This was closed in this commit as was changing the color of the point on ordination.
+
 ---
 
 class: middle, center
@@ -784,9 +1063,78 @@ Note that we made two referenes to issue 3 - once when we committed the changes 
 * Example: Would have been better to resolve Issue 3 off of the same branch or a decendent of the Issue 2 branch
 * Sometimes conflicts are unavoidable
 
+???
+
+So I have to say that for the most part, as we saw previously as we were bringing in issue 1 with the merge, git is really smart and able to figure out how to resolve those conflicts. But when we have a conflict that, say, occurs on the same line, that is going to cause problems, and that's when we need to manually go in and edit things. So in these cases, it really helps to think ahead about where there might be conflicts.
+
+And so this was, again, a very silly example that perhaps we should have changed...done issue 2, maybe even do issue 2 and 3 together. That would be a solution. We could have off of Master made branch for issue 2, changed that, made a branch for issue 3 off of issue 2, changed that, and then merged that all back into Master.
+
+But sometimes these conflicts are unavoidable. If you've got a fair amount of code and you've got different people working on things, again, if you think of the use case of two or more people editing a manuscript, you're going to get conflicts that arise. And sometimes these are just unavoidable. It's nice then, that git will help us to resolve these differences. So two exercises, one of them I already did for us was to run "make write.paper"on the final merge of the branches.
+
 ---
 
 ## Exercise
 
 * I forgot to run `make write.paper` on the final merge of the branches. Render the new files and commit the changes to GitHub referencing the issues in the commit message
 * Create and resolve an issue that replaces the NMDS ordination with a PCoA ordination.
+
+???
+
+So I'd like you to do as an exercise is to create and resolve an issue that replaces the NMDS ordination with the PCoA ordination. So you'll make an issue in GitHub to replace an MDS with PCoA. You'll have to modify a few different files, you'll have to run "make write.paper" to update all that.
+
+So I'm going to go into my issues and create a new issue, and I'll say "replace NMDS with PCoA".Making a PCoA plot. And they do have emoji built in if you didn't notice.
+
+But we have more important things. So I will then come over into Kozich and I'll do "git checkout -b issue_004", "git status". I will now look at my Make file.
+
+In our Make file, and I'll scroll down. I'm going to use a search to find NMDS. And I'm going to change this to PCoA ordination, and this is going to change from NMDS.axes to PCoA.axes. And I'm going to change this to "git PCoA data batch". So I need to update this "git PCoA data batch" file.
+
+So let's do one thing at a time. So we'll go ahead and change that. We'll do "git MV code/get_NMDS _data.batch", and we're going to rename that to "git code git PCoA data.batch".And then we'll do "nano code git PCoA", and we're going to change our NMDS to PCoA.
+
+We don't need this "maxdim=2" anymore. I'll save this and back out. So that works. So go back to our Make file and... All right. So we've taken care of this rule. We now want to construct a PCoA PNG file and we're going to change this to PCoA and we're going to change our file name to "plot PCoA" and "plot PCoA". And this NMDS is going to change to PCoA.
+
+So we need to now update "code/plot PCoA.R". So we'll do "git MV code/plot_nmds.R" to code, "plot PCoA.R". And then we're going to do "nano code/plot_PCoA.R", and I'm going to change all my NMDSs to PCoAs.
+
+All right. And we need to also change the name of our output file to be "git MV results/figures/NMDS_figure" to "results/figures/PCoA_figure.png".Let's go back to our Make file.
+
+And... I had forgotten to this NMDS to PCoA. And this to PCoA. And this to a PCoA. And this to a PCoA. So I think that's all the NMDSs.
+
+I want to check into my manuscript.rmd file to make sure I change those. So I'll do "nano submission manuscript.rmd". That's NMDS. And I need to change this to PCoA. And you notice that before we had principal coordinate ordination of YC values when we actually had NMDS. So, anyway, so we'll save that, back out.
+
+Just look at what all we've changed. We've renamed some things, we've modified some things. We can then do "make -n write.paper". And you'll see that we are going to run "git PCoA data batch". We're going to plot that and then it's going to feed that into rendering our RMD file.
+
+So we'll do "make write.paper".So that took a little while, but it eventually got there. So we're going to go into FileZilla, and let's look at... We'll have to do a refresh here, I think. We'll look at PCoA figure.png. And that looks right.
+
+And so we could show this to our PI and see what they think if they like it, or a collaborator, whoever. And I'm going to leave this branch here and I'm not going to fold it in because you might take the image to your PI and you might take some papers that say, "Hey, NMDS actually does a better job of representing the data than a PCoA."
+
+So I'm not going to use this branch. So if we do "git status", I'm going to go ahead and commit these changes to the branch, but I'm not going to modify things. So I will then do "git add Makefile code/get_PCoA_data.batch code/plot_PCoA results/figures/PCoA_figure submission/manuscript.Rmd". I'm going to put a star in there.
+
+"git status", those are all there. "git commit -m", and I will open up something bigger. So I'm going to say, "Convert NMDS to PCoA. So these changes replaced the code and text for an NMDS file with code for a PCoA. This addresses issue 4."
+
+Okay.
+
+So we save that commit, "git status", run issue 4. I'm going to go to...
+
+We did this, but the image really isn't as good as the NMDS. It is in branch issue 4 if you want to check out the results. And so we can close and comment that issue.
+
+All right. So again, we're just going to let that branch sit. We're not going to worry about it so much. So, one thing, though, if we look at our code is that we only have one branch here. To push this branch to GitHub so to make sure we're on the right branch issue 4, we can do "git push origin".So origin is GitHub.
+
+And we're going to say "issue_004".And this is now pushing our branch issue 4 up to GitHub. You could do this for all of your branches. Again, this is up to you for kind of how you want to deal with those different issues. And so now it says, "We have recently pushed branch issue 4."
+
+If I refresh my screen here, I now see I have issue 4 saved in here. So if I wanted to see results figures under issue 4...I see the orange and blue squares with PCoA. But if I want to see it under Master...
+
+It didn't like me doing that because we don't have a PCoA file, we have an NMDS file. So NMDS figure. Right? Great. And again, if we look at issues, we can look at the fourth one that we just closed, and you'll see that there was a commit that was referenced here and see that commit message in our explanation for why we didn't want to change it.
+
+Okay. So again, this is using GitFlow and this issue of branches to document changes to our project and using the issue tracker to document decisions we made or didn't make in terms of folding things back into the Master. So before we finish, we want to go ahead and go back to our Master branch. "git checkout master". Excellent.
+
+And again, we saw it on GitHub, but if we just want to prove to ourselves that we still have our NMDS files, we can look at LS results figures and we see we've got our NMDS figure PNG file, that we no longer have our PCoA file there.
+
+Excellent. So we're going to go ahead and log out. Exit. Exit. And we're going to go ahead and stop this instance.
+
+
+The idea that I am my most important collaborator is a really profound way of thinking about how to improve the reproducibility of my work. In the recording of these videos, I actually had to take a month break in the midst of them to work on another project that had a hard deadline. Thanks to my documentation, commit messages, and use of automation tools, I was able to pick things back up without losing too much rhythm. Under my old approach of "remembering things," it would have taken me a few days to get back up to speed, days that I just don't have.
+
+Layering GitFlow on top of our tools gives us another layer of documentation to record the results of experiments that worked or didn't work along the way. The examples from this tutorial resulted in us merging our branches back into the master branch. But that wasn't required. We could have said, "Meh, I don't really like that new color scheme," and let the branch sit there. I could have added a comment to the issue for why I didn't like the new colors.
+
+Similarly, someone at a conference might ask a question that I could file as an issue. I could work on that question and decide it really doesn't move the project along. But my issue tracker, commit messages, and my branch history, I would have documentation to support an answer the next time the question was asked. I'll admit that the topics of branches is an advanced move and you may not feel completely comfortable with it.
+
+Give it a shot and see how it works for you. In the next tutorial, we're going to discuss using tools we've been using to foster collaboration with others. Will talk to you soon. ♪ [music] ♪
