@@ -1,31 +1,8 @@
----
-affiliations:
-- index: 1
-  name: |
-      Department of Microbiology & Immunology, University of Michigan, Ann
-      Arbor, MI USA
-authors:
-- affiliation: 1
-  name: Patrick D Schloss
-  orcid: '0000-0002-6935-4275'
-bibliography: 'paper.bib'
-css: 'sl=mbio.csl'
-date: 8 May 2018
-tags:
-- microbiome
-- microbiology
-- microbial ecology
-- 16S rRNA gene sequencing
-- reproducibility
-- git
-- Make
-- markdown
-- Rmarkdown
-title: The Riffomonas Reproducible Research Tutorial Series
----
+The Riffomonas Reproducible Research Tutorial Series
+=======
 
 Summary
-=======
+-------
 
 The Riffomonas Reproducible Research tutorial series is a collection of
 tutorials that focuses on the improvement of reproducible data analysis
@@ -42,7 +19,7 @@ with embedded presenter notes taken from live demonstrations of the
 content that are available as videos hosted on YouTube.
 
 Statement of Need
-=================
+-----------------
 
 A growing number of commentaries speak to a "reproducibility crisis" in
 science and microbiology in particular (Collins and Tabak 2014;
@@ -61,7 +38,7 @@ ecology research the background and tools that they need to implement a
 reproducible analysis of their data.
 
 Content
-=======
+-------
 
 The fourteen tutorials focus on issues related to documentation,
 transparency, openness, and automation. The primer by Noble (Noble 2009)
@@ -98,13 +75,13 @@ the [tutorial series GitHub
 repository](https://github.com/riffomonas/reproducible_research).
 
 Acknowledgements
-================
+----------------
 
 This work was supported by a grant from the National Institutes of
 Health (R25 GM116149).
 
 References {#references .unnumbered}
-==========
+----------
 
 <div id="refs" class="references">
 
