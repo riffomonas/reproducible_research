@@ -1,7 +1,6 @@
 The Riffomonas Reproducible Research Tutorial Series
 =======
 
-
 Summary
 -------
 
@@ -73,7 +72,7 @@ proficiently.
 The tutorial series is available as a series of slide decks written in
 markdown and are rendered using the [remark
 framework](https://remarkjs.com). The content is available under the
-CC-BY 4.0 license. The slides are available on the [tutorial series
+CC-BY-SA 4.0 license. The slides are available on the [tutorial series
 GitHub repository](https://github.com/riffomonas/reproducible_research).
 Accompanying the slides are YouTube-hosted videos where the author
 presents the material and does live-coding demonstrations to help
