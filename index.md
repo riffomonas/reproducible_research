@@ -87,6 +87,7 @@ title: Reproducible Research
 
 				<li>
 					<a href="open_science">Doing open science</a>
+					<a href="https://youtu.be/lXnetUbbGIc"><i class="fab fa-youtube"></i></a>
 				</li>
 
 			</ol>
