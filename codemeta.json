@@ -1,0 +1,23 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "0000-0002-6935-4275",
+      "@type": "Person",
+      "email": "pschloss@umich.edu",
+      "name": "Patrick D. Schloss",
+      "affiliation": "Department of Microbiology & Immunology, University of Michigan, Ann Arbor, MI USA"
+    }
+  ],
+  "identifier": "",
+  "codeRepository": "https://github.com/riffomonas/reproducible_research",
+  "datePublished": "2018-05-08",
+  "dateModified": "2018-05-08",
+  "dateCreated": "2018-05-08",
+  "description": "Website for the Riffomonas Reproducible Research Tutorial Series",
+  "keywords": "microbiome, microbiology, microbial ecology, 16S rRNA gene sequencing, reproducibility, git, Make, markdown, Rmarkdown",
+  "license": "CC-BY",
+  "title": "Riffomonas Reproducible Research Project",
+  "version": "v1.0.0"
+}
