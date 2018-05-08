@@ -1,6 +1,7 @@
 The Riffomonas Reproducible Research Tutorial Series
 =======
 
+
 Summary
 -------
 
@@ -73,6 +74,15 @@ The slide decks were written in markdown and are rendered using the
 [remark framework](https://remarkjs.com). The slides are available on
 the [tutorial series GitHub
 repository](https://github.com/riffomonas/reproducible_research).
+Accompanying the slides are YouTube-hosted videos where the author
+presents the material and does live-coding demonstrations to help
+participants engage with the material. In addition to links to the
+videos on the tutorial home page, there is a YouTube playlist that
+aggregates the 14 tutorials as the [Riffomonas Reproducible Research
+Tutorial
+Series](https://www.youtube.com/watch?v=CfO_f6a3XSo&list=PLmNrK_nkqBpL0d2E26TqPkmTAfelYKbQX).
+Transcripts from these videos are available as presenter notes for each
+of the slide decks by pressing 'p' when the slides are open.
 
 Acknowledgements
 ----------------
@@ -80,12 +90,8 @@ Acknowledgements
 This work was supported by a grant from the National Institutes of
 Health (R25 GM116149).
 
-References {#references .unnumbered}
+References
 ----------
-
-<div id="refs" class="references">
-
-<div id="ref-Casadevall2016">
 
 Casadevall, Arturo, Lee M. Ellis, Erika W. Davies, Margaret McFall-Ngai,
 and Ferric C. Fang. 2016. “A Framework for Improving the Quality of
@@ -93,17 +99,9 @@ Research in the Biological Sciences.” *mBio* 7 (4). American Society for
 Microbiology: e01256–16.
 doi:[10.1128/mbio.01256-16](https://doi.org/10.1128/mbio.01256-16).
 
-</div>
-
-<div id="ref-Collins2014">
-
 Collins, Francis S., and Lawrence A. Tabak. 2014. “NIH Plans to Enhance
 Reproducibility.” *Nature* 505 (7485). Springer Nature: 612–13.
 doi:[10.1038/505612a](https://doi.org/10.1038/505612a).
-
-</div>
-
-<div id="ref-Garijo2013">
 
 Garijo, Daniel, Sarah Kinnings, Li Xie, Lei Xie, Yinliang Zhang, Philip
 E. Bourne, and Yolanda Gil. 2013. “Quantifying Reproducibility in
@@ -111,10 +109,6 @@ Computational Biology: The Case of the Tuberculosis Drugome.” Edited by
 Christos A. Ouzounis. *PLOS ONE* 8 (11). Public Library of Science
 (PLOS): e80278.
 doi:[10.1371/journal.pone.0080278](https://doi.org/10.1371/journal.pone.0080278).
-
-</div>
-
-<div id="ref-Kozich2013">
 
 Kozich, James J., Sarah L. Westcott, Nielson T. Baxter, Sarah K.
 Highlander, and Patrick D. Schloss. 2013. “Development of a Dual-Index
@@ -124,27 +118,15 @@ Environmental Microbiology* 79 (17). American Society for Microbiology:
 5112–20.
 doi:[10.1128/aem.01043-13](https://doi.org/10.1128/aem.01043-13).
 
-</div>
-
-<div id="ref-Noble2009">
-
 Noble, William Stafford. 2009. “A Quick Guide to Organizing
 Computational Biology Projects.” Edited by Fran Lewitter. *PLOS
 Computational Biology* 5 (7). Public Library of Science (PLOS):
 e1000424.
 doi:[10.1371/journal.pcbi.1000424](https://doi.org/10.1371/journal.pcbi.1000424).
 
-</div>
-
-<div id="ref-Ravel2014">
-
 Ravel, Jacques, and K Wommack. 2014. “All Hail Reproducibility in
 Microbiome Research.” *Microbiome* 2 (1). Springer Nature: 8.
 doi:[10.1186/2049-2618-2-8](https://doi.org/10.1186/2049-2618-2-8).
-
-</div>
-
-<div id="ref-Schloss2009">
 
 Schloss, Patrick D, Sarah L Westcott, Thomas Ryabin, Justine R Hall,
 Martin Hartmann, Emily B Hollister, Ryan A Lesniewski, et al. 2009.
@@ -152,7 +134,3 @@ Martin Hartmann, Emily B Hollister, Ryan A Lesniewski, et al. 2009.
 community-supported software for describing and comparing microbial
 communities.” *Applied and Environmental Microbiology* 75 (23). Am Soc
 Microbiol: 7537–41.
-
-</div>
-
-</div>
