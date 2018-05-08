@@ -22,7 +22,7 @@ description: > # this means to ignore newlines until "baseurl:"
 baseurl: "/reproducible_research" # the subpath of your site, e.g. /blog
 url: "http://www.riffomonas.org" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: patschloss
-github_username:  patschloss
+github_username:  riffomonas
 
 collections:
   reproducible_research:

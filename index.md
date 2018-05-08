@@ -28,7 +28,6 @@ title: Reproducible Research
 					<a href="https://youtu.be/KUWSXTavIhw"><i class="fab fa-youtube"></i></a>
 				</li>
 
-
 				<li>
 					<a href="hpc">Using high performance computers</a>
 					<a href="https://youtu.be/5RgRS5VPX1g"><i class="fab fa-youtube"></i></a>
@@ -49,7 +48,6 @@ title: Reproducible Research
 					<a href="https://youtu.be/299Anq-Fc4w"><i class="fab fa-youtube"></i></a>
 				</li>
 
-
 				<li>
 					<a href="automation">Automating reproducible analyses</a>
 					<a href="https://youtu.be/57pDlPCodkc"><i class="fab fa-youtube"></i></a>
@@ -59,7 +57,6 @@ title: Reproducible Research
 					<a href="scripting_analyses">Scripting analyses</a>
 					<a href="https://youtu.be/FiN3GiCAupo"><i class="fab fa-youtube"></i></a>
 				</li>
-
 
 				<li>
 					<a href="literate_programming">Generating reproducible documents</a>
@@ -119,4 +116,9 @@ title: Reproducible Research
 	</ul>
 
 	<p>Part of the justification for my recommendation to use either AWS or your local HPC is that these will likely already have everything installed. Most of these will be installed if you are running Linux or Mac OS X. If you are using Mac OS X, <a href="https://brew.sh">homebrew</a> is your friend for installing various Linux-based programs. For Windows users, running <a href="https://www.howtogeek.com/249966/how-to-install-and-use-the-linux-bash-shell-on-windows-10/">Windows 10 with bash</a> or installing <a href="https://git-scm.com">git bash</a> and then installing R and make will likely get you where you need to be.</p>
+
+	<h3 style="padding-top:20px;">Contributing</h3>
+	<p>We love to get feedback and improvements from others. That's the idea behind Riffomonas - that we riff on each other's work to make it better! If you would like to contribute to the project or even ask a question, please feel free to <a href="https://github.com/riffomonas/reproducible_research/issues">file an issue</a> on our <a href="https://github.com/riffomonas/reproducible_research">GitHub repository</a>.</p>
+
+	<a href="https://github.com/riffomonas/reproducible_research/blob/gh-pages/LICENSE.md"><img src="https://licensebuttons.net/l/by-sa/3.0/88x31.png" /></a>
 </div>

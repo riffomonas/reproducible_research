@@ -5,19 +5,21 @@ The Riffomonas Reproducible Research Tutorial Series
 Summary
 -------
 
-The Riffomonas Reproducible Research tutorial series is a collection of
-tutorials that focuses on the improvement of reproducible data analysis
-for those doing microbial ecology research. Although the materials focus
-on issues in microbial ecology, the principles are broadly applicable.
-Each tutorial presents broad concepts and how they are related to
-reproducibility as well as applied practice using specific tools that
-are designed to foster reproducibility. In addition to activities that
-are specific to individual tutorials, the series also uses data from
-Kozich et al. (Kozich et al. 2013) to create an example that is
-developed over the course of fourteen tutorials. The tutorial series
-consists of 14 lessons that are available as HTML-based presentations
-with embedded presenter notes taken from live demonstrations of the
-content that are available as videos hosted on YouTube.
+The [Riffomonas Reproducible Research tutorial
+series](https://www.riffomonas.org/reproducible_research) is a
+collection of tutorials that focuses on the improvement of reproducible
+data analysis for those doing microbial ecology research. Although the
+materials focus on issues in microbial ecology, the principles are
+broadly applicable. Each tutorial presents broad concepts and how they
+are related to reproducibility as well as applied practice using
+specific tools that are designed to foster reproducibility. In addition
+to activities that are specific to individual tutorials, the series also
+uses data from Kozich et al. (Kozich et al. 2013) to create an example
+that is developed over the course of fourteen tutorials. The tutorial
+series consists of 14 lessons that are available as HTML-based
+presentations with embedded presenter notes taken from live
+demonstrations of the content that are available as videos hosted on
+YouTube.
 
 Statement of Need
 -----------------
@@ -68,12 +70,11 @@ tutorials participants are introduced to a topic, then given partial
 exposure and deeper exposure, and finally work with the tools
 proficiently.
 
-The tutorial series is available as a series of slide decks under the
-CC-BY 4.0 license at https://www.riffomonas.org/reproducible\_research.
-The slide decks were written in markdown and are rendered using the
-[remark framework](https://remarkjs.com). The slides are available on
-the [tutorial series GitHub
-repository](https://github.com/riffomonas/reproducible_research).
+The tutorial series is available as a series of slide decks written in
+markdown and are rendered using the [remark
+framework](https://remarkjs.com). The content is available under the
+CC-BY 4.0 license. The slides are available on the [tutorial series
+GitHub repository](https://github.com/riffomonas/reproducible_research).
 Accompanying the slides are YouTube-hosted videos where the author
 presents the material and does live-coding demonstrations to help
 participants engage with the material. In addition to links to the
