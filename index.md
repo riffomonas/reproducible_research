@@ -34,6 +34,24 @@ title: Reproducible Research
 					<a href="hpc">Using high performance computers</a>
 					<a href="https://youtu.be/5RgRS5VPX1g"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="hpc">Introduction</a>
+						<a href="https://youtu.be/5RgRS5VPX1g"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="hpc/#14">Using a local high performance computer</a>
+						<a href="https://youtu.be/5RgRS5VPX1g?t=876"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="hpc/#24">Using AWS</a>
+						<a href="https://youtu.be/5RgRS5VPX1g?t=936"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="hpc/#39">Setting up FileZilla</a>
+						<a href="https://youtu.be/5RgRS5VPX1g?t=2710"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
 
 				<li>
 					<a href="documentation">The importance of documentation</a>
@@ -44,44 +62,163 @@ title: Reproducible Research
 					<a href="organization">Organizational skills for reproducibility</a>
 					<a href="https://youtu.be/kUnDnmBBGuU"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="organization">Introduction</a>
+						<a href="https://youtu.be/kUnDnmBBGuU"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="organization/#10">Organizing a messy project</a>
+						<a href="https://youtu.be/kUnDnmBBGuU?t=1348"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="organization/#15">Setting up a new project with a template</a>
+						<a href="https://youtu.be/kUnDnmBBGuU?t=1855"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
 
 				<li>
 					<a href="version_control">Using version control</a>
 					<a href="https://youtu.be/299Anq-Fc4w"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="version_control">Introduction</a>
+						<a href="https://youtu.be/299Anq-Fc4w"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="version_control/#22">Setting up and using git</a>
+						<a href="https://youtu.be/299Anq-Fc4w?t=1090"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="version_control/#66">Using git with a microbiome project</a>
+						<a href="https://youtu.be/299Anq-Fc4w?t=3270"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
+
 
 				<li>
 					<a href="automation">Automating reproducible analyses</a>
 					<a href="https://youtu.be/57pDlPCodkc"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="automation">Introduction</a>
+						<a href="https://youtu.be/57pDlPCodkc"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="automation/#23">Writing bash scripts</a>
+						<a href="https://youtu.be/57pDlPCodkc?t=748"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
+
 
 				<li>
 					<a href="scripting_analyses">Scripting analyses</a>
 					<a href="https://youtu.be/FiN3GiCAupo"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="scripting_analyses">Introduction</a>
+						<a href="https://youtu.be/FiN3GiCAupo"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="scripting_analyses/#7">R features that improve reproducibility</a>
+						<a href="https://youtu.be/FiN3GiCAupo?t=652"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="scripting_analyses/#64">Scripting the generation of a figure</a>
+						<a href="https://youtu.be/FiN3GiCAupo?t=2840"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
+
 
 				<li>
 					<a href="literate_programming">Generating reproducible documents</a>
 					<a href="https://youtu.be/AKvUqJ98zwI"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="literate_programming">Introduction</a>
+						<a href="https://youtu.be/AKvUqJ98zwI"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="literate_programming/#17">Writing a reproducible report</a>
+						<a href="https://youtu.be/AKvUqJ98zwI?t=763"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="literate_programming/#40">Output formats that are available</a>
+						<a href="https://youtu.be/AKvUqJ98zwI?t=3143"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="literate_programming/#46">Generating a PDF of our report</a>
+						<a href="https://youtu.be/AKvUqJ98zwI?t=3306"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
 
 
 				<li>
 					<a href="make">Automation with makefiles</a>
 					<a href="https://youtu.be/eWHE2RIGrWo"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="make">Introduction</a>
+						<a href="https://youtu.be/eWHE2RIGrWo"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="make/#23">Reproducing an analysis from 538 w/ make</a>
+						<a href="https://youtu.be/eWHE2RIGrWo?t=695"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="make/#70">Using make to process microbiome data</a>
+						<a href="https://youtu.be/eWHE2RIGrWo?t=3171"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
 
 
 				<li>
 					<a href="collaboration_with_yourself">How to collaborate with yourself</a>
 					<a href="https://youtu.be/wE5AYmIoWBk"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="collaboration_with_yourself">Introduction</a>
+						<a href="https://youtu.be/wE5AYmIoWBk"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="collaboration_with_yourself/#23">Implementing Gitflow</a>
+						<a href="https://youtu.be/wE5AYmIoWBk?t=814"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="collaboration_with_yourself/#41">Resolving conflicts</a>
+						<a href="https://youtu.be/wE5AYmIoWBk?t=1667"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
 
 
 				<li>
 					<a href="collaboration_with_others">How to collaborate with others</a>
 					<a href="https://youtu.be/c4fkCtHWCEo"><i class="fab fa-youtube"></i></a>
 				</li>
+				<ul>
+					<li>
+						<a href="collaboration_with_others">Introduction</a>
+						<a href="https://youtu.be/c4fkCtHWCEo"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="collaboration_with_others/#10">Filing a pull request</a>
+						<a href="https://youtu.be/c4fkCtHWCEo?t=588"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="collaboration_with_others/#41">Guidelines for making contributions</a>
+						<a href="https://youtu.be/c4fkCtHWCEo?t=2265"><i class="fab fa-youtube"></i></a>
+					</li>
+					<li>
+						<a href="collaboration_with_others/#64">Code review of contributions</a>
+						<a href="https://youtu.be/c4fkCtHWCEo?t=2407"><i class="fab fa-youtube"></i></a>
+					</li>
+				</ul>
 
 
 				<li>
