@@ -9,7 +9,7 @@ tags:
 - git
 - Make
 - markdown
-- Rmarkdown
+- rmarkdown
 authors:
 - name: Patrick D Schloss
   orcid: 0000-0002-6935-4275
@@ -17,7 +17,7 @@ authors:
 affiliations:
 - name: Department of Microbiology & Immunology, University of Michigan, Ann Arbor, MI USA
   index: 1
-date: 8 May 2018
+date: 14 August 2018
 bibliography: paper.bib
 ---
 
@@ -32,21 +32,21 @@ The design and structure of the tutorials in the series give scientists new to t
 ## Content
 The fourteen tutorials focus on issues related to documentation, transparency, openness, and automation. The primer by Noble [@Noble2009] motivates much of the material on project organization, documentation, and automation. Because of the unique nature of computational research relative to bench science, considerable attention is also given to using version control to document the evolution of a project and how to best work individually as well as with others to foster reproducibility. Although the themes are generally tool-agnostic, the practical implementation of these tools is prominent in the materials and when specific tools are used, other options are mentioned. Specific tools that are included in the tutorials include:
 
-* Documentation (markdown, Rmarkdown, R, make, git)
-* Organization (bash, HPC/AWS, git)
-* Automation (bash, R, make)
-* Transparency (ORCID, FigShare, git, GitHub, open source licensing)
-* Collaboration (git, GitHub, open source licensing)
+* Documentation ([`markdown`](https://daringfireball.net/projects/markdown/syntax), `rmarkdown` [@rmarkdown], `R` [@R], [`make`](https://www.gnu.org/software/make/), [`git`](https://git-scm.com))
+* Organization ([`bash`](https://www.gnu.org/software/bash/), [HPC/AWS](https://aws.amazon.com), `git`)
+* Automation ([`bash`](https://www.gnu.org/software/bash/), `R` [@R], [`make`](https://www.gnu.org/software/make/))
+* Transparency ([ORCID](https://orcid.org), [FigShare](https://figshare.com), [`git`](https://git-scm.com), [GitHub](https://github.com), open source licensing)
+* Collaboration ([`git`](https://git-scm.com), [GitHub](https://github.com), open source licensing)
 
 The focus of this tutorial series is on developing proficiency with a set of tools to foster reproducible research. Therefore although these tools have many uses, the materials focus on those features of the tools that support greater reproducibility. Specifically, the following tools are used in the tutorials, but learners should not finish the materials expecting to be proficient in using them. Although proficiency in these tools is not required, background in these tools will be helpful.
 
-* R
-* mothur
+* `R` [@R]
+* `mothur` [@Kozich2013]
 
 
 Throughout the tutorial there are exercises that encourage the participants to discuss topics with their mentors and research group, activities where the participants are asked to engage resources at a deeper level. By demonstrating a meaningful level of participation in the tutorial series, participants receive a "virtual badge" and will be listed on the Reproducible Research Tutorial Series Honor Roll, which provides a certification of their training. The material is presented in an escalating manner such that over multiple tutorials participants are introduced to a topic, then given partial exposure and deeper exposure, and finally work with the tools proficiently.
 
-The tutorial series is available as a series of slide decks written in markdown and are rendered using the [remark framework](https://remarkjs.com). The content is available under the CC-BY-SA 4.0 license. The slides are available on the [tutorial series GitHub repository](https://github.com/riffomonas/reproducible_research). Accompanying the slides are YouTube-hosted videos where the author presents the material and does live-coding demonstrations to help participants engage with the material. In addition to links to the videos on the tutorial home page, there is a YouTube playlist that aggregates the 14 tutorials as the [Riffomonas Reproducible Research Tutorial Series](https://www.youtube.com/watch?v=CfO_f6a3XSo&list=PLmNrK_nkqBpL0d2E26TqPkmTAfelYKbQX). Transcripts from these videos are available as presenter notes for each of the slide decks by pressing 'p' when the slides are open.
+The tutorial series is available as a series of slide decks written in [`markdown`](https://daringfireball.net/projects/markdown/syntax) and are rendered using the [remark framework](https://remarkjs.com). The content is available under the CC-BY-SA 4.0 license. The slides are available on the [tutorial series GitHub repository](https://github.com/riffomonas/reproducible_research). Accompanying the slides are YouTube-hosted videos where the author presents the material and does live-coding demonstrations to help participants engage with the material. In addition to links to the videos on the tutorial home page, there is a YouTube playlist that aggregates the 14 tutorials as the [Riffomonas Reproducible Research Tutorial Series](https://www.youtube.com/watch?v=CfO_f6a3XSo&list=PLmNrK_nkqBpL0d2E26TqPkmTAfelYKbQX). Transcripts from these videos are available as presenter notes for each of the slide decks by pressing 'p' when the slides are open.
 
 
 ## Acknowledgements
