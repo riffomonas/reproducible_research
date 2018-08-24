@@ -11,6 +11,16 @@ Most people that use the materials within this repository will not need to inter
 The homepage for the tutorial series contains a list of software dependencies and background reading that are essential for running the tutorials. Included in the materials are [setup instructions](http://www.riffomonas.org/reproducible_research/hpc/#1) for an AWS EC2 instance using an AMI that includes all of the necessary dependencies.
 
 
+## Why do we use AWS
+The tutorials make extensive use of the [EC2 Amazon Web Service](https://aws.amazon.com/ec2/?hp=tile&so-exp=below). One might question why we chose to use AWS and not another provider including a local high performance computer cluster or their own computer. Ultimately, we came down on the side of using AWS because it was generalizable to the most people and because it allowed us to demonstrate how using AWS helps with reproducibility. Here are a few further thoughts on why we think the current emphasis on AWS is the best choice for this material and this audience:
+
+* We have access to the University of Michigan HPC, but that is fairly unique to our institution and would not generalize to most people. Things like setting up accounts, using schedulers, and the availability and methods of loading software all vary by HPC. AWS provides a straightforward method to give all learners the same ecosystem in a pretty quick series of steps. As is discussed in the materials, this also emphasizes the value of tools like AWS for reproducibility since they could create an AMI of their environment that they could cite in a manuscript allowing anyone to load and work with their project.
+* In our experience teaching this type of material to learners, we have found that many researchers do not have a straightforward way of gaining access to an HPC. Their institution may not have an HPC or it may take days/weeks to get an account.
+* Alternatively, learners could work with the tools on their local computer. This again causes problems for installing dependencies and variation between operating systems. That is of course part of bioinformatics; however, we have found that the datasets that most people are generating these days are not readily analyzed on a laptop or desktop computer. The ability to do the analysis remotely is an important skill for people to develop.
+* AWS does cost something, but it is pretty affordable and as I lay out in that session, it is much cheaper than upgrading hardware. Even if they were to use a local HPC, it is unlikely that would be free. The HPC at my institution is cheaper than AWS, but it still costs something.
+
+
+
 ## Interacting with this repository
 If you would like to contribute to the project or customize the content, then you will need to install several dependencies to build a local copy of the website.
 
