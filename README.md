@@ -1,6 +1,8 @@
 README
 =======
 
+[![DOI](https://jose.theoj.org/papers/10.21105/jose.00013/status.svg)](https://doi.org/10.21105/jose.00013)
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1404230.svg)](https://doi.org/10.5281/zenodo.1404230)
 
 ## Background
