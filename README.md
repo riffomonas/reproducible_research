@@ -1,6 +1,10 @@
 README
 =======
 
+[![DOI](https://jose.theoj.org/papers/10.21105/jose.00013/status.svg)](https://doi.org/10.21105/jose.00013)
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1404230.svg)](https://doi.org/10.5281/zenodo.1404230)
+
 ## Background
 This is a series of tutorials on improving the reproducibility of data analysis for those doing microbial ecology research. Although the materials focus on issues in microbial ecology, the principles are broadly applicable. Also, this series of tutorials is not designed to teach you R or mothur. Again, although the tutorials use R and mothur, you could use other tools (e.g. Python, QIIME) to achieve the same goals. This workshop will focus on the importance of command line practices (e.g. bash), scripting languages (e.g. mothur, R), version control (e.g. git), automation (e.g. make), and literate programming (e.g. Rmarkdown). These are the tools that are used in the Schloss lab to help improve the reproducibility of our manuscripts. By completing the activities in the tutorials you will be listed on the [Reproducible Research Tutorial Honor Roll](https://www.riffomonas.org/reproducible_research/honor_roll), which provides a certification of your training.
 
