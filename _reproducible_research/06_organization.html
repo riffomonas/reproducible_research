@@ -680,11 +680,11 @@ And hopefully, you can see from this code here, this Bash code, that this would 
 
 
 Obtained the raw `fastq.gz` files from https://www.mothur.org/MiSeqDevelopmentData.html
-* Downloaded https://www.mothur.org/MiSeqDevelopmentData/StabilityWMetaG.tar
+* Downloaded https://mothur.s3.us-east-2.amazonaws.com/data/MiSeqDevelopmentData/StabilityWMetaG.tar
 * Ran the following from the project's root directory
 
 ```bash
-wget --no-check-certificate https://www.mothur.org/MiSeqDevelopmentData/StabilityWMetaG.tar
+wget --no-check-certificate https://mothur.s3.us-east-2.amazonaws.com/data/MiSeqDevelopmentData/StabilityWMetaG.tar
 tar xvf StabilityWMetaG.tar -C data/raw/
 rm StabilityWMetaG.tar
 ``````
@@ -705,22 +705,22 @@ So there's many ways that you might get through the desired output of having all
 Obtained the silva reference alignment from the mothur website:
 
 ```bash
-wget http://mothur.org/w/images/1/15/Silva.seed_v123.tgz
-tar xvzf Silva.seed_v123.tgz silva.seed_v123.align silva.seed_v123.tax
+wget https://mothur.s3.us-east-2.amazonaws.com/wiki/silva.seed_v123.tgz
+tar xvzf silva.seed_v123.tgz silva.seed_v123.align silva.seed_v123.tax
 code/mothur/mothur "#get.lineage(fasta=silva.seed_v123.align, taxonomy=silva.seed_v123.tax, taxon=Bacteria);degap.seqs(fasta=silva.seed_v123.pick.align, processors=8)"
 mv silva.seed_v123.pick.align data/references/silva.seed.align
-rm Silva.seed_v123.tgz silva.seed_v123.*
+rm silva.seed_v123.tgz silva.seed_v123.*
 rm mothur.*.logfile
 ``````
 ```
 Obtained the RDP reference taxonomy from the mothur website:
 
 ```bash
-wget -N http://www.mothur.org/w/images/8/88/Trainset14_032015.pds.tgz
-tar xvzf Trainset14_032015.pds.tgz
+wget -N https://mothur.s3.us-east-2.amazonaws.com/wiki/trainset14_032015.pds.tgz
+tar xvzf trainset14_032015.pds.tgz
 mv trainset14_032015.pds/trainset* data/references/
 rm -rf trainset14_032015.pds
-rm Trainset14_032015.pds.tgz
+rm trainset14_032015.pds.tgz
 ``````
 
 ???
@@ -794,7 +794,7 @@ And if you can do all of these things, then you'll be in really good shape for t
 * wget --no-check-certificate https://github.com/mothur/mothur/releases/download/v1.39.5/Mothur.linux_64.zip
 * mv current_file new_directory/
 * mv newproject_LICENSE.md LICENSE.md
-* unzip v0.1.zip; tar xvzf Trainset14_032015.pds.tgz; tar xvf StabilityWMetaG.tar -C data/raw/
+* unzip v0.1.zip; tar xvzf trainset14_032015.pds.tgz; tar xvf StabilityWMetaG.tar -C data/raw/
 
 ???
 
